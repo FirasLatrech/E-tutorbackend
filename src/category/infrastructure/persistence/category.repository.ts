@@ -1,7 +1,5 @@
 import { Category } from 'src/category/domain/category';
 import { NullableType } from '../../../utils/types/nullable.type';
-
-import { User } from 'src/users/domain/user';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
@@ -9,7 +7,7 @@ import {
   FilterCategoryDto,
   SortCategoryDto,
 } from 'src/category/dto/query-category.dto';
-import { Injectable } from '@nestjs/common';
+
 export abstract class CategoryRepository {
   abstract findOne(
     options: EntityCondition<Category>,

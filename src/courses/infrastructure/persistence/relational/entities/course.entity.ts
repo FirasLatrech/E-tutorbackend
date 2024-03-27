@@ -1,19 +1,4 @@
-import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
-import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
-import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
-
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity({ name: 'course' })
 export class courseEntity {

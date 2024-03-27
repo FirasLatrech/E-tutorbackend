@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
-import { IPaginationOptions } from 'src/utils/types/pagination-options';
+
 import { FindOptionsWhere, Repository } from 'typeorm';
 
 import { NullableType } from '../../../../../utils/types/nullable.type';
@@ -10,7 +10,7 @@ import { course } from '../../../../domain/course';
 
 import { CourseMapper } from '../mappers/course.mapper';
 import { CourseRepository } from '../../course.repository';
-import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
+
 import { courseEntity } from '../entities/course.entity';
 
 @Injectable()

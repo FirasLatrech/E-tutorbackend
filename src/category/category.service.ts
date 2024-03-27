@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/users/domain/user';
+
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from 'src/utils/types/nullable.type';

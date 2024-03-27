@@ -1,14 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsJSON,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUrl,
-} from 'class-validator';
-import { Category } from 'src/Category/domain/Category';
+
+import { IsString } from 'class-validator';
 
 export class CreateCourseDTO {
   @ApiProperty()

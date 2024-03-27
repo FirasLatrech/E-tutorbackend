@@ -1,33 +1,19 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
-import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 import { NullableType } from '../utils/types/nullable.type';
 // import { FiltercourseDto, SortcourseDto } from './dto/query-course.dto';
 
-import { DeepPartial } from 'src/utils/types/deep-partial.type';
-import { course } from './domain/course';
-import { StatusEnum } from 'src/status/status.enum';
-import { RoleEnum } from 'src/roles/roles.enum';
-import { FilesService } from 'src/files/files.service';
-import bcrypt from 'bcryptjs';
-import { AuthProvidersEnum } from 'src/auth/auth-providers.enum';
 import { CreateCourseDTO } from './dto/create-course.dto';
-import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
-import { CategoryService } from 'src/category/category.service';
-import { CreateCategoryDto } from 'src/category/dto/crearte-category.dto';
+
 import { CourseRepository } from './infrastructure/persistence/course.repository';
 import { courseEntity } from './infrastructure/persistence/relational/entities/course.entity';
-import { LanguageService } from 'src/language/Language.service';
-import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
 
 @Injectable()
-export class coursesService {
+export class CoursesService {
   constructor(
     private readonly coursesRepository: CourseRepository,
     // private readonly languageService: LanguageService,
-    private readonly categoryService: CategoryService,
-    private readonly languageService: LanguageService,
   ) {}
 
   async create(createCourseDto: CreateCourseDTO) {

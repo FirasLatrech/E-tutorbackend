@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/users/domain/user';
+
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from 'src/utils/types/nullable.type';
@@ -17,12 +17,12 @@ import {
 @Injectable()
 export class LanguageService {
   constructor(
-    private readonly LanguageRepository: LanguageRepository,
+    private readonly languageRepository: LanguageRepository,
     private sessionService: SessionService,
   ) {}
 
   findOne(options: EntityCondition<language>): Promise<NullableType<language>> {
-    return this.LanguageRepository.findOne(options);
+    return this.languageRepository.findOne(options);
   }
 
   async create(
@@ -34,7 +34,7 @@ export class LanguageService {
     //   id: sessionId,
     // });
     // console.log(session);
-    const result = this.LanguageRepository.create(newData);
+    const result = this.languageRepository.create(newData);
     return result;
   }
 
@@ -51,7 +51,7 @@ export class LanguageService {
     sortOptions?: SortLanguageryDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<language[]> {
-    return this.LanguageRepository.findManyWithPagination({
+    return this.languageRepository.findManyWithPagination({
       filterOptions,
       sortOptions,
       paginationOptions,

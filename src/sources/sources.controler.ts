@@ -1,13 +1,8 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   UseGuards,
-  Query,
   HttpStatus,
   HttpCode,
   SerializeOptions,

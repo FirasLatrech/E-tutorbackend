@@ -22,14 +22,10 @@ import { AuthResetPasswordDto } from './dto/auth-reset-password.dto';
 import { AuthUpdateDto } from './dto/auth-update.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
-import {
-  LoginResponseType,
-  RegisterResponseType,
-} from './types/login-response.type';
+import { LoginResponseType } from './types/login-response.type';
 import { NullableType } from '../utils/types/nullable.type';
 import { User } from 'src/users/domain/user';
 import { UsersService } from 'src/users/users.service';
-
 @ApiTags('Auth')
 @Controller({
   path: 'auth',

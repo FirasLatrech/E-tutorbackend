@@ -7,7 +7,7 @@ import { HomeService } from './home.service';
 export class HomeController {
   constructor(private service: HomeService) {}
   @Get()
-  async appInfo() {
+  appInfo() {
     return this.service.appInfo();
   }
 }

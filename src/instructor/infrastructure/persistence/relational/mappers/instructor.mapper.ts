@@ -1,8 +1,3 @@
-import { RoleEntity } from 'src/roles/infrastructure/persistence/relational/entities/role.entity';
-
-import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
-import { StatusEntity } from 'src/status/infrastructure/persistence/relational/entities/status.entity';
-import { FileMapper } from 'src/files/infrastructure/persistence/relational/mappers/file.mapper';
 import { InstructorEntity } from '../entities/instructor.entity';
 import { Instructor } from 'src/instructor/domain/instructor';
 

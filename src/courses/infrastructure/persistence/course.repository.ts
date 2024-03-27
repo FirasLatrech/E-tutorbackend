@@ -1,8 +1,7 @@
 import { NullableType } from 'src/utils/types/nullable.type';
 
-import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
-import { DeepPartial } from 'src/utils/types/deep-partial.type';
+
 import { course } from 'src/courses/domain/course';
 import { courseEntity } from './relational/entities/course.entity';
 

@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Not, Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 import { NullableType } from '../../../../../utils/types/nullable.type';
-import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 
-import { User } from 'src/users/domain/user';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { CategoryMapper } from '../mappers/category.mapper';
 import { Category } from 'src/category/domain/category';

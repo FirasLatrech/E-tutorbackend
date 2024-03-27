@@ -4,12 +4,10 @@ import {
   PrimaryGeneratedColumn,
   DeleteDateColumn,
   Column,
-  OneToMany,
 } from 'typeorm';
 
 import { EntityRelationalHelper } from 'src/utils/relational-entity-helper';
 import { Category } from 'src/category/domain/category';
-import { courseEntity } from 'src/courses/infrastructure/persistence/relational/entities/course.entity';
 
 @Entity({
   name: 'Category',

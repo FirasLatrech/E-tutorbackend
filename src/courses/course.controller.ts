@@ -3,27 +3,18 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
-  UseGuards,
-  Query,
   HttpStatus,
   HttpCode,
   SerializeOptions,
 } from '@nestjs/common';
 
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
-import { Roles } from '../roles/roles.decorator';
-import { RoleEnum } from '../roles/roles.enum';
-import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { infinityPagination } from 'src/utils/infinity-pagination';
-import { InfinityPaginationResultType } from '../utils/types/infinity-pagination-result.type';
+
 import { NullableType } from '../utils/types/nullable.type';
 // import { QuerycourseDto } from './dto/query-course.dto';
 import { course } from './domain/course';
-import { coursesService } from './course.service';
+import { CoursesService } from './course.service';
 import { CreateCourseDTO } from './dto/create-course.dto';
 import { courseEntity } from './infrastructure/persistence/relational/entities/course.entity';
 
@@ -36,7 +27,7 @@ import { courseEntity } from './infrastructure/persistence/relational/entities/c
   version: '1',
 })
 export class coursesController {
-  constructor(private readonly coursesService: coursesService) {}
+  constructor(private readonly coursesService: CoursesService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)

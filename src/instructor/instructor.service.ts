@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { CreateinstructorDto } from './dto/create-instructor.dto';
@@ -6,11 +6,6 @@ import { NullableType } from '../utils/types/nullable.type';
 
 import { DeepPartial } from 'src/utils/types/deep-partial.type';
 
-import { StatusEnum } from 'src/status/status.enum';
-import { RoleEnum } from 'src/roles/roles.enum';
-import { FilesService } from 'src/files/files.service';
-import bcrypt from 'bcryptjs';
-import { AuthProvidersEnum } from 'src/auth/auth-providers.enum';
 import { InstructorRepository } from './infrastructure/persistence/instructors.repository';
 import { Instructor } from './domain/instructor';
 import { FilterinstructorDto, SortinstructorDto } from './dto/query-user.dto';

@@ -2,7 +2,6 @@ import {
   HttpStatus,
   Injectable,
   NotFoundException,
-  Res,
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';

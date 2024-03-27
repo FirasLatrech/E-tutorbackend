@@ -1,7 +1,5 @@
-import { Category } from 'src/Category/domain/Category';
 import { course } from '../../../../domain/course';
 
-import { CategoryMapper } from 'src/category/infrastructure/persistence/relational/mappers/category.mapper';
 import { courseEntity } from '../entities/course.entity';
 
 export class CourseMapper {

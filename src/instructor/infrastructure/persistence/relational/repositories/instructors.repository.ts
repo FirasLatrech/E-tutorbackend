@@ -5,14 +5,10 @@ import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { InstructorEntity } from '../entities/Instructor.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
-
 import { Instructor } from '../../../../domain/Instructor';
 import { InstructorRepository } from '../../instructors.repository';
 import { instructorMapper } from '../mappers/Instructor.mapper';
-import {
-  FilterinstructorDto,
-  SortinstructorDto,
-} from 'src/instructor/dto/query-user.dto';
+import { SortinstructorDto } from 'src/instructor/dto/query-user.dto';
 
 @Injectable()
 export class InstructorsRelationalRepository implements InstructorRepository {
@@ -31,11 +27,11 @@ export class InstructorsRelationalRepository implements InstructorRepository {
   }
 
   async findManyWithPagination({
-    filterOptions,
+    // filterOptions,
     sortOptions,
     paginationOptions,
   }: {
-    filterOptions?: FilterinstructorDto | null;
+    // filterOptions?: FilterinstructorDto | null;
     sortOptions?: SortinstructorDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<Instructor[]> {

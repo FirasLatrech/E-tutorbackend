@@ -4,8 +4,6 @@ import { LanguageService } from './Language.service';
 import { RelationalLanguagePersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
 import { LanguageController } from './Language.controller';
 import { SessionModule } from 'src/session/session.module';
-import { coursesModule } from 'src/courses/course.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 const infrastructurePersistenceModule = RelationalLanguagePersistenceModule;
 

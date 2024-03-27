@@ -25,8 +25,6 @@ import { NullableType } from '../utils/types/nullable.type';
 import { QueryUserDto } from './dto/query-user.dto';
 import { User } from './domain/user';
 import { UsersService } from './users.service';
-import { AppDataSource } from 'src/database/data-source';
-import { UserEntity } from './infrastructure/persistence/relational/entities/user.entity';
 
 @ApiBearerAuth()
 @Roles(RoleEnum.admin)

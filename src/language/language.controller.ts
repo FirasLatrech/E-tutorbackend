@@ -8,11 +8,9 @@ import {
   HttpStatus,
   HttpCode,
   Req,
-  Delete,
-  Param,
 } from '@nestjs/common';
 
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../roles/roles.decorator';
 import { RoleEnum } from '../roles/roles.enum';
 import { AuthGuard } from '@nestjs/passport';
@@ -34,7 +32,7 @@ import { CreateLanguageryDto } from './dto/crearte-language.dto';
   version: '1',
 })
 export class LanguageController {
-  constructor(private readonly LanguageService: LanguageService) {}
+  constructor(private readonly languageService: LanguageService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -42,7 +40,7 @@ export class LanguageController {
     @Body() createLanguageDto: CreateLanguageryDto,
     @Req() req,
   ): Promise<language> {
-    return this.LanguageService.create(createLanguageDto, req.user.id);
+    return this.languageService.create(createLanguageDto, req.user.id);
   }
 
   @Get()
@@ -59,7 +57,7 @@ export class LanguageController {
     }
 
     // Call findManyWithPagination with provided query options
-    const categories = await this.LanguageService.findManyWithPagination({
+    const categories = await this.languageService.findManyWithPagination({
       filterOptions: query?.filters,
       sortOptions: query?.sort,
       paginationOptions: {

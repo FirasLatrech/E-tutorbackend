@@ -1,5 +1,3 @@
-import { Category } from 'src/Category/domain/Category';
-
 export class course {
   id: number | string;
   // title of course

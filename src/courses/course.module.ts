@@ -3,12 +3,10 @@ import { Module } from '@nestjs/common';
 import { FilesModule } from 'src/files/files.module';
 
 import { RelationalcoursePersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
-import { coursesService } from './course.service';
+import { CoursesService } from './course.service';
 import { coursesController } from './course.controller';
-import { Category } from 'src/Category/domain/Category';
+
 import { CategoryModule } from 'src/category/category.module';
-import { CategoryRepository } from 'src/category/infrastructure/persistence/category.repository';
-import { RelationalCategoryPersistenceModule } from 'src/category/infrastructure/persistence/relational/relational-persistence.module';
 import { LanguageModule } from 'src/language/language.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoleEntity } from 'src/roles/infrastructure/persistence/relational/entities/role.entity';
@@ -25,7 +23,7 @@ const infrastructurePersistenceModule = RelationalcoursePersistenceModule;
     LanguageModule,
   ],
   controllers: [coursesController],
-  providers: [coursesService],
-  exports: [coursesService, infrastructurePersistenceModule],
+  providers: [CoursesService],
+  exports: [CoursesService, infrastructurePersistenceModule],
 })
 export class coursesModule {}

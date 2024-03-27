@@ -40,7 +40,7 @@ export class UsersService {
           {
             status: HttpStatus.UNPROCESSABLE_ENTITY,
             errors: {
-              message: 'Email exists. Use a different one.'
+              message: 'Email exists. Use a different one.',
             },
           },
           HttpStatus.UNPROCESSABLE_ENTITY,
