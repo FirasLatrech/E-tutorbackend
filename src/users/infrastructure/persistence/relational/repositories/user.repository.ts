@@ -61,11 +61,50 @@ export class UsersRelationalRepository implements UserRepository {
   async findOne(fields: EntityCondition<User>): Promise<NullableType<User>> {
     const entity = await this.usersRepository.findOne({
       where: fields as FindOptionsWhere<UserEntity>,
+      relations: ['my_courses'],
     });
-
+    console.log(entity);
     return entity ? UserMapper.toDomain(entity) : null;
   }
+  async findTopInstuctorForMonth(): Promise<User[]> {
+    const users = await this.usersRepository.find({
+      where: {
+        role: {
+          id: 3,
+        },
+      },
 
+      order: {
+        my_courses: {
+          enrollmentCount: 'DESC',
+        },
+      },
+      select: {
+        firstName: true,
+        lastName: true,
+        my_courses: {
+          enrollmentCount: true,
+        },
+        photo: {
+          path: true,
+        },
+      },
+
+      relations: ['my_courses'],
+    });
+    let totalEnrollmentCount = 0;
+
+    return users;
+  }
+  async findOneWithNoRelation(
+    fields: EntityCondition<User>,
+  ): Promise<NullableType<User>> {
+    const entity = await this.usersRepository.findOne({
+      where: fields as FindOptionsWhere<UserEntity>,
+    });
+    console.log(entity);
+    return entity ? UserMapper.toDomain(entity) : null;
+  }
   async update(id: User['id'], payload: Partial<User>): Promise<User> {
     const entity = await this.usersRepository.findOne({
       where: { id: Number(id) },

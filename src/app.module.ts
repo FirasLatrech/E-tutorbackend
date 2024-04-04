@@ -26,6 +26,7 @@ import { LanguageModule } from './language/language.module';
 import { InstructorModule } from './instructor/instructor.module';
 import googleConfig from './auth-google/config/google.config';
 import { AuthGoogleModule } from './auth-google/auth-google.module';
+import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
@@ -79,6 +80,7 @@ import { AuthGoogleModule } from './auth-google/auth-google.module';
     AuthModule,
     InstructorModule,
     LanguageModule,
+    RatingModule,
     CategoryModule,
     SessionModule,
     coursesModule,

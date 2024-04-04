@@ -9,6 +9,12 @@ import { SessionService } from 'src/session/session.service';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { FilterCategoryDto, SortCategoryDto } from './dto/query-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CourseRepository } from 'src/courses/infrastructure/persistence/course.repository';
+import {
+  FilterCourseDto,
+  SortCourseDto,
+} from 'src/courses/dto/query-course.dto';
 
 @Injectable()
 export class CategoryService {
@@ -20,17 +26,58 @@ export class CategoryService {
   findOne(options: EntityCondition<Category>): Promise<NullableType<Category>> {
     return this.categoryRepository.findOne(options);
   }
+  async getAllCourseOfCategory({
+    filterOptions,
+    sortOptions,
+    search,
+    paginationOptions,
+    categor_id,
+  }: {
+    filterOptions?: FilterCourseDto | null;
+    sortOptions?: SortCourseDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+    categor_id: string;
+  }) {
+    return this.categoryRepository.getAllCourseOfCategory({
+      filterOptions,
+      sortOptions,
+      paginationOptions,
+      search,
+      categor_id,
+    });
+  }
+  async getAllInstructorOfCategory({
+    filterOptions,
+    sortOptions,
+    search,
+    paginationOptions,
+    categor_id,
+  }: {
+    filterOptions?: FilterCourseDto | null;
+    sortOptions?: SortCourseDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+    categor_id: string;
+  }) {
+    return this.categoryRepository.getAllInstructorOfCategory({
+      filterOptions,
+      sortOptions,
+      paginationOptions,
+      search,
+      categor_id,
+    });
+  }
+  async getGategoryDetails(category_id: string) {
+    return this.categoryRepository.getGategoryDetails(category_id);
+  }
 
   async create(
     data: Omit<Category, 'id' | 'createdAt' | 'deletedAt'>,
     user_id: number,
   ): Promise<Category> {
     const newData = { ...data, create_by: user_id };
-    // const session = await this.sessionService.findOne({
-    //   id: sessionId,
-    // });
-    // console.log(session);
-    console.log(newData);
+
     const result = this.categoryRepository.create(newData);
     return result;
   }

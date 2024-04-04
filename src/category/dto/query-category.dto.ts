@@ -8,6 +8,7 @@ import {
 import { Transform, Type, plainToClass } from 'class-transformer';
 
 import { Category } from '../domain/Category';
+import { Course } from 'src/courses/domain/course';
 
 export class FilterCategoryDto {
   @ApiProperty({ required: false })
@@ -30,7 +31,15 @@ export class SortCategoryDto {
   @IsString()
   order: 'ASC' | 'DESC';
 }
+// export class SortCourseDto {
+//   @ApiProperty()
+//   @IsString()
+//   orderBy: keyof Course;
 
+//   @ApiProperty()
+//   @IsString()
+//   order: 'ASC' | 'DESC';
+// }
 export class QueryCateoryDto {
   @ApiProperty({ required: false })
   @Transform(({ value }) => (value ? Number(value) : 1))

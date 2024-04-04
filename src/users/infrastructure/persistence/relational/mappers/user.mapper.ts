@@ -4,6 +4,7 @@ import { UserEntity } from '../entities/user.entity';
 import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
 import { StatusEntity } from 'src/status/infrastructure/persistence/relational/entities/status.entity';
 import { FileMapper } from 'src/files/infrastructure/persistence/relational/mappers/file.mapper';
+import { CourseMapper } from 'src/courses/infrastructure/persistence/relational/mappers/course.mapper';
 
 export class UserMapper {
   static toDomain(raw: UserEntity): User {
@@ -15,11 +16,13 @@ export class UserMapper {
     user.provider = raw.provider;
     user.socialId = raw.socialId;
     user.firstName = raw.firstName;
+    user.my_courses = raw?.my_courses?.map((course) => course);
     user.username = raw.username;
     user.lastName = raw.lastName;
     if (raw.photo) {
       user.photo = FileMapper.toDomain(raw.photo);
     }
+
     user.role = raw.role;
     user.status = raw.status;
     user.createdAt = raw.createdAt;
@@ -57,6 +60,7 @@ export class UserMapper {
     if (user.id && typeof user.id === 'number') {
       userEntity.id = user.id;
     }
+
     userEntity.email = user.email;
     userEntity.password = user.password;
     userEntity.previousPassword = user.previousPassword;

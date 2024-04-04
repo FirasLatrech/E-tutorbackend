@@ -24,10 +24,11 @@ import { CategoryService } from './category.service';
 import { Category } from './domain/category';
 import { CreateCategoryDto } from './dto/crearte-category.dto';
 import { QueryCateoryDto } from './dto/query-category.dto';
+import { UUID } from 'crypto';
+import { ParseUUIDPipe } from '@nestjs/common';
+import { QueryCourseDto } from 'src/courses/dto/query-course.dto';
 
 @ApiBearerAuth()
-@Roles(RoleEnum.user)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Category')
 @Controller({
   path: 'category',
@@ -38,6 +39,8 @@ export class CategoryController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @Roles(RoleEnum.user)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   create(
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() req,
@@ -45,7 +48,68 @@ export class CategoryController {
     console.log(Category);
     return this.categoryService.create(createCategoryDto, req.user.id);
   }
+  @Get(':id/courses')
+  @HttpCode(HttpStatus.OK)
+  async getAllCourseOfCategory(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Query() query: QueryCourseDto,
+  ) {
+    const page = query?.page ?? 1;
+    let limit = query?.limit ?? 10;
+    const search = query?.search ?? '';
 
+    // Ensure limit does not exceed 50
+    if (limit > 50) {
+      limit = 50;
+    }
+    const data = await this.categoryService.getAllCourseOfCategory({
+      filterOptions: query?.filters,
+      sortOptions: query?.sort,
+      search,
+      paginationOptions: {
+        page,
+        limit,
+      },
+      categor_id: id,
+    });
+
+    return data;
+  }
+
+  @Get(':id/instructor')
+  @HttpCode(HttpStatus.OK)
+  async getAllInstructorOfCategory(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Query() query: QueryCourseDto,
+  ) {
+    const page = query?.page ?? 1;
+    let limit = query?.limit ?? 10;
+    const search = query?.search ?? '';
+
+    // Ensure limit does not exceed 50
+    if (limit > 50) {
+      limit = 50;
+    }
+    const data = await this.categoryService.getAllInstructorOfCategory({
+      filterOptions: query?.filters,
+      sortOptions: query?.sort,
+      search,
+      paginationOptions: {
+        page,
+        limit,
+      },
+      categor_id: id,
+    });
+
+    return data;
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async getCategoryDetails(@Param('id', new ParseUUIDPipe()) id: string) {
+    const data = await this.categoryService.getGategoryDetails(id);
+    return data;
+  }
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(

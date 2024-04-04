@@ -1,73 +1,74 @@
-import { course } from '../../../../domain/course';
-
-import { courseEntity } from '../entities/course.entity';
+import { Course } from 'src/courses/domain/course';
+import { CourseEntity } from '../entities/course.entity';
+import { Category } from 'src/Category/domain/Category';
+import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
+import { UUID } from 'node:crypto';
 
 export class CourseMapper {
-  static toDomain(raw: courseEntity): course {
-    const courseInstance = new course();
-    courseInstance.id = raw.id;
-    courseInstance.title = raw.title;
+  static toDomain(raw: CourseEntity): Course {
+    const course = new Course();
+    course.id = raw.id;
+    course.title = raw.title;
 
-    // courseInstance.subtitle = raw.subtitle;
+    course.subtitle = raw.subtitle;
 
-    // courseInstance.course_categories = raw.course_categories;
+    course.course_categories = raw.course_category;
 
-    // courseInstance.course_sub_category = raw.course_sub_category;
-    // courseInstance.course_topic = raw.course_topic;
-    // courseInstance.course_language = raw.course_language;
-    // courseInstance.subtitle_language = raw.subtitle_language;
-    // courseInstance.course_level = raw.course_level;
-    // courseInstance.durations = raw.durations;
-    // courseInstance.course_thumbnail = raw.course_thumbnail;
-    // courseInstance.course_trailer = raw.course_trailer;
-    // courseInstance.course_descriptions = raw.course_descriptions;
-    // courseInstance.course_content = raw.course_content;
-    // courseInstance.target_audience = raw.target_audience;
-    // courseInstance.course_requirements = raw.course_requirements;
-    // courseInstance.course_curriculum = raw.course_curriculum;
-    // courseInstance.instructor = raw.instructor;
-    // courseInstance.welcome_message = raw.welcome_message;
-    // courseInstance.congratulation_message = raw.congratulation_message;
-    // courseInstance.course_price = raw.course_price;
-    // courseInstance.discount = raw.discount;
-    // courseInstance.createdAt = raw.createdAt;
-    // courseInstance.updatedAt = raw.updatedAt;
-    // courseInstance.deletedAt = raw.deletedAt;
-    return courseInstance;
+    course.course_sub_category = raw.course_sub_category;
+    // course.course_to = raw.course_topic;
+    course.course_language = raw.course_language;
+    course.subtitle_language = raw.subtitle_language;
+    course.course_level = raw.course_level;
+    course.durations = raw.durations;
+    course.course_thumbnail = raw.course_thumbnail;
+    course.course_trailer = raw.course_trailer;
+    course.course_descriptions = raw.course_descriptions;
+    course.course_content = raw.course_content;
+    course.target_audience = raw.target_audience;
+    course.course_requirements = raw.course_requirements;
+    course.course_curriculum = raw.course_curriculum;
+    course.instructor = raw.instructor;
+    course.welcome_message = raw.welcome_message;
+    course.congratulation_message = raw.congratulation_message;
+    course.course_price = raw.course_price;
+    course.enrollmentCount = raw.enrollmentCount;
+    course.discount = raw.discount;
+    course.createdAt = raw.createdAt;
+    course.updatedAt = raw.updatedAt;
+    course.deletedAt = raw.deletedAt;
+    course.rating = raw.rating;
+    return course;
   }
 
-  static toPersistence(courseInstance: course): courseEntity {
-    const courseEntityInstance = new courseEntity();
+  static toPersistence(course: Course): CourseEntity {
+    const courseEntity = new CourseEntity();
 
-    courseEntityInstance.id = courseInstance.id as number;
-    courseEntityInstance.title = courseInstance.title!;
-    // courseEntityInstance.subtitle = courseInstance.subtitle!;
-    // courseEntityInstance.course_categories = courseInstance.course_categories;
-    // courseEntityInstance.course_sub_category =
-    //   courseInstance.course_sub_category;
-    // courseEntityInstance.course_topic = courseInstance.course_topic!;
-    // courseEntityInstance.course_language = courseInstance.course_language;
-    // courseEntityInstance.subtitle_language = courseInstance.subtitle_language;
-    // courseEntityInstance.course_level = courseInstance.course_level;
-    // courseEntityInstance.durations = courseInstance.durations!;
-    // courseEntityInstance.course_thumbnail = courseInstance.course_thumbnail;
-    // courseEntityInstance.course_trailer = courseInstance.course_trailer;
-    // courseEntityInstance.course_descriptions =
-    //   courseInstance.course_descriptions;
-    // courseEntityInstance.course_content = courseInstance.course_content;
-    // courseEntityInstance.target_audience = courseInstance.target_audience;
-    // courseEntityInstance.course_requirements =
-    //   courseInstance.course_requirements;
-    // courseEntityInstance.course_curriculum = courseInstance.course_curriculum;
-    // courseEntityInstance.instructor = courseInstance.instructor!;
-    // courseEntityInstance.welcome_message = courseInstance.welcome_message!;
-    // courseEntityInstance.congratulation_message =
-    //   courseInstance.congratulation_message!;
-    // courseEntityInstance.course_price = courseInstance.course_price!;
-    // courseEntityInstance.discount = courseInstance.discount!;
-    // courseEntityInstance.createdAt = courseInstance.createdAt;
-    // courseEntityInstance.updatedAt = courseInstance.updatedAt;
-    // courseEntityInstance.deletedAt = courseInstance.deletedAt;
-    return courseEntityInstance;
+    courseEntity.id = course.id as string;
+    courseEntity.title = course.title!;
+    courseEntity.subtitle = course.subtitle!;
+
+    // courseEntity.course_category = course.course_categories;
+    // courseEntity.course_sub_category = course.course_sub_category;
+    // courseEntity.course_topic = course.course_topic!;
+    // courseEntity.course_language = course.course_language;
+    // courseEntity.subtitle_language = course.subtitle_language;
+    // courseEntity.course_level = course.course_level;
+    courseEntity.durations = course.durations!;
+    courseEntity.course_thumbnail = course.course_thumbnail;
+    courseEntity.course_trailer = course.course_trailer;
+    courseEntity.course_descriptions = course.course_descriptions;
+    courseEntity.course_content = course.course_content;
+    courseEntity.target_audience = course.target_audience;
+    courseEntity.course_requirements = course.course_requirements;
+    courseEntity.course_curriculum = course.course_curriculum;
+    // courseEntity.instructor = course.instructor!;
+    courseEntity.welcome_message = course.welcome_message!;
+    courseEntity.congratulation_message = course.congratulation_message!;
+    courseEntity.course_price = course.course_price!;
+    courseEntity.discount = course.discount!;
+    courseEntity.createdAt = course.createdAt;
+    courseEntity.updatedAt = course.updatedAt;
+    courseEntity.deletedAt = course.deletedAt;
+    return courseEntity;
   }
 }

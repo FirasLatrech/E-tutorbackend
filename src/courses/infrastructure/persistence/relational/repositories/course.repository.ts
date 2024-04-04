@@ -2,27 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsWhere, Like, Repository } from 'typeorm';
 
 import { NullableType } from '../../../../../utils/types/nullable.type';
 
-import { course } from '../../../../domain/course';
-
 import { CourseMapper } from '../mappers/course.mapper';
 import { CourseRepository } from '../../course.repository';
-
-import { courseEntity } from '../entities/course.entity';
+import { CourseEntity } from '../entities/course.entity';
+import { Course } from 'src/courses/domain/course';
+import {
+  FilterCourseDto,
+  SortCourseDto,
+} from 'src/courses/dto/query-course.dto';
+import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 @Injectable()
 export class coursesRelationalRepository implements CourseRepository {
   constructor(
-    @InjectRepository(courseEntity)
-    private readonly coursesRepository: Repository<courseEntity>,
+    @InjectRepository(CourseEntity)
+    private readonly coursesRepository: Repository<CourseEntity>,
 
     // private readonly CategoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  async create(data: courseEntity) {
+  async create(data: CourseEntity) {
     // const persistenceModel = CourseMapper.toPersistence(data);
 
     const newEntity = await this.coursesRepository.save(
@@ -32,44 +35,56 @@ export class coursesRelationalRepository implements CourseRepository {
     return CourseMapper.toDomain(newEntity);
   }
 
-  // async findManyWithPagination({
-  //   filterOptions,
-  //   sortOptions,
-  //   paginationOptions,
-  // }: {
-  //   filterOptions?: FiltercourseDto | null;
-  //   sortOptions?: SortcourseDto[] | null;
-  //   paginationOptions: IPaginationOptions;
-  // }): Promise<course[]> {
-  //   const where: FindOptionsWhere<courseEntity> = {};
-  //   // if (filterOptions?.roles?.length) {
-  //   //   where.role = filterOptions.roles.map((role) => ({
-  //   //     id: role.id,
-  //   //   }));
-  //   // }
+  async findManyWithPagination({
+    filterOptions,
+    sortOptions,
+    search,
+    paginationOptions,
+  }: {
+    filterOptions;
+    sortOptions?: SortCourseDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+  }): Promise<Course[]> {
+    const where: FindOptionsWhere<CourseEntity> = {};
+    // if (filterOptions?.roles?.length) {
+    //   where.role = filterOptions.roles.map((role) => ({
+    //     id: role.id,
+    //   }));
+    // }
 
-  //   const entities = await this.coursesRepository.find({
-  //     skip: (paginationOptions.page - 1) * paginationOptions.limit,
-  //     take: paginationOptions.limit,
-  //     where: where,
-  //     order: sortOptions?.reduce(
-  //       (accumulator, sort) => ({
-  //         ...accumulator,
-  //         [sort.orderBy]: sort.order,
-  //       }),
-  //       {},
-  //     ),
-  //   });
+    const entities = await this.coursesRepository.find({
+      skip: (paginationOptions.page - 1) * paginationOptions.limit,
+      take: paginationOptions.limit,
+      where: {
+        title: Like(`%${search}%`),
+      },
+      order: sortOptions?.reduce(
+        (accumulator, sort) => ({
+          ...accumulator,
+          [sort.orderBy]: sort.order,
+        }),
+        {},
+      ),
 
-  //   return entities.map((course) => CourseMapper.toDomain(course));
-  // }
+      relations: ['course_category', 'course_level', 'instructor'],
+    });
+
+    return entities.map((course) => CourseMapper.toDomain(course));
+  }
 
   async findOne(
-    fields: EntityCondition<course>,
-  ): Promise<NullableType<courseEntity>> {
+    fields: EntityCondition<Course>,
+  ): Promise<NullableType<CourseEntity>> {
     const entity = await this.coursesRepository.findOne({
-      where: fields as FindOptionsWhere<courseEntity>,
-      relations: ['course_category', 'course_sub_category', 'course_language'],
+      where: fields as FindOptionsWhere<CourseEntity>,
+      relations: [
+        'course_category',
+        'course_sub_category',
+        'course_language',
+        'instructor',
+        'course_level',
+      ],
     });
     return entity;
     // return entity ? CourseMapper.toDomain(entity) : null;

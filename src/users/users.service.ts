@@ -19,7 +19,10 @@ export class UsersService {
     private readonly usersRepository: UserRepository,
     private readonly filesService: FilesService,
   ) {}
-
+  async findTopInstuctorForMonth() {
+    const users = await this.usersRepository.findTopInstuctorForMonth();
+    return users;
+  }
   async create(createProfileDto: CreateUserDto): Promise<User> {
     const clonedPayload = {
       provider: AuthProvidersEnum.email,
@@ -137,6 +140,9 @@ export class UsersService {
 
   findOne(fields: EntityCondition<User>): Promise<NullableType<User>> {
     return this.usersRepository.findOne(fields);
+  }
+  findOneWithNoRelation(fields: EntityCondition<User>): Promise<NullableType<User>> {
+    return this.usersRepository.findOneWithNoRelation(fields);
   }
 
   async update(

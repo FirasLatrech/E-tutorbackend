@@ -4,23 +4,27 @@ import {
   PrimaryGeneratedColumn,
   DeleteDateColumn,
   Column,
+  IsNull,
 } from 'typeorm';
 
 import { EntityRelationalHelper } from 'src/utils/relational-entity-helper';
 import { Category } from 'src/category/domain/category';
+import { v4 as uuidv4 } from 'uuid'; // Import UUIDv4 generator function
 
 @Entity({
   name: 'Category',
 })
 export class CategoryEntity extends EntityRelationalHelper implements Category {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string = uuidv4();
   @Column()
   create_by: number;
   @Column()
   name: string;
   @Column()
   color: string;
+  @Column({ default: null, nullable: true })
+  background_color: string;
   @Column()
   icon: string;
   @Column({ default: 0 })

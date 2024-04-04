@@ -7,16 +7,21 @@ import {
   HttpStatus,
   HttpCode,
   SerializeOptions,
+  Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { NullableType } from '../utils/types/nullable.type';
 // import { QuerycourseDto } from './dto/query-course.dto';
-import { course } from './domain/course';
+import { Course } from './domain/course';
 import { CoursesService } from './course.service';
 import { CreateCourseDTO } from './dto/create-course.dto';
-import { courseEntity } from './infrastructure/persistence/relational/entities/course.entity';
+import { CourseEntity } from './infrastructure/persistence/relational/entities/course.entity';
+import { InfinityPaginationResultType } from 'src/utils/types/infinity-pagination-result.type';
+import { infinityPagination } from 'src/utils/infinity-pagination';
+import { QueryCourseDto } from './dto/query-course.dto';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -36,32 +41,62 @@ export class coursesController {
     return this.coursesService.create(createProfileDto);
   }
 
-  // @SerializeOptions({
-  //   groups: ['admin'],
-  // })
-  // @Get()
-  // @HttpCode(HttpStatus.OK)
-  // async findAll(
-  //   @Query() query: QuerycourseDto,
-  // ): Promise<InfinityPaginationResultType<course>> {
-  //   const page = query?.page ?? 1;
-  //   let limit = query?.limit ?? 10;
-  //   if (limit > 50) {
-  //     limit = 50;
-  //   }
+  @SerializeOptions({
+    groups: ['admin'],
+  })
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAll(
+    @Query() query: QueryCourseDto,
+  ): Promise<InfinityPaginationResultType<Course>> {
+    const page = query?.page ?? 1;
+    let limit = query?.limit ?? 10;
+    const search = query?.search ?? '';
 
-  //   return infinityPagination(
-  //     await this.coursesService.findManyWithPagination({
-  //       filterOptions: query?.filters,
-  //       sortOptions: query?.sort,
-  //       paginationOptions: {
-  //         page,
-  //         limit,
-  //       },
-  //     }),
-  //     { page, limit },
-  //   );
-  // }
+    if (limit > 50) {
+      limit = 50;
+    }
+
+    return infinityPagination(
+      await this.coursesService.findManyWithPagination({
+        filterOptions: query?.filters,
+        sortOptions: query?.sort,
+        search,
+        paginationOptions: {
+          page,
+          limit,
+        },
+      }),
+      { page, limit },
+    );
+  }
+  @Get('studentCourses/:id')
+  @HttpCode(HttpStatus.OK)
+  async findAllCourseOfStuent(
+    @Query() query: QueryCourseDto,
+  ): Promise<InfinityPaginationResultType<Course>> {
+    const page = query?.page ?? 1;
+    let limit = query?.limit ?? 10;
+    const search = query?.search ?? '';
+
+    if (limit > 50) {
+      limit = 50;
+    }
+
+    return infinityPagination(
+      await this.coursesService.findManyWithPagination({
+        filterOptions: query?.filters,
+        sortOptions: query?.sort,
+        search,
+
+        paginationOptions: {
+          page,
+          limit,
+        },
+      }),
+      { page, limit },
+    );
+  }
 
   @SerializeOptions({})
   @Get(':id')
@@ -71,7 +106,9 @@ export class coursesController {
     type: String,
     required: true,
   })
-  findOne(@Param('id') id: courseEntity['id']): Promise<NullableType<course>> {
+  findOne(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<NullableType<Course>> {
     console.log(id);
     return this.coursesService.findOne({ id });
   }

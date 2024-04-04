@@ -4,6 +4,7 @@ import { CategoryService } from './category.service';
 import { RelationalCategoryPersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
 import { CategoryController } from './category.controller';
 import { SessionModule } from 'src/session/session.module';
+import { coursesModule } from 'src/courses/course.module';
 
 const infrastructurePersistenceModule = RelationalCategoryPersistenceModule;
 

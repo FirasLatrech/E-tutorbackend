@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { RoleEntity } from '../../../../../roles/infrastructure/persistence/relational/entities/role.entity';
 import { StatusEntity } from '../../../../../status/infrastructure/persistence/relational/entities/status.entity';
@@ -21,6 +22,9 @@ import { AuthProvidersEnum } from 'src/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
 import { User } from '../../../../domain/user';
 import { InstructorEntity } from 'src/instructor/infrastructure/persistence/relational/entities/instructor.entity';
+import { CourseEntity } from 'src/courses/infrastructure/persistence/relational/entities/course.entity';
+import { Rating } from 'src/rating/domain/rating';
+import { RatingEntity } from 'src/rating/infrastructure/persistence/relational/entities/rating.entity';
 
 @Entity({
   name: 'user',
@@ -86,6 +90,15 @@ export class UserEntity extends EntityRelationalHelper implements User {
   instructors: InstructorEntity[];
   @Column({ type: Boolean, default: false })
   is_instructor: boolean;
+  @ManyToMany((type) => CourseEntity, (courses) => courses.instructor)
+  my_courses: CourseEntity[];
+  @Column({ type: Number, default: 0 })
+  totalEnrolmentCount: number;
+  @ManyToMany((type) => CourseEntity, (courses) => courses.user_courses)
+  user_courses: CourseEntity[];
+
+  @OneToMany((type) => RatingEntity, (rating) => rating.user)
+  rating: Rating[];
 
   @CreateDateColumn()
   createdAt: Date;

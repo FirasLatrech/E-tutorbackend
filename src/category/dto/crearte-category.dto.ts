@@ -20,6 +20,9 @@ export class CreateCategoryDto {
   @ApiProperty({ example: 'http://localhost:3000/icon' })
   @IsNotEmpty()
   icon: string;
+  @ApiProperty({ example: 'red' })
+  @IsNotEmpty()
+  background_color: string;
 
   @ApiProperty({ example: 0 })
   @IsNotEmpty()

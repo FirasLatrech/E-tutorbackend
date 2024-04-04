@@ -1,4 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
+import { Course } from 'src/courses/domain/course';
 import { FileType } from 'src/files/domain/file';
 import { Role } from 'src/roles/domain/role';
 import { Status } from 'src/status/domain/status';
@@ -15,6 +16,8 @@ export class User {
   password?: string;
 
   is_instructor: boolean;
+
+  my_courses?: Course[];
 
   @Exclude({ toPlainOnly: true })
   previousPassword?: string;

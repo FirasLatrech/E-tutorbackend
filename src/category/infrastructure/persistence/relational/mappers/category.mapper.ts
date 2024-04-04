@@ -11,6 +11,7 @@ export class CategoryMapper {
     category.icon = raw.icon;
     category.create_by = raw.create_by;
     category.courses_count = raw.courses_count;
+    category.background_color = raw.background_color ?? ''; // Fix: Add nullish coalescing operator
 
     category.createdAt = raw.createdAt;
     category.deletedAt = raw.deletedAt;
@@ -20,7 +21,7 @@ export class CategoryMapper {
 
   static toPersistence(category: Category): CategoryEntity {
     const categoryEntity = new CategoryEntity();
-    if (category.id && typeof category.id === 'number') {
+    if (category.id && typeof category.id === 'string') {
       categoryEntity.id = category.id;
     }
 
@@ -29,7 +30,7 @@ export class CategoryMapper {
     categoryEntity.name = category.name;
     categoryEntity.create_by = category.create_by;
     categoryEntity.courses_count = category.courses_count;
-
+    categoryEntity.background_color = category.background_color ?? '';
     categoryEntity.createdAt = new Date();
     categoryEntity.deletedAt = category.deletedAt;
 

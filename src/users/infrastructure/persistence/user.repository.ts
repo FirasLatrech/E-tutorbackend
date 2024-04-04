@@ -9,7 +9,7 @@ export abstract class UserRepository {
   abstract create(
     data: Omit<User, 'id' | 'createdAt' | 'deletedAt' | 'updatedAt'>,
   ): Promise<User>;
-
+  abstract findTopInstuctorForMonth(): Promise<User[]>;
   abstract findManyWithPagination({
     filterOptions,
     sortOptions,
@@ -21,6 +21,9 @@ export abstract class UserRepository {
   }): Promise<User[]>;
 
   abstract findOne(fields: EntityCondition<User>): Promise<NullableType<User>>;
+  abstract findOneWithNoRelation(
+    fields: EntityCondition<User>,
+  ): Promise<NullableType<User>>;
 
   abstract update(
     id: User['id'],

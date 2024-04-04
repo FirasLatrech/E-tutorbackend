@@ -26,9 +26,6 @@ import { QueryUserDto } from './dto/query-user.dto';
 import { User } from './domain/user';
 import { UsersService } from './users.service';
 
-@ApiBearerAuth()
-@Roles(RoleEnum.admin)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Users')
 @Controller({
   path: 'users',
@@ -41,6 +38,9 @@ export class UsersController {
     groups: ['admin'],
   })
   @Post()
+  @ApiBearerAuth()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createProfileDto: CreateUserDto): Promise<User> {
     return this.usersService.create(createProfileDto);
@@ -50,6 +50,9 @@ export class UsersController {
     groups: ['admin'],
   })
   @Get()
+  @ApiBearerAuth()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @HttpCode(HttpStatus.OK)
   async findAll(
     @Query() query: QueryUserDto,
@@ -76,6 +79,20 @@ export class UsersController {
   @SerializeOptions({
     groups: ['admin'],
   })
+  @Get('top-instructors-for-month')
+  @HttpCode(HttpStatus.OK)
+  async findTopInstuctorForMonth() {
+    const data = await this.usersService.findTopInstuctorForMonth();
+    console.log(data);
+    return data;
+  }
+
+  @SerializeOptions({
+    groups: ['admin'],
+  })
+  @ApiBearerAuth()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @ApiParam({
@@ -84,17 +101,15 @@ export class UsersController {
     required: true,
   })
   async findOne(@Param('id') id: User['id']): Promise<NullableType<User>> {
-    // const userRepository = AppDataSource.getRepository(UserEntity);
-    // const user = await userRepository.findOneBy({
-    //   id: 1,
-    // });
-    // console.log(user, 'jsdjsjdsjdjsdjsjdjsjdsjd user ✨');
     return this.usersService.findOne({ id });
   }
 
   @SerializeOptions({
     groups: ['admin'],
   })
+  @ApiBearerAuth()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   @ApiParam({
@@ -110,6 +125,9 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,
