@@ -11,7 +11,7 @@ import { CourseRepository } from '../../course.repository';
 import { CourseEntity } from '../entities/course.entity';
 import { Course } from 'src/courses/domain/course';
 import {
-  FilterCourseDto,
+  // FilterCourseDto,
   SortCourseDto,
 } from 'src/courses/dto/query-course.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
@@ -36,17 +36,17 @@ export class coursesRelationalRepository implements CourseRepository {
   }
 
   async findManyWithPagination({
-    filterOptions,
+    // filterOptions,
     sortOptions,
     search,
     paginationOptions,
   }: {
-    filterOptions;
+    // filterOptions;
     sortOptions?: SortCourseDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
   }): Promise<Course[]> {
-    const where: FindOptionsWhere<CourseEntity> = {};
+    // const where: FindOptionsWhere<CourseEntity> = {};
     // if (filterOptions?.roles?.length) {
     //   where.role = filterOptions.roles.map((role) => ({
     //     id: role.id,

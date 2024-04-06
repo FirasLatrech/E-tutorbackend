@@ -7,7 +7,6 @@ import {
 } from 'class-validator';
 import { Transform, Type, plainToClass } from 'class-transformer';
 
-import { Course } from 'src/courses/domain/course';
 import { Rating } from '../domain/rating';
 
 export class FilterratingDto {

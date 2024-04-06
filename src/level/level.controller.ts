@@ -22,8 +22,6 @@ import { Level } from './domain/level';
 import { QueryLevelDto } from './dto/query-level.dto';
 import { levelService } from './level.service';
 
-
-
 @ApiBearerAuth()
 @Roles(RoleEnum.user)
 @UseGuards(AuthGuard('jwt'), RolesGuard)

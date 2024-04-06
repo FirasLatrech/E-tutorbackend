@@ -5,7 +5,6 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
-
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 import {
@@ -24,9 +23,7 @@ export class LevelRelationalRepository implements LevelRepository {
     private readonly LevelRepository: Repository<LevelEntity>,
   ) {}
 
-  async findOne(
-    options: EntityCondition<Level>,
-  ): Promise<NullableType<Level>> {
+  async findOne(options: EntityCondition<Level>): Promise<NullableType<Level>> {
     const entity = await this.LevelRepository.findOne({
       where: options as FindOptionsWhere<LevelEntity>,
     });

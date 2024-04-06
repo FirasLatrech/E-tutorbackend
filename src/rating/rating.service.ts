@@ -3,13 +3,13 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { NullableType } from 'src/utils/types/nullable.type';
 
 import { RatingRepository } from './infrastructure/persistence/rating.repository'; // Import RatingRepository
-import { SessionService } from 'src/session/session.service';
+
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { Rating } from './domain/rating';
 import { FilterratingDto, SortratingDto } from './dto/query-rating.dto';
 import { UsersService } from 'src/users/users.service';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
-import { CreateCourseDTO } from 'src/courses/dto/create-course.dto';
+
 import { CreateRatingDto } from './dto/crearte-rating.dto';
 import { RatingEntity } from './infrastructure/persistence/relational/entities/rating.entity';
 

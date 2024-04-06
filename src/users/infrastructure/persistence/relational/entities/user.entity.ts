@@ -25,13 +25,14 @@ import { InstructorEntity } from 'src/instructor/infrastructure/persistence/rela
 import { CourseEntity } from 'src/courses/infrastructure/persistence/relational/entities/course.entity';
 import { Rating } from 'src/rating/domain/rating';
 import { RatingEntity } from 'src/rating/infrastructure/persistence/relational/entities/rating.entity';
+import { v4 as uuidv4 } from 'uuid'; // Import UUIDv4 generator function
 
 @Entity({
   name: 'user',
 })
 export class UserEntity extends EntityRelationalHelper implements User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string = uuidv4();
 
   // For "string | null" we need to use String type.
   // More info: https://github.com/typeorm/typeorm/issues/2567
@@ -90,14 +91,14 @@ export class UserEntity extends EntityRelationalHelper implements User {
   instructors: InstructorEntity[];
   @Column({ type: Boolean, default: false })
   is_instructor: boolean;
-  @ManyToMany((type) => CourseEntity, (courses) => courses.instructor)
+  @ManyToMany(() => CourseEntity, (courses) => courses.instructor)
   my_courses: CourseEntity[];
   @Column({ type: Number, default: 0 })
   totalEnrolmentCount: number;
-  @ManyToMany((type) => CourseEntity, (courses) => courses.user_courses)
+  @ManyToMany(() => CourseEntity, (courses) => courses.user_courses)
   user_courses: CourseEntity[];
 
-  @OneToMany((type) => RatingEntity, (rating) => rating.user)
+  @OneToMany(() => RatingEntity, (rating) => rating.user)
   rating: Rating[];
 
   @CreateDateColumn()

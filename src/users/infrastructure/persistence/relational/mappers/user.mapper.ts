@@ -4,7 +4,6 @@ import { UserEntity } from '../entities/user.entity';
 import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
 import { StatusEntity } from 'src/status/infrastructure/persistence/relational/entities/status.entity';
 import { FileMapper } from 'src/files/infrastructure/persistence/relational/mappers/file.mapper';
-import { CourseMapper } from 'src/courses/infrastructure/persistence/relational/mappers/course.mapper';
 
 export class UserMapper {
   static toDomain(raw: UserEntity): User {
@@ -57,7 +56,7 @@ export class UserMapper {
     }
 
     const userEntity = new UserEntity();
-    if (user.id && typeof user.id === 'number') {
+    if (user.id && typeof user.id === 'string') {
       userEntity.id = user.id;
     }
 

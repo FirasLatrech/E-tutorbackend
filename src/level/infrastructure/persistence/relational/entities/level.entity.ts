@@ -9,8 +9,6 @@ import {
 import { EntityRelationalHelper } from 'src/utils/relational-entity-helper';
 import { Level } from 'src/level/domain/level';
 
-
-
 @Entity({
   name: 'Level',
 })

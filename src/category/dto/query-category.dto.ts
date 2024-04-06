@@ -8,7 +8,6 @@ import {
 import { Transform, Type, plainToClass } from 'class-transformer';
 
 import { Category } from '../domain/Category';
-import { Course } from 'src/courses/domain/course';
 
 export class FilterCategoryDto {
   @ApiProperty({ required: false })

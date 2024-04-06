@@ -19,12 +19,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { InfinityPaginationResultType } from '../utils/types/infinity-pagination-result.type';
-
 import { CategoryService } from './category.service';
 import { Category } from './domain/category';
 import { CreateCategoryDto } from './dto/crearte-category.dto';
 import { QueryCateoryDto } from './dto/query-category.dto';
-import { UUID } from 'crypto';
 import { ParseUUIDPipe } from '@nestjs/common';
 import { QueryCourseDto } from 'src/courses/dto/query-course.dto';
 
@@ -39,13 +37,14 @@ export class CategoryController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @Roles(RoleEnum.user)
+  @Roles(RoleEnum.instructor)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   create(
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() req,
   ): Promise<Category> {
-    console.log(Category);
+    console.log('Category', createCategoryDto);
+    console.log(req.user);
     return this.categoryService.create(createCategoryDto, req.user.id);
   }
   @Get(':id/courses')

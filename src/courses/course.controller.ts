@@ -18,7 +18,7 @@ import { NullableType } from '../utils/types/nullable.type';
 import { Course } from './domain/course';
 import { CoursesService } from './course.service';
 import { CreateCourseDTO } from './dto/create-course.dto';
-import { CourseEntity } from './infrastructure/persistence/relational/entities/course.entity';
+
 import { InfinityPaginationResultType } from 'src/utils/types/infinity-pagination-result.type';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { QueryCourseDto } from './dto/query-course.dto';

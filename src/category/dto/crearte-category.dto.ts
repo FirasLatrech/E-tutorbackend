@@ -5,7 +5,7 @@ import { IsNotEmpty, MinLength } from 'class-validator';
 import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transformer';
 
 export class CreateCategoryDto {
-  create_by: number;
+  create_by: string;
 
   @ApiProperty()
   @Transform(lowerCaseTransformer)

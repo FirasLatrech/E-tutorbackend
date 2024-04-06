@@ -92,7 +92,6 @@ export class UsersRelationalRepository implements UserRepository {
 
       relations: ['my_courses'],
     });
-    let totalEnrollmentCount = 0;
 
     return users;
   }
@@ -107,7 +106,7 @@ export class UsersRelationalRepository implements UserRepository {
   }
   async update(id: User['id'], payload: Partial<User>): Promise<User> {
     const entity = await this.usersRepository.findOne({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
 
     if (!entity) {

@@ -12,7 +12,7 @@ export class CategoryMapper {
     category.create_by = raw.create_by;
     category.courses_count = raw.courses_count;
     category.background_color = raw.background_color ?? ''; // Fix: Add nullish coalescing operator
-
+    category.courses_count = raw.courses.length;
     category.createdAt = raw.createdAt;
     category.deletedAt = raw.deletedAt;
 

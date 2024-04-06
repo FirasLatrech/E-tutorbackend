@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository } from 'typeorm';
 import { NullableType } from '../../../../../utils/types/nullable.type';
-import { EntityCondition } from 'src/utils/types/entity-condition.type';
+
 import { RatingEntity } from '../entities/rating.entity'; // Import RatingEntity
 
 import { RatingMapper } from '../mappers/rating.mapper'; // Import RatingMapper
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import {
-  FilterratingDto as FilterRatingDto,
+  // FilterratingDto as FilterRatingDto,
   SortratingDto as SortRatingDto,
 } from 'src/rating/dto/query-rating.dto'; // Import DTOs for filtering and sorting ratings
 import { Rating } from 'src/rating/domain/rating';
@@ -26,11 +26,11 @@ export class RatingRelationalRepository {
   }
 
   async findManyWithPagination({
-    filterOptions,
+    // filterOptions,
     sortOptions,
     paginationOptions,
   }: {
-    filterOptions?: FilterRatingDto | null;
+    // filterOptions?: FilterRatingDto | null;
     sortOptions?: SortRatingDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<Rating[]> {
@@ -56,7 +56,7 @@ export class RatingRelationalRepository {
 
   async create(data: Rating) {
     const persistenceModel = RatingMapper.toPersistence(data);
-    
+
     const createdRating = await this.ratingRepository.save(persistenceModel);
     return RatingMapper.toDomain(createdRating);
   }

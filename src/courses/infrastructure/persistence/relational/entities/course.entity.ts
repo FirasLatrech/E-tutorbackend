@@ -1,5 +1,5 @@
-import { UUID } from 'node:crypto';
 import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
+
 import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
 import { Course } from 'src/courses/domain/course';
 import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/Level.entity';
@@ -31,31 +31,42 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   @Column({ nullable: true })
   subtitle: string;
 
-  @ManyToOne(() => CategoryEntity, (Category) => Category.id, {
+  @Column({ default: false })
+  isPublished: Boolean;
+
+  @ManyToOne(() => CategoryEntity, (Category) => Category.courses, {
     cascade: true,
   })
   @JoinColumn({ name: 'course_category' })
   course_category?: CategoryEntity;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.id, {
-    cascade: true,
-  })
+  @ManyToOne(
+    () => CategoryEntity,
+    (category) => category.sub_courses_category,
+    {
+      cascade: true,
+    },
+  )
   @JoinColumn({ name: 'course_sub_category' })
   course_sub_category?: CategoryEntity;
 
-  @ManyToOne(() => LanguageEntity, (language) => language.id, {
+  @ManyToOne(() => LanguageEntity, (language) => language.language_courses, {
     cascade: true,
   })
   @JoinColumn({ name: 'course_language' })
   course_language: LanguageEntity;
 
-  @ManyToOne(() => LanguageEntity, (language) => language.id, {
-    cascade: true,
-  })
+  @ManyToOne(
+    () => LanguageEntity,
+    (language) => language.courses_sub_languages,
+    {
+      cascade: true,
+    },
+  )
   @JoinColumn({ name: 'subtitle_language' })
   subtitle_language?: LanguageEntity;
 
-  @ManyToMany((type) => UserEntity, (user) => user.my_courses, {
+  @ManyToMany(() => UserEntity, (user) => user.my_courses, {
     cascade: true,
   })
   @JoinTable({
@@ -74,7 +85,7 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   @Column({ nullable: true })
   course_topic: string;
 
-  @ManyToMany((type) => UserEntity, (user) => user?.user_courses, {
+  @ManyToMany(() => UserEntity, (user) => user?.user_courses, {
     cascade: true,
   })
   @JoinTable({
@@ -109,9 +120,6 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
 
   @Column({ nullable: true })
   course_thumbnail?: string;
-
-
-
 
   @Column({ nullable: true })
   course_trailer?: string;

@@ -15,7 +15,7 @@ export class instructorMapper {
 
   static toPersistence(instructor: Instructor): InstructorEntity {
     const instructorEntity = new InstructorEntity();
-    if (instructor.id && typeof instructor.id === 'number') {
+    if (instructor.id && typeof instructor.id === 'string') {
       instructorEntity.id = instructor.id;
     }
 

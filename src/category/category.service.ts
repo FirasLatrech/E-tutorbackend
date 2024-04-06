@@ -9,8 +9,7 @@ import { SessionService } from 'src/session/session.service';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { FilterCategoryDto, SortCategoryDto } from './dto/query-category.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { CourseRepository } from 'src/courses/infrastructure/persistence/course.repository';
+
 import {
   FilterCourseDto,
   SortCourseDto,
@@ -39,7 +38,7 @@ export class CategoryService {
     paginationOptions: IPaginationOptions;
     categor_id: string;
   }) {
-    return this.categoryRepository.getAllCourseOfCategory({
+    return await this.categoryRepository.getAllCourseOfCategory({
       filterOptions,
       sortOptions,
       paginationOptions,
@@ -60,7 +59,7 @@ export class CategoryService {
     paginationOptions: IPaginationOptions;
     categor_id: string;
   }) {
-    return this.categoryRepository.getAllInstructorOfCategory({
+    return await this.categoryRepository.getAllInstructorOfCategory({
       filterOptions,
       sortOptions,
       paginationOptions,
@@ -69,12 +68,12 @@ export class CategoryService {
     });
   }
   async getGategoryDetails(category_id: string) {
-    return this.categoryRepository.getGategoryDetails(category_id);
+    return await this.categoryRepository.getGategoryDetails(category_id);
   }
 
   async create(
     data: Omit<Category, 'id' | 'createdAt' | 'deletedAt'>,
-    user_id: number,
+    user_id: string,
   ): Promise<Category> {
     const newData = { ...data, create_by: user_id };
 

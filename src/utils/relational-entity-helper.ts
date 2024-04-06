@@ -6,6 +6,7 @@ export class EntityRelationalHelper extends BaseEntity {
 
   @AfterLoad()
   setEntityName() {
+    console.log(this);
     this.__entity = this.constructor.name;
   }
 

@@ -5,7 +5,7 @@ export class Category {
   background_color?: string;
   icon: string;
   courses_count: number;
-  create_by: number;
+  create_by: string;
   createdAt: Date;
   deletedAt: Date;
 }

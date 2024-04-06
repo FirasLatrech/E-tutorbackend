@@ -19,13 +19,13 @@ import { AuthProvidersEnum } from 'src/auth/auth-providers.enum';
 // in your project and return an ORM entity directly in response.
 import { Exclude, Expose } from 'class-transformer';
 import { User } from '../../../../domain/user';
-
+import { v4 as uuidv4 } from 'uuid'; // Import UUIDv4 generator function
 @Entity({
   name: 'user',
 })
 export class UserEntity extends EntityRelationalHelper implements User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string = uuidv4();
 
   // For "string | null" we need to use String type.
   // More info: https://github.com/typeorm/typeorm/issues/2567

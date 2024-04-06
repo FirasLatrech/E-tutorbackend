@@ -141,7 +141,9 @@ export class UsersService {
   findOne(fields: EntityCondition<User>): Promise<NullableType<User>> {
     return this.usersRepository.findOne(fields);
   }
-  findOneWithNoRelation(fields: EntityCondition<User>): Promise<NullableType<User>> {
+  findOneWithNoRelation(
+    fields: EntityCondition<User>,
+  ): Promise<NullableType<User>> {
     return this.usersRepository.findOneWithNoRelation(fields);
   }
 

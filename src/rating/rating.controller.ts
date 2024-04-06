@@ -3,17 +3,14 @@ import {
   Get,
   Post,
   Body,
-  UseGuards,
   Query,
   HttpStatus,
   HttpCode,
-  Req,
   Delete,
   Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/roles/roles.guard';
+
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { InfinityPaginationResultType } from '../utils/types/infinity-pagination-result.type';
 

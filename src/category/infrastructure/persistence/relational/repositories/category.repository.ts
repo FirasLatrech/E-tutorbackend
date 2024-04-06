@@ -16,13 +16,10 @@ import {
   SortCategoryDto,
 } from 'src/category/dto/query-category.dto';
 import { CourseEntity } from 'src/courses/infrastructure/persistence/relational/entities/course.entity';
-import { CourseRepository } from 'src/courses/infrastructure/persistence/course.repository';
-import { coursesRelationalRepository } from 'src/courses/infrastructure/persistence/relational/repositories/course.repository';
-import {
-  FilterCourseDto,
-  SortCourseDto,
-} from 'src/courses/dto/query-course.dto';
+
+import { SortCourseDto } from 'src/courses/dto/query-course.dto';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
+import { EntityAuditLog } from 'src/audit/infrastructure/persistence/relational/entities/entity-audit-log.entity';
 
 @Injectable()
 export class CategoryRelationalRepository implements CategoryRepository {
@@ -33,6 +30,8 @@ export class CategoryRelationalRepository implements CategoryRepository {
     private readonly courseRepository: Repository<CourseEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(EntityAuditLog)
+    private auditLogRepository: Repository<EntityAuditLog>,
   ) {}
 
   async findOne(
@@ -40,18 +39,19 @@ export class CategoryRelationalRepository implements CategoryRepository {
   ): Promise<NullableType<Category>> {
     const entity = await this.CategoryRepository.findOne({
       where: options as FindOptionsWhere<CategoryEntity>,
+      relations: ['courses', 'sub_courses_category'],
     });
+    console.log(entity);
 
     return entity ? CategoryMapper.toDomain(entity) : null;
   }
   async getAllCourseOfCategory({
-    filterOptions,
     sortOptions,
     paginationOptions,
     search,
     categor_id,
   }: {
-    filterOptions?: FilterCourseDto | null;
+    // filterOptions?: FilterCourseDto | null;
     sortOptions?: SortCourseDto[] | null;
     paginationOptions: IPaginationOptions;
     search: string | null;
@@ -84,16 +84,15 @@ export class CategoryRelationalRepository implements CategoryRepository {
     return result;
   }
   async getAllInstructorOfCategory({
-    filterOptions,
     sortOptions,
     paginationOptions,
-    search,
+
     categor_id,
   }: {
-    filterOptions?: FilterCourseDto | null;
+    // filterOptions?: FilterCourseDto | null;
     sortOptions?: SortCourseDto[] | null;
     paginationOptions: IPaginationOptions;
-    search: string | null;
+    // search: string | null;
     categor_id: string;
   }) {
     const result = await this.userRepository.find({
@@ -109,12 +108,10 @@ export class CategoryRelationalRepository implements CategoryRepository {
           course_category: {
             id: categor_id,
           },
-          
         },
         role: {
-          id :3
-        }
-        
+          id: 3,
+        },
 
         // title: Like(`%${search}%`),
       },
@@ -151,6 +148,11 @@ export class CategoryRelationalRepository implements CategoryRepository {
         accumulator[sort.orderBy] = sort.order;
         return accumulator;
       }, {}),
+      relations: ['courses', 'sub_courses_category'],
+      select: {
+        courses: { id: true },
+        sub_courses_category: { id: true },
+      },
     });
 
     return entities.map((category) => CategoryMapper.toDomain(category));
@@ -161,9 +163,18 @@ export class CategoryRelationalRepository implements CategoryRepository {
   async create(data: Category): Promise<Category> {
     const persistenceModel = CategoryMapper.toPersistence(data);
 
-    return this.CategoryRepository.save(
+    const result = await this.CategoryRepository.save(
       this.CategoryRepository.create(persistenceModel),
     );
+    const auditLog = new EntityAuditLog();
+    auditLog.entityName = 'Category'; // Assuming entity name is 'Category'
+    auditLog.action = 'CREATE';
+    auditLog.entityId = result.id as string; // Assuming entity has an id property
+    auditLog.timestamp = new Date();
+    auditLog.userId = result.create_by; // Assuming user id is available in the request
+
+    await this.auditLogRepository.save(auditLog);
+    return result;
   }
 
   async softDelete(id: string): Promise<void> {

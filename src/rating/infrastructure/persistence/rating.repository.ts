@@ -1,4 +1,3 @@
-
 import { NullableType } from '../../../utils/types/nullable.type';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
@@ -13,7 +12,7 @@ export abstract class RatingRepository {
     options: EntityCondition<Rating>,
   ): Promise<NullableType<Rating>>;
 
-  abstract create(data: Omit<Rating, 'id' >): Promise<Rating>; // Adjust fields to match Rating entity, remove id and dateTime
+  abstract create(data: Omit<Rating, 'id'>): Promise<Rating>; // Adjust fields to match Rating entity, remove id and dateTime
 
   abstract findManyWithPagination({
     filterOptions,

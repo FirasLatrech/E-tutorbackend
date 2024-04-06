@@ -14,8 +14,6 @@ import { CategoryService } from 'src/category/category.service';
 import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
 import { UsersService } from 'src/users/users.service';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
-import { UserRepository } from 'src/users/infrastructure/persistence/user.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { FilterCourseDto, SortCourseDto } from './dto/query-course.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { Course } from './domain/course';
@@ -148,7 +146,7 @@ export class CoursesService {
           HttpStatus.UNPROCESSABLE_ENTITY,
         );
       }
-      clonedPayload.course_level = (isValidLevel) as LevelEntity;
+      clonedPayload.course_level = isValidLevel as LevelEntity;
     }
     console.log(createCourseDto.users, 'users 🤒');
     if (createCourseDto.users) {
@@ -233,7 +231,7 @@ export class CoursesService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    console.log(user);
+
     return user;
   }
 }

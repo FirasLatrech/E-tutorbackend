@@ -1,8 +1,5 @@
 import { Course } from 'src/courses/domain/course';
 import { CourseEntity } from '../entities/course.entity';
-import { Category } from 'src/Category/domain/Category';
-import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
-import { UUID } from 'node:crypto';
 
 export class CourseMapper {
   static toDomain(raw: CourseEntity): Course {

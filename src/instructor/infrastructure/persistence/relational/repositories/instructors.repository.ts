@@ -68,7 +68,7 @@ export class InstructorsRelationalRepository implements InstructorRepository {
     payload: Partial<Instructor>,
   ): Promise<Instructor> {
     const entity = await this.InstructorsRepository.findOne({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
 
     if (!entity) {

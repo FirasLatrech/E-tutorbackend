@@ -1,7 +1,7 @@
 import { Category } from 'src/Category/domain/Category';
 import { language } from 'src/language/domain/language';
 import { Level } from 'src/level/domain/level';
-import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/Level.entity';
+
 import { User } from 'src/users/domain/user';
 
 export class Course {
