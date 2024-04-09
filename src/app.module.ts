@@ -28,6 +28,7 @@ import googleConfig from './auth-google/config/google.config';
 import { AuthGoogleModule } from './auth-google/auth-google.module';
 import { RatingModule } from './rating/rating.module';
 import { EntityAuditLog } from './audit/infrastructure/persistence/relational/entities/entity-audit-log.entity';
+import { chapterModule } from './chapter/chapter.module';
 
 @Module({
   imports: [
@@ -89,6 +90,7 @@ import { EntityAuditLog } from './audit/infrastructure/persistence/relational/en
     MailModule,
     MailerModule,
     HomeModule,
+    chapterModule
   ],
 })
 export class AppModule {}

@@ -73,7 +73,7 @@ class EnvironmentVariablesValidator {
 
 export default registerAs<DatabaseConfig>('database', () => {
   validateConfig(process.env, EnvironmentVariablesValidator);
-
+console.log("password",process.env.DATABASE_PASSWORD)
   return {
     isDocumentDatabase: ['mongodb'].includes(process.env.DATABASE_TYPE ?? ''),
     url: process.env.DATABASE_URL,
