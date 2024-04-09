@@ -10,7 +10,7 @@ export class StripeModule {
     return {
       module: StripeModule,
       controllers: [StripeController],
-      imports: [ConfigModule.forRoot() ,coursesModule],
+      imports: [ConfigModule.forRoot(), coursesModule],
       providers: [
         StripeService,
         {

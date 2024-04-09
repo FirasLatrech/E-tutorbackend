@@ -37,7 +37,6 @@ export class coursesController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createProfileDto: CreateCourseDTO) {
-
     return this.coursesService.create(createProfileDto);
   }
 

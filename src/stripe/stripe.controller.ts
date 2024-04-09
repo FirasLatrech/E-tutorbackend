@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Headers,
-  Param,
-  Post,
-  Req,
-} from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 
 @Controller({
@@ -31,7 +23,7 @@ export class StripeController {
     // return await this.stripeService.getCustomers();
   }
   @Post('webhook')
-  async webhook(@Req() req, @Headers() headers, @Body() body) {
+  async webhook(@Headers() headers, @Body() body) {
     const signature = headers['Stripe-Signature'] as string;
     console.log(signature, 'signature');
     return await this.stripeService.webhook(body, signature);

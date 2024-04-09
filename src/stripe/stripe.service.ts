@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CoursesService } from 'src/courses/course.service';
-import { UsersService } from 'src/users/users.service';
+
 import Stripe from 'stripe';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class StripeService {
     let event: Stripe.Event;
 
     try {
-      event = this.stripe.webhooks.constructEvent(
+      event = await this.stripe.webhooks.constructEvent(
         body,
         signature,
         'whsec_7e2e109ecf9e95ca4a19501c268330dceb6e30304f0d1d9d11fe1dd4ef72b66c',
