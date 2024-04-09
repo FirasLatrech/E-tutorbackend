@@ -6,10 +6,12 @@ import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { chapterRepository } from 'src/chapter/infrastructure/chapter.repository';
 import { ChapterEntity } from '../entities/chapter.entity';
-import { FilterChapterDto, SortChapterDto } from 'src/chapter/dto/query-chapter.dto';
+import {
+  FilterChapterDto,
+  SortChapterDto,
+} from 'src/chapter/dto/query-chapter.dto';
 import { Chapter } from 'src/chapter/domain/chapter';
 import { ChapterMapper } from '../mappers/chapter.mapper';
-import { UpdatechapterDto } from 'src/chapter/dto/update-chapter.dto';
 
 @Injectable()
 export class chapterRelationalRepository implements chapterRepository {
@@ -19,7 +21,7 @@ export class chapterRelationalRepository implements chapterRepository {
   ) {}
 
   async create(data: ChapterEntity) {
-     const persistenceModel = ChapterMapper.toPersistence(data);
+    const persistenceModel = ChapterMapper.toPersistence(data);
     const newEntity = await this.chapterRepository.save(
       this.chapterRepository.create(persistenceModel),
     );
@@ -27,17 +29,15 @@ export class chapterRelationalRepository implements chapterRepository {
   }
 
   async findManyWithPagination({
-     filterOptions,
     sortOptions,
     search,
     paginationOptions,
   }: {
-   filterOptions:FilterChapterDto;
+    filterOptions: FilterChapterDto;
     sortOptions?: SortChapterDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
   }): Promise<Chapter[]> {
-
     const entities = await this.chapterRepository.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
@@ -71,7 +71,7 @@ export class chapterRelationalRepository implements chapterRepository {
         'course_level',
       ],
     });
-   return entity ? ChapterMapper.toDomain(entity) : null;
+    return entity ? ChapterMapper.toDomain(entity) : null;
   }
 
   /* async update(id: Chapter['id'], payload: UpdatechapterDto): Promise<Chapter | null> {
@@ -92,7 +92,7 @@ export class chapterRelationalRepository implements chapterRepository {
      return updatedEntity?ChapterMapper.toDomain(updatedEntity) : null;
 }
 */
-   async softDelete(id: Chapter['id']): Promise<void> {
-     await this.chapterRepository.softDelete(id);
-   }
+  async softDelete(id: Chapter['id']): Promise<void> {
+    await this.chapterRepository.softDelete(id);
+  }
 }

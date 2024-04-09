@@ -24,7 +24,18 @@ export class coursesRelationalRepository implements CourseRepository {
 
     // private readonly CategoryRepository: Repository<CategoryEntity>,
   ) {}
+  async findCoursesByIds(ids: string[]) {
+    const courses = (await Promise.all(
+      ids.map((id) =>
+        this.coursesRepository.findOne({
+          where: { id },
+          relations: ['instructor'],
+        }),
+      ),
+    )) as CourseEntity[];
 
+    return courses;
+  }
   async create(data: CourseEntity) {
     // const persistenceModel = CourseMapper.toPersistence(data);
 
@@ -85,7 +96,21 @@ export class coursesRelationalRepository implements CourseRepository {
         'instructor',
         'course_level',
       ],
+      select: {
+        course_category: {
+          courses: false,
+          id: true,
+        },
+        course_language: {
+          courses_sub_languages: false,
+        },
+
+        course_sub_category: {
+          courses: false,
+        },
+      },
     });
+
     return entity;
     // return entity ? CourseMapper.toDomain(entity) : null;
   }

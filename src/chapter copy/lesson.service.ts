@@ -1,30 +1,33 @@
- import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from '../utils/types/nullable.type';
-import { LanguageService } from 'src/language/Language.service';
-import { CategoryService } from 'src/category/category.service';
 import { UsersService } from 'src/users/users.service';
-import { levelService } from 'src/level/level.service';
-import { CreateChapterDto } from './dto/create-lesson.sto';
-import { FilterChapterDto, SortChapterDto } from './dto/query-lesson.dto';
+
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
-import { ChapterEntity } from './infrastructure/persistence/relational/entities/lesson.entity';
-import { Chapter } from './domain/chapter';
-import { chapterRepository } from './infrastructure/lesson.repository';
-import { UpdatechapterDto } from './dto/update-lesson.dto';
+
+import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
+import {
+  FilterChapterDto,
+  SortChapterDto,
+} from 'src/chapter/dto/query-chapter.dto';
+import { Chapter } from 'src/chapter/domain/chapter';
+import { chapterRepository as ChapterRepository } from 'src/chapter/infrastructure/chapter.repository';
 
 @Injectable()
 export class ChapterService {
   constructor(
-    private readonly chapterRepository: chapterRepository,
+    private readonly chapterRepository: ChapterRepository,
     private readonly userService: UsersService,
   ) {}
 
-  async create(CreateChapterDto: CreateChapterDto) {
-    const chapter = new ChapterEntity()
-    return await this.chapterRepository.create({...chapter,...CreateChapterDto});
-  }
+  // async create(CreateChapterDto: CreateChapterDto) {
+  //   const chapter = new ChapterEntity();
+  //   // return await this.chapterRepository.create({
+  //   //   ...chapter,
+  //   //   ...CreateChapterDto,
+  //   // });
+  // }
 
   findManyWithPagination({
     filterOptions,
@@ -75,9 +78,9 @@ export class ChapterService {
      return  this.chapterRepository.update(id, clonedPayload);
    }*/
 
-   async softDelete(id: Chapter['id']): Promise<void> {
-     await this.chapterRepository.softDelete(id);
-   }
+  async softDelete(id: Chapter['id']): Promise<void> {
+    await this.chapterRepository.softDelete(id);
+  }
 
   private async prelodUserById(id: string) {
     const user = await this.userService.findOne({ id });

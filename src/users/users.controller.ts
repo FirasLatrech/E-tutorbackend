@@ -83,7 +83,7 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   async findTopInstuctorForMonth() {
     const data = await this.usersService.findTopInstuctorForMonth();
-    console.log(data);
+
     return data;
   }
 

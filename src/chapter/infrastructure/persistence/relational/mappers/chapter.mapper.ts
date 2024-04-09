@@ -4,7 +4,7 @@ import { ChapterEntity } from '../entities/chapter.entity';
 export class ChapterMapper {
   static toDomain(raw: ChapterEntity): Chapter {
     const chapter = new Chapter();
-    chapter.id = raw.id; 
+    chapter.id = raw.id;
     chapter.title = raw.title;
     chapter.lessons = raw.lessons;
     chapter.createdAt = raw.createdAt;

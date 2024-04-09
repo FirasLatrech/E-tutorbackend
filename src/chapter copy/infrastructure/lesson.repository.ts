@@ -3,13 +3,14 @@ import { NullableType } from 'src/utils/types/nullable.type';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
-import { Chapter } from '../domain/chapter';
-import { FilterChapterDto, SortChapterDto } from '../dto/query-lesson.dto';
-import { ChapterEntity } from './persistence/relational/entities/lesson.entity';
-import { UpdatechapterDto } from '../dto/update-lesson.dto';
 
-export abstract class chapterRepository {
-  abstract create(data: Omit<Chapter, 'id'>): Promise<Chapter>;
+import { FilterLessonDto, SortLessonDto } from '../dto/query-lesson.dto';
+import { LessonEntity } from './persistence/relational/entities/lesson.entity';
+
+import { Lesson } from '../domain/chapter';
+
+export abstract class LessonRepository {
+  abstract create(data: Omit<Lesson, 'id'>): Promise<Lesson>;
 
   abstract findManyWithPagination({
     filterOptions,
@@ -17,20 +18,20 @@ export abstract class chapterRepository {
     search,
     paginationOptions,
   }: {
-    filterOptions?: FilterChapterDto | null;
-    sortOptions?: SortChapterDto[] | null;
+    filterOptions?: FilterLessonDto | null;
+    sortOptions?: SortLessonDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
-  }): Promise<Chapter[]>;
+  }): Promise<Lesson[]>;
 
   abstract findOne(
-    fields: EntityCondition<ChapterEntity>,
-  ): Promise<NullableType<ChapterEntity>>;
+    fields: EntityCondition<LessonEntity>,
+  ): Promise<NullableType<LessonEntity>>;
 
-   /*abstract update(
-     id: Chapter['id'],
-     payload: UpdatechapterDto,
-   ): Promise<Chapter | null>*/
+  /*abstract update(
+     id: Lesson['id'],
+     payload: UpdateLessonDto,
+   ): Promise<Lesson | null>*/
 
-   abstract softDelete(id: Chapter['id']): Promise<void>;
+  abstract softDelete(id: Lesson['id']): Promise<void>;
 }

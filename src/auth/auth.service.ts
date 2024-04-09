@@ -43,7 +43,7 @@ export class AuthService {
     const user = await this.usersService.findOne({
       email: loginDto.email,
     });
-    console.log(user);
+
     if (!user) {
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -202,7 +202,6 @@ export class AuthService {
   }
 
   async register(dto: AuthRegisterLoginDto): Promise<void> {
-    console.log(dto);
     const user = await this.usersService.create({
       ...dto,
       is_instructor: dto.is_instructor || false,

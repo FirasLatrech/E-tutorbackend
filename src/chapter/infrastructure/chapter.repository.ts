@@ -6,7 +6,6 @@ import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { Chapter } from '../domain/chapter';
 import { FilterChapterDto, SortChapterDto } from '../dto/query-chapter.dto';
 import { ChapterEntity } from './persistence/relational/entities/chapter.entity';
-import { UpdatechapterDto } from '../dto/update-chapter.dto';
 
 export abstract class chapterRepository {
   abstract create(data: Omit<Chapter, 'id'>): Promise<Chapter>;
@@ -27,10 +26,10 @@ export abstract class chapterRepository {
     fields: EntityCondition<ChapterEntity>,
   ): Promise<NullableType<ChapterEntity>>;
 
-   /*abstract update(
+  /*abstract update(
      id: Chapter['id'],
      payload: UpdatechapterDto,
    ): Promise<Chapter | null>*/
 
-   abstract softDelete(id: Chapter['id']): Promise<void>;
+  abstract softDelete(id: Chapter['id']): Promise<void>;
 }

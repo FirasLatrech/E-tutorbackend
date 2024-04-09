@@ -14,7 +14,7 @@ import {
   SortLanguageryDto,
 } from './dto/query-language.dto';
 
-@Injectable() 
+@Injectable()
 export class LanguageService {
   constructor(
     private readonly languageRepository: LanguageRepository,

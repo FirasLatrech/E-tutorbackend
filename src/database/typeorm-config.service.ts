@@ -8,7 +8,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService<AllConfigType>) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    return {  
+    return {
       type: this.configService.get('database.type', { infer: true }),
       url: this.configService.get('database.url', { infer: true }),
       host: this.configService.get('database.host', { infer: true }),
@@ -17,9 +17,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password: this.configService.get('database.password', { infer: true }),
       database: this.configService.get('database.name', { infer: true }),
       synchronize: this.configService.get('database.synchronize', {
-        infer: true,  
+        infer: true,
       }),
-      autoLoadEntities: true,  
+      autoLoadEntities: true,
       dropSchema: false,
       keepConnectionAlive: true,
       logging: false,

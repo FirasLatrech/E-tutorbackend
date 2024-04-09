@@ -8,4 +8,5 @@ export type AppConfig = {
   apiPrefix: string;
   fallbackLanguage: string;
   headerLanguage: string;
+  // STRIPE_API_KEY: string;
 };

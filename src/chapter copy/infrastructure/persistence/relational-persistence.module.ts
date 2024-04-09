@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
-import { chapterRepository } from '../lesson.repository';
-import { ChapterEntity } from './relational/entities/lesson.entity';
-import { coursesRelationalRepository } from 'src/courses/infrastructure/persistence/relational/repositories/course.repository';
+
 import { chapterRelationalRepository } from './relational/repositories/lesson.repository';
-import { CategoryRepository } from 'src/category/infrastructure/persistence/category.repository';
+import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
+import { chapterRepository } from 'src/chapter/infrastructure/chapter.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ChapterEntity])],

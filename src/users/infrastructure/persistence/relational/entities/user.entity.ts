@@ -93,6 +93,10 @@ export class UserEntity extends EntityRelationalHelper implements User {
   is_instructor: boolean;
   @ManyToMany(() => CourseEntity, (courses) => courses.instructor)
   my_courses: CourseEntity[];
+
+  @ManyToMany(() => CourseEntity, (courses) => courses.purchase)
+  purchase: CourseEntity[];
+
   @Column({ type: Number, default: 0 })
   totalEnrolmentCount: number;
   @ManyToMany(() => CourseEntity, (courses) => courses.user_courses)

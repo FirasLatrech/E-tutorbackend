@@ -1,6 +1,5 @@
-import { IsString } from 'class-validator';
 import { LessonEntity } from 'src/chapter copy/infrastructure/persistence/relational/entities/lesson.entity';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class ChapterEntity {
@@ -10,7 +9,7 @@ export class ChapterEntity {
   @Column()
   title: string;
 
-  @OneToMany(() => LessonEntity, lesson => lesson.chapter)
+  @OneToMany(() => LessonEntity, (lesson) => lesson.chapter)
   lessons: LessonEntity[];
 
   @Column({ type: 'timestamp', nullable: true })

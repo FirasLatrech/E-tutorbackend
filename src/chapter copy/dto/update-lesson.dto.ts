@@ -1,4 +1,4 @@
-import { IsArray, IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class UpdateLessonDto {
   @IsString()
@@ -7,5 +7,4 @@ export class UpdateLessonDto {
   @IsArray()
   @IsString({ each: true })
   lessons: string[];
-
 }

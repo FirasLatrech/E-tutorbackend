@@ -1,5 +1,5 @@
-import { Chapter } from "src/chapter/domain/chapter";
-import { FileType } from "src/files/domain/file";
+import { Chapter } from 'src/chapter/domain/chapter';
+import { FileType } from 'src/files/domain/file';
 
 export class Lesson {
   id: string;

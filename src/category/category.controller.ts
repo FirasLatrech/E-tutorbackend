@@ -38,7 +38,7 @@ export class CategoryController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Roles(RoleEnum.instructor)
-  @UseGuards(AuthGuard('jwt'), RolesGuard) 
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   create(
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() req,
@@ -47,7 +47,7 @@ export class CategoryController {
     console.log(req.user);
     return this.categoryService.create(createCategoryDto, req.user.id);
   }
-  @Get(':id/courses') 
+  @Get(':id/courses')
   @HttpCode(HttpStatus.OK)
   async getAllCourseOfCategory(
     @Param('id', new ParseUUIDPipe()) id: string,
