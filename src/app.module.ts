@@ -28,9 +28,11 @@ import googleConfig from './auth-google/config/google.config';
 import { AuthGoogleModule } from './auth-google/auth-google.module';
 import { RatingModule } from './rating/rating.module';
 import { EntityAuditLog } from './audit/infrastructure/persistence/relational/entities/entity-audit-log.entity';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
+    StripeModule.forRootAsync(),
     TypeOrmModule.forFeature([EntityAuditLog]),
     ConfigModule.forRoot({
       isGlobal: true,

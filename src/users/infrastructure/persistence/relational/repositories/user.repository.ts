@@ -63,7 +63,7 @@ export class UsersRelationalRepository implements UserRepository {
       where: fields as FindOptionsWhere<UserEntity>,
       relations: ['my_courses'],
     });
-    console.log(entity);
+
     return entity ? UserMapper.toDomain(entity) : null;
   }
   async findTopInstuctorForMonth(): Promise<User[]> {
@@ -101,7 +101,7 @@ export class UsersRelationalRepository implements UserRepository {
     const entity = await this.usersRepository.findOne({
       where: fields as FindOptionsWhere<UserEntity>,
     });
-    console.log(entity);
+
     return entity ? UserMapper.toDomain(entity) : null;
   }
   async update(id: User['id'], payload: Partial<User>): Promise<User> {

@@ -31,8 +31,8 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   @Column({ nullable: true })
   subtitle: string;
 
-  @Column({ default: false })
-  isPublished: Boolean;
+  @Column({ type: 'boolean', default: false })
+  isPublished: boolean;
 
   @ManyToOne(() => CategoryEntity, (Category) => Category.courses, {
     cascade: true,
@@ -100,6 +100,22 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
     },
   })
   user_courses: UserEntity[];
+
+  @ManyToMany(() => UserEntity, (user) => user?.user_courses, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'purchase',
+    joinColumn: {
+      name: 'course_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id',
+    },
+  })
+  purchase: UserEntity[];
 
   @Column({ default: 0 })
   enrollmentCount?: number;

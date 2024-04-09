@@ -12,7 +12,7 @@ import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 export abstract class CourseRepository {
   abstract create(data: Omit<Course, 'id'>): Promise<Course>;
-
+  abstract findCoursesByIds(ids: string[]);
   abstract findManyWithPagination({
     filterOptions,
     sortOptions,

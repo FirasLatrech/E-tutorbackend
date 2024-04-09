@@ -32,8 +32,6 @@ export class RatingController {
   @HttpCode(HttpStatus.CREATED)
   // @UseGuards(AuthGuard('jwt'), RolesGuard)
   create(@Body() createRatingDto: CreateRatingDto): Promise<Rating> {
-    console.log(createRatingDto);
-
     return this.ratingService.create(createRatingDto);
   }
 

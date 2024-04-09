@@ -134,7 +134,7 @@ export class CoursesService {
       const isValidLevel = await this.levelService.findOne({
         id: createCourseDto.course_level_id,
       });
-      console.log(isValidLevel, 'isValidLevel 🤒🤒🤒🤒🤒');
+
       if (!isValidLevel) {
         throw new HttpException(
           {
@@ -148,12 +148,11 @@ export class CoursesService {
       }
       clonedPayload.course_level = isValidLevel as LevelEntity;
     }
-    console.log(createCourseDto.users, 'users 🤒');
+
     if (createCourseDto.users) {
       const users = await Promise.all(
         createCourseDto.users.map((id) => this.prelodUserById(id)),
       );
-      console.log(users, 'users');
 
       clonedPayload.user_courses = users as UserEntity[];
     }
@@ -163,7 +162,9 @@ export class CoursesService {
 
     return await this.coursesRepository.create(clonedPayload);
   }
-
+  async findCoursesByIds(ids: string[]) {
+    return await this.coursesRepository.findCoursesByIds(ids);
+  }
   findManyWithPagination({
     filterOptions,
     sortOptions,
@@ -176,7 +177,6 @@ export class CoursesService {
     search: string;
     paginationOptions: IPaginationOptions;
   }): Promise<Course[]> {
-    console.log(sortOptions);
     return this.coursesRepository.findManyWithPagination({
       filterOptions,
       search,

@@ -15,7 +15,7 @@ export class RatingMapper {
 
   static toPersistence(rating: Rating): RatingEntity {
     const ratingEntity = new RatingEntity();
-    console.log(rating.user);
+
     if (rating.id && typeof rating.id === 'string') {
       ratingEntity.id = rating.id;
     }

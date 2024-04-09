@@ -37,7 +37,7 @@ export class coursesController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createProfileDto: CreateCourseDTO) {
-    console.log(createProfileDto);
+
     return this.coursesService.create(createProfileDto);
   }
 
@@ -70,6 +70,15 @@ export class coursesController {
       { page, limit },
     );
   }
+  @SerializeOptions({
+    groups: ['admin'],
+  })
+  @Post('get-by-ids')
+  @HttpCode(HttpStatus.OK)
+  async findCoursesByIds(@Body() ids: string[]) {
+    return await this.coursesService.findCoursesByIds(ids);
+  }
+
   @Get('studentCourses/:id')
   @HttpCode(HttpStatus.OK)
   async findAllCourseOfStuent(
