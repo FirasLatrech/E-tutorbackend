@@ -1,4 +1,4 @@
-import { LessonEntity } from 'src/chapter copy/infrastructure/persistence/relational/entities/lesson.entity';
+import { LessonEntity } from 'src/lesson/infrastructure/persistence/relational/entities/lesson.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()

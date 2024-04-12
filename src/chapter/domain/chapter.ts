@@ -1,4 +1,4 @@
-import { LessonEntity } from 'src/chapter copy/infrastructure/persistence/relational/entities/lesson.entity';
+import { LessonEntity } from "src/lesson/infrastructure/persistence/relational/entities/lesson.entity";
 
 export class Chapter {
   id: string;
@@ -6,7 +6,6 @@ export class Chapter {
   title: string;
 
   lessons: LessonEntity[];
-
   createdAt: Date;
 
   updatedAt: Date;
