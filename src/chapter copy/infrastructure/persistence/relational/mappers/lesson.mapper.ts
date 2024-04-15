@@ -1,5 +1,6 @@
 import { Chapter } from 'src/chapter/domain/chapter';
-import { ChapterEntity } from '../entities/lesson.entity';
+import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
+
 
 export class ChapterMapper {
   static toDomain(raw: ChapterEntity): Chapter {

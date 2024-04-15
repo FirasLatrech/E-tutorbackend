@@ -66,7 +66,7 @@ export class chapterRelationalRepository implements chapterRepository {
       relations: [
         'course_category',
         'course_sub_category',
-        'course_language',
+        // 'course_language',
         'instructor',
         'course_level',
       ],

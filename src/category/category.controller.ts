@@ -43,8 +43,6 @@ export class CategoryController {
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() req,
   ): Promise<Category> {
-    console.log('Category', createCategoryDto);
-    console.log(req.user);
     return this.categoryService.create(createCategoryDto, req.user.id);
   }
   @Get(':id/courses')
