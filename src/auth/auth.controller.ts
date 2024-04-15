@@ -46,14 +46,12 @@ export class AuthController {
     @Body() loginDto: AuthEmailLoginDto,
   ): Promise<LoginResponseType> {
     const data = await this.service.validateLogin(loginDto);
-
-    // if (data) {
-    res.cookie('refreshToken', data.refreshToken, {
-      httpOnly: true,
-      // secure: true, // Uncomment this line if you are using HTTPS
-      expires: new Date(data.tokenExpires),
-    });
-    // }
+    if (data && data.refreshToken) {
+      res.cookie('refreshToken', data.refreshToken, {
+          httpOnly: true,
+          expires: new Date(data.tokenExpires),
+      });
+  }
     return data;
   }
 
