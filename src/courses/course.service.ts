@@ -177,7 +177,6 @@ export class CoursesService {
     search: string;
     paginationOptions: IPaginationOptions;
   }): Promise<Course[]> {
-
     return this.coursesRepository.findManyWithPagination({
       filterOptions,
       search,
