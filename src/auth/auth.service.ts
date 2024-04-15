@@ -40,10 +40,10 @@ export class AuthService {
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto): Promise<LoginResponseType> {
+    console.log(loginDto)
     const user = await this.usersService.findOne({
       email: loginDto.email,
-    });
-
+    }); 
     if (!user) {
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -213,7 +213,6 @@ export class AuthService {
         id: StatusEnum.inactive,
       },
     });
-
     const hash = await this.jwtService.signAsync(
       {
         confirmEmailUserId: user.id,

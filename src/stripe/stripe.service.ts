@@ -10,10 +10,10 @@ export class StripeService {
   constructor(
     @Inject('STRIPE_API_KEY') private readonly apiKey: string,
     private courseService: CoursesService,
-  ) {
+  ) { 
     this.stripe = new Stripe(
       'sk_test_51P2gF0I1E43qi5XiTIjeymtLdxpK2ae6yx89ZiMx9oEZLG36GdBKuuB6tptngioRgDBRxtebejTEDyNCw2ibFshd00ZMuYxK6F',
-      {
+      { 
         apiVersion: '2023-10-16', // Use whatever API latest version
       },
     );
