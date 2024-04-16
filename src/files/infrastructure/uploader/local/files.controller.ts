@@ -1,5 +1,4 @@
 import {
-  Body,
   Controller,
   Get,
   Param,
@@ -20,9 +19,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { FilesLocalService } from './files.service';
 import Mux from '@mux/mux-node';
-import { VideoDto } from 'src/files/dto/video-stream.dto';
 import { FileType } from 'src/files/domain/file';
-
 
 @ApiTags('Files')
 @Controller({
@@ -63,13 +60,16 @@ export class FilesLocalController {
 
   @Post('video/upload')
   @ApiConsumes('multipart/form-data')
-  async UPloadVideoForStreaming(@UploadedFile() file:Express.Multer.File){
-    const video:{file:FileType} = await this.filesService.create(file)
-    const mux = new Mux({tokenId: process.env.MUX_TOKEN_ID, tokenSecret: process.env.MUX_TOKEN_SECRET});
+  async UPloadVideoForStreaming(@UploadedFile() file: Express.Multer.File) {
+    const video: { file: FileType } = await this.filesService.create(file);
+    const mux = new Mux({
+      tokenId: process.env.MUX_TOKEN_ID,
+      tokenSecret: process.env.MUX_TOKEN_SECRET,
+    });
     const asset = await mux.video.assets.create({
       input: [{ url: video.file.path }],
       playback_policy: ['public'],
     });
-    return asset 
+    return asset;
   }
 }

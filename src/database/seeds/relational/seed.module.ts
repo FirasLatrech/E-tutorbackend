@@ -27,7 +27,7 @@ import { ActionSeedModule } from './action/action-seed.module';
       dataSourceFactory: async (options: DataSourceOptions) => {
         return new DataSource(options).initialize();
       },
-    }), 
+    }),
   ],
 })
 export class SeedModule {}

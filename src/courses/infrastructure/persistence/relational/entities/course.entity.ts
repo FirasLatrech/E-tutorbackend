@@ -80,7 +80,7 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
       referencedColumnName: 'id',
     },
   })
-  instructor: UserEntity[]; 
+  instructor: UserEntity[];
 
   @Column({ nullable: true })
   course_topic: string;

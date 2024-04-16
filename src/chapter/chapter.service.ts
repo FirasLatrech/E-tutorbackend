@@ -35,7 +35,7 @@ export class ChapterService {
     search: string;
     paginationOptions: IPaginationOptions;
   }): Promise<Chapter[]> {
-    console.log(sortOptions);
+
     return this.chapterRepository.findManyWithPagination({
       filterOptions,
       search,

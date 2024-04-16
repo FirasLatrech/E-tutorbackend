@@ -4,7 +4,6 @@ import { UserEntity } from '../entities/user.entity';
 import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
 import { StatusEntity } from 'src/status/infrastructure/persistence/relational/entities/status.entity';
 import { FileMapper } from 'src/files/infrastructure/persistence/relational/mappers/file.mapper';
-import { use } from 'passport';
 
 export class UserMapper {
   static toDomain(raw: UserEntity): User {

@@ -1,3 +1,3 @@
-export class VideoDto{
-    videoUrl: File;
+export class VideoDto {
+  videoUrl: File;
 }

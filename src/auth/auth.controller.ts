@@ -48,10 +48,10 @@ export class AuthController {
     const data = await this.service.validateLogin(loginDto);
     if (data && data.refreshToken) {
       res.cookie('refreshToken', data.refreshToken, {
-          httpOnly: true,
-          expires: new Date(data.tokenExpires),
+        httpOnly: true,
+        expires: new Date(data.tokenExpires),
       });
-  }
+    }
     return data;
   }
 

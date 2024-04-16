@@ -40,7 +40,6 @@ export class AuthService {
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto): Promise<LoginResponseType> {
-
     const user = await this.usersService.findOne({
       email: loginDto.email,
     });
@@ -114,12 +113,9 @@ export class AuthService {
     authProvider: string,
     socialData: SocialInterface,
   ): Promise<LoginResponseType> {
-
     let user: NullableType<User> = null;
     const socialEmail = socialData.email?.toLowerCase();
     let userByEmail: NullableType<User> = null;
-
-
 
     if (socialEmail) {
       userByEmail = await this.usersService.findOne({
