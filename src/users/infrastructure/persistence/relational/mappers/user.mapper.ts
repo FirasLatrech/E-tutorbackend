@@ -4,6 +4,7 @@ import { UserEntity } from '../entities/user.entity';
 import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
 import { StatusEntity } from 'src/status/infrastructure/persistence/relational/entities/status.entity';
 import { FileMapper } from 'src/files/infrastructure/persistence/relational/mappers/file.mapper';
+import { use } from 'passport';
 
 export class UserMapper {
   static toDomain(raw: UserEntity): User {
@@ -14,6 +15,7 @@ export class UserMapper {
     user.previousPassword = raw.previousPassword;
     user.provider = raw.provider;
     user.socialId = raw.socialId;
+    user.photo_url = raw.photo_url;
     user.firstName = raw.firstName;
     user.my_courses = raw?.my_courses?.map((course) => course);
     user.username = raw.username;
@@ -64,6 +66,7 @@ export class UserMapper {
     userEntity.password = user.password;
     userEntity.previousPassword = user.previousPassword;
     userEntity.provider = user.provider;
+    userEntity.photo_url = user?.photo_url || '';
     userEntity.is_instructor = user.is_instructor;
 
     userEntity.socialId = user.socialId;

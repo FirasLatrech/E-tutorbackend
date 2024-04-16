@@ -3,6 +3,7 @@ export interface SocialInterface {
   username?: string;
   firstName?: string;
   lastName?: string;
+  photo_url?: string;
   is_instructor?: boolean;
   email?: string;
 }

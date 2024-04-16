@@ -41,7 +41,6 @@ export class CategoryRelationalRepository implements CategoryRepository {
       where: options as FindOptionsWhere<CategoryEntity>,
       relations: ['courses', 'sub_courses_category'],
     });
-    console.log(entity);
 
     return entity ? CategoryMapper.toDomain(entity) : null;
   }

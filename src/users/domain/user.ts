@@ -18,7 +18,7 @@ export class User {
   is_instructor: boolean;
 
   my_courses?: Course[];
-
+  photo_url?: string | null;
   @Exclude({ toPlainOnly: true })
   previousPassword?: string;
 
