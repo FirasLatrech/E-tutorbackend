@@ -14,7 +14,6 @@ export class StripeController {
   }
   @Post('verfier')
   async verfier(@Body() body) {
-
     return await this.stripeService.verifierPayment(body.id);
   }
   @Get('customers')

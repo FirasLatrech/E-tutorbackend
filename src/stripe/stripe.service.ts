@@ -32,13 +32,12 @@ export class StripeService {
         signature,
         webhook_key,
       );
-
     } catch (error: any) {
       console.error(error);
       return 'Error';
     }
 
-    const session = event.data.object as Stripe.Checkout.Session;
+    // const session = event.data.object as Stripe.Checkout.Session;
 
     if (event.type === 'checkout.session.completed') {
       // Your success logic here
