@@ -8,9 +8,12 @@ import {
   Query,
   ParseUUIDPipe,
   Delete,
+  UseGuards,
+  Body,
+  Post,
 } from '@nestjs/common';
 
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { NullableType } from '../utils/types/nullable.type';
 // import { QuerycourseDto } from './dto/query-course.dto';
@@ -18,27 +21,33 @@ import { NullableType } from '../utils/types/nullable.type';
 import { InfinityPaginationResultType } from 'src/utils/types/infinity-pagination-result.type';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 
-import { ChapterService } from './lesson.service';
+import { lessonService } from './lesson.service';
 
-import { QueryChapterDto } from 'src/chapter/dto/query-chapter.dto';
 import { Chapter } from 'src/chapter/domain/chapter';
+import { Lesson } from './domain/lesson';
+import { AuthGuard } from '@nestjs/passport';
+import { RoleEnum } from 'src/roles/roles.enum';
+import { Roles } from 'src/roles/roles.decorator';
+import { QueryLessonDto } from './dto/query-lesson.dto';
+import { CreateLessonDto } from './dto/create-lesson.sto';
 
 @ApiBearerAuth()
-// @Roles(RoleEnum.admin)
-//@UseGuards(AuthGuard('jwt'))
-@ApiTags('chapters')
+@Roles(RoleEnum.admin, RoleEnum.user, RoleEnum.instructor)
+@UseGuards(AuthGuard('jwt'))
+@ApiTags('lesson')
 @Controller({
-  path: 'chapter',
+  path: 'lesson',
   version: '1',
 })
-export class ChapterController {
-  constructor(private readonly chapterService: ChapterService) {}
+export class LessonController {
+  constructor(private readonly lessonService: lessonService) {}
 
-  // @Post()
-  // @HttpCode(HttpStatus.CREATED)
-  // create(@Body() createProfileDto: CreateChapterDto) {
-  //   return this.chapterService.create(createProfileDto);
-  // }
+  @Post()
+  @ApiBody({ type: CreateLessonDto })
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() createProfileDto: CreateLessonDto) {
+    return this.lessonService.create(createProfileDto);
+  }
 
   @SerializeOptions({
     groups: ['admin'],
@@ -46,8 +55,8 @@ export class ChapterController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
-    @Query() query: QueryChapterDto,
-  ): Promise<InfinityPaginationResultType<Chapter>> {
+    @Query() query: QueryLessonDto,
+  ): Promise<InfinityPaginationResultType<Lesson>> {
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     const search = query?.search ?? '';
@@ -57,7 +66,7 @@ export class ChapterController {
     }
 
     return infinityPagination(
-      await this.chapterService.findManyWithPagination({
+      await this.lessonService.findManyWithPagination({
         filterOptions: query?.filters,
         sortOptions: query?.sort,
         search,
@@ -69,11 +78,17 @@ export class ChapterController {
       { page, limit },
     );
   }
-  @Get('course/:id')
+  @Get('chapter/:id')
+  @ApiParam({
+    name: 'id',
+    type: String,
+    required: true,
+  })
   @HttpCode(HttpStatus.OK)
-  async findAllCourseOfStuent(
-    @Query() query: QueryChapterDto,
-  ): Promise<InfinityPaginationResultType<Chapter>> {
+  async findAllLessonOfChapter(
+    @Query() query: QueryLessonDto,
+    @Param('id') id,
+  ): Promise<InfinityPaginationResultType<Lesson>> {
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     const search = query?.search ?? '';
@@ -83,11 +98,10 @@ export class ChapterController {
     }
 
     return infinityPagination(
-      await this.chapterService.findManyWithPagination({
-        filterOptions: query?.filters,
+      await this.lessonService.findManyLessonOfChapterWithPagination({
+        chapter_id: id,
         sortOptions: query?.sort,
         search,
-
         paginationOptions: {
           page,
           limit,
@@ -107,8 +121,8 @@ export class ChapterController {
   })
   findOne(
     @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<NullableType<Chapter>> {
-    return this.chapterService.findOne({ id });
+  ): Promise<NullableType<Lesson>> {
+    return this.lessonService.findOne({ id });
   }
 
   /* @SerializeOptions({
@@ -125,7 +139,7 @@ export class ChapterController {
         @Param('id') id: Chapter['id'],
         @Body() updateChapterDto: UpdatechapterDto,
       ): Promise<Chapter | null> {
-        return  this.chapterService.update(id, updateChapterDto);
+        return  this.lessonService.update(id, updateChapterDto);
       }
       */
   @Delete(':id')
@@ -136,6 +150,6 @@ export class ChapterController {
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: Chapter['id']): Promise<void> {
-    return this.chapterService.softDelete(id);
+    return this.lessonService.softDelete(id);
   }
 }

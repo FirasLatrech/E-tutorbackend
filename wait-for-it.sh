@@ -66,7 +66,6 @@ wait_for_wrapper()
     fi
     return $WAITFORIT_RESULT
 }
-
 # process arguments
 while [[ $# -gt 0 ]]
 do

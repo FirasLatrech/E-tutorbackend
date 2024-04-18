@@ -4,25 +4,58 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
-import { chapterRepository } from 'src/chapter/infrastructure/chapter.repository';
-import { SortChapterDto } from 'src/chapter/dto/query-chapter.dto';
 import { Chapter } from 'src/chapter/domain/chapter';
-import { ChapterMapper } from '../mappers/lesson.mapper';
-import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
+import { LessonMapper } from '../mappers/lesson.mapper';
+import { LessonEntity } from '../entities/lesson.entity';
+import { Lesson } from 'src/lesson/domain/lesson';
+import { SortLessonDto } from 'src/lesson/dto/query-lesson.dto';
+import { LessonRepository } from 'src/lesson/infrastructure/lesson.repository';
 
 @Injectable()
-export class chapterRelationalRepository implements chapterRepository {
+export class lessonRelationalRepository implements LessonRepository {
   constructor(
-    @InjectRepository(ChapterEntity)
-    private readonly chapterRepository: Repository<ChapterEntity>,
+    @InjectRepository(LessonEntity)
+    private readonly lessonRepository: Repository<LessonEntity>,
   ) {}
 
-  async create(data: ChapterEntity) {
-    const persistenceModel = ChapterMapper.toPersistence(data);
-    const newEntity = await this.chapterRepository.save(
-      this.chapterRepository.create(persistenceModel),
+  async create(data: Lesson) {
+    const persistenceModel = LessonMapper.toPersistence(data);
+    const newEntity = await this.lessonRepository.save(
+      this.lessonRepository.create(persistenceModel),
     );
-    return ChapterMapper.toDomain(newEntity);
+    return LessonMapper.toDomain(newEntity);
+  }
+
+  async findManyLessonOfChapterWithPagination({
+    chapter_id,
+    sortOptions,
+    search,
+    paginationOptions,
+  }: {
+    chapter_id?: string;
+    sortOptions?: SortLessonDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+  }): Promise<Lesson[]> {
+    const entities = await this.lessonRepository.find({
+      skip: (paginationOptions.page - 1) * paginationOptions.limit,
+      take: paginationOptions.limit,
+      where: {
+        title: Like(`%${search}%`),
+        chapter: { id: chapter_id },
+      },
+      /*   order: sortOptions?.reduce(
+        (accumulator, sort) => ({
+          ...accumulator,
+          [sort.order]: sort.order,
+        }),
+        {},
+      ),*/
+
+      relations: [],
+    });
+
+    return entities.map((lesson) => LessonMapper.toDomain(lesson));
   }
 
   async findManyWithPagination({
@@ -30,54 +63,47 @@ export class chapterRelationalRepository implements chapterRepository {
     search,
     paginationOptions,
   }: {
-    sortOptions?: SortChapterDto[] | null;
+    sortOptions?: SortLessonDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
-  }): Promise<Chapter[]> {
-    const entities = await this.chapterRepository.find({
+  }): Promise<Lesson[]> {
+    const entities = await this.lessonRepository.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
       where: {
         title: Like(`%${search}%`),
+        ...{},
       },
-      order: sortOptions?.reduce(
+      /*   order: sortOptions?.reduce(
         (accumulator, sort) => ({
           ...accumulator,
-          [sort.orderBy]: sort.order,
+          [sort.order]: sort.order,
         }),
         {},
-      ),
+      ),*/
 
-      relations: ['course_category', 'course_level', 'instructor'],
+      relations: [],
     });
 
-    return entities.map((chapter) => ChapterMapper.toDomain(chapter));
+    return entities.map((lesson) => LessonMapper.toDomain(lesson));
   }
 
-  async findOne(
-    fields: EntityCondition<Chapter>,
-  ): Promise<ChapterEntity | null> {
-    const entity = await this.chapterRepository.findOne({
-      where: fields as FindOptionsWhere<ChapterEntity>,
-      relations: [
-        'course_category',
-        'course_sub_category',
-        'course_language',
-        'instructor',
-        'course_level',
-      ],
+  async findOne(fields: EntityCondition<Lesson>): Promise<Lesson | null> {
+    const entity = await this.lessonRepository.findOne({
+      where: fields as FindOptionsWhere<LessonEntity>,
+      relations: ['chapter'],
     });
-    return entity ? ChapterMapper.toDomain(entity) : null;
+    return entity ? LessonMapper.toDomain(entity) : null;
   }
 
   /* async update(id: Chapter['id'], payload: UpdatechapterDto): Promise<Chapter | null> {
-     const entity = await this.chapterRepository.findOne({
+     const entity = await this.lessonRepository.findOne({
        where: { id },
      })
      if (!entity) {
        throw new NotFoundException('chapter not found');
      }
-     const updatedEntity = await this.chapterRepository.preload(
+     const updatedEntity = await this.lessonRepository.preload(
         ChapterMapper.toPersistence({
           id,
            ...ChapterMapper.toDomain(entity),
@@ -89,6 +115,6 @@ export class chapterRelationalRepository implements chapterRepository {
 }
 */
   async softDelete(id: Chapter['id']): Promise<void> {
-    await this.chapterRepository.softDelete(id);
+    await this.lessonRepository.softDelete(id);
   }
 }

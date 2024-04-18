@@ -151,7 +151,7 @@ export class AuthService {
         firstName: socialData.firstName ?? null,
         lastName: socialData.lastName ?? null,
         is_instructor: socialData.is_instructor ?? false,
-        username: socialData.firstName + " " + socialData.lastName ?? null,
+        username: socialData.firstName + ' ' + socialData.lastName ?? null,
         socialId: socialData.id,
         provider: authProvider,
         role,

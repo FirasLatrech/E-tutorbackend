@@ -8,7 +8,9 @@ import { FilterChapterDto, SortChapterDto } from '../dto/query-chapter.dto';
 import { ChapterEntity } from './persistence/relational/entities/chapter.entity';
 
 export abstract class chapterRepository {
-  abstract create(data: Omit<Chapter, 'id'>): Promise<Chapter>;
+  abstract create(
+    data: Omit<Chapter, 'id' | 'createdAt' | 'deletedAt' | 'updatedAt'>,
+  ): Promise<Chapter>;
 
   abstract findManyWithPagination({
     filterOptions,
@@ -24,7 +26,7 @@ export abstract class chapterRepository {
 
   abstract findOne(
     fields: EntityCondition<ChapterEntity>,
-  ): Promise<NullableType<ChapterEntity>>;
+  ): Promise<NullableType<Chapter | null>>;
 
   /*abstract update(
      id: Chapter['id'],

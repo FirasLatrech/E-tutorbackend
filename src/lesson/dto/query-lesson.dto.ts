@@ -7,25 +7,15 @@ import {
 } from 'class-validator';
 import { Transform, Type, plainToInstance } from 'class-transformer';
 
-import { RoleDto } from 'src/roles/dto/role.dto';
-import { Chapter } from 'src/chapter/domain/chapter';
-
 export class FilterLessonDto {
-  @ApiPropertyOptional({ type: RoleDto })
   @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => RoleDto)
-  roles?: RoleDto[] | null;
+  chapter?: string | null;
 }
 export class SortLessonDto {
   @ApiProperty()
-  @Type(() => String)
   @IsString()
-  orderBy: keyof Chapter;
-
-  @ApiProperty()
-  @IsString()
-  order: string;
+  @IsOptional()
+  order?: string;
 }
 
 export class QueryLessonDto {

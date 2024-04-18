@@ -2,18 +2,18 @@ import { Module } from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { chapterRelationalRepository } from './relational/repositories/lesson.repository';
-import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
-import { chapterRepository } from 'src/chapter/infrastructure/chapter.repository';
+import { lessonRelationalRepository } from './relational/repositories/lesson.repository';
+import { LessonRepository } from '../lesson.repository';
+import { LessonEntity } from './relational/entities/lesson.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChapterEntity])],
+  imports: [TypeOrmModule.forFeature([LessonEntity])],
   providers: [
     {
-      provide: chapterRepository,
-      useClass: chapterRelationalRepository,
+      provide: LessonRepository,
+      useClass: lessonRelationalRepository,
     },
   ],
-  exports: [chapterRepository],
+  exports: [LessonRepository],
 })
-export class RelationalchapterPersistenceModule {}
+export class RelationallessonPersistenceModule {}

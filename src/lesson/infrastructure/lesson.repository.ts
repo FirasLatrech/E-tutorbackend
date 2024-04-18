@@ -5,12 +5,23 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 import { FilterLessonDto, SortLessonDto } from '../dto/query-lesson.dto';
-import { LessonEntity } from './persistence/relational/entities/lesson.entity';
 
-import { Lesson } from '../domain/chapter';
+import { Lesson } from '../domain/lesson';
 
 export abstract class LessonRepository {
   abstract create(data: Omit<Lesson, 'id'>): Promise<Lesson>;
+
+  abstract findManyLessonOfChapterWithPagination({
+    chapter_id,
+    sortOptions,
+    search,
+    paginationOptions,
+  }: {
+    chapter_id?: string;
+    sortOptions?: SortLessonDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+  }): Promise<Lesson[]>;
 
   abstract findManyWithPagination({
     filterOptions,
@@ -25,8 +36,8 @@ export abstract class LessonRepository {
   }): Promise<Lesson[]>;
 
   abstract findOne(
-    fields: EntityCondition<LessonEntity>,
-  ): Promise<NullableType<LessonEntity>>;
+    fields: EntityCondition<Lesson>,
+  ): Promise<NullableType<Lesson | null>>;
 
   /*abstract update(
      id: Lesson['id'],

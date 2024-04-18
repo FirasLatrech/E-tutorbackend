@@ -6,28 +6,26 @@ import { UsersService } from 'src/users/users.service';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
-import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
-import {
-  FilterChapterDto,
-  SortChapterDto,
-} from 'src/chapter/dto/query-chapter.dto';
 import { Chapter } from 'src/chapter/domain/chapter';
-import { chapterRepository as ChapterRepository } from 'src/chapter/infrastructure/chapter.repository';
+import { CreateLessonDto } from './dto/create-lesson.sto';
+import { Lesson } from './domain/lesson';
+import { LessonRepository } from './infrastructure/lesson.repository';
+import { FilterLessonDto, SortLessonDto } from './dto/query-lesson.dto';
 
 @Injectable()
-export class ChapterService {
+export class lessonService {
   constructor(
-    private readonly chapterRepository: ChapterRepository,
+    private readonly lessonRepository: LessonRepository,
     private readonly userService: UsersService,
   ) {}
 
-  // async create(CreateChapterDto: CreateChapterDto) {
-  //   const chapter = new ChapterEntity();
-  //   // return await this.chapterRepository.create({
-  //   //   ...chapter,
-  //   //   ...CreateChapterDto,
-  //   // });
-  // }
+  async create(CreateChapterDto: CreateLessonDto) {
+    const chapter = new Lesson();
+    return await this.lessonRepository.create({
+      ...chapter,
+      ...CreateChapterDto,
+    });
+  }
 
   findManyWithPagination({
     filterOptions,
@@ -36,13 +34,12 @@ export class ChapterService {
 
     paginationOptions,
   }: {
-    filterOptions?: FilterChapterDto | null;
-    sortOptions?: SortChapterDto[] | null;
+    filterOptions?: FilterLessonDto | null;
+    sortOptions?: SortLessonDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
-  }): Promise<Chapter[]> {
-    console.log(sortOptions);
-    return this.chapterRepository.findManyWithPagination({
+  }): Promise<Lesson[]> {
+    return this.lessonRepository.findManyWithPagination({
       filterOptions,
       search,
       sortOptions,
@@ -51,9 +48,9 @@ export class ChapterService {
   }
 
   async findOne(
-    fields: EntityCondition<ChapterEntity>,
-  ): Promise<NullableType<ChapterEntity>> {
-    const result = this.chapterRepository.findOne(fields);
+    fields: EntityCondition<Lesson>,
+  ): Promise<NullableType<Lesson>> {
+    const result = this.lessonRepository.findOne(fields);
 
     if (!result) {
       throw new HttpException(
@@ -67,7 +64,7 @@ export class ChapterService {
       );
     }
 
-    return this.chapterRepository.findOne(fields);
+    return this.lessonRepository.findOne(fields);
   }
 
   /* async update(
@@ -79,7 +76,7 @@ export class ChapterService {
    }*/
 
   async softDelete(id: Chapter['id']): Promise<void> {
-    await this.chapterRepository.softDelete(id);
+    await this.lessonRepository.softDelete(id);
   }
 
   private async prelodUserById(id: string) {
@@ -97,5 +94,24 @@ export class ChapterService {
     }
 
     return user;
+  }
+
+  async findManyLessonOfChapterWithPagination({
+    chapter_id,
+    sortOptions,
+    search,
+    paginationOptions,
+  }: {
+    chapter_id?: string;
+    sortOptions?: SortLessonDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+  }) {
+    return this.lessonRepository.findManyLessonOfChapterWithPagination({
+      chapter_id,
+      search,
+      sortOptions,
+      paginationOptions,
+    });
   }
 }
