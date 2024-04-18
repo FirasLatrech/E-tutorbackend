@@ -1,5 +1,5 @@
 import { language } from 'src/language/domain/language';
-import { LanguageEntity } from '../entities/Language.entity';
+import { LanguageEntity } from '../entities/language.entity';
 
 export class LanguageMapper {
   static toDomain(raw: LanguageEntity): language {

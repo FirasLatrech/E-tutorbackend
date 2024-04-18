@@ -58,4 +58,9 @@ export class QueryUserDto {
   @ValidateNested({ each: true })
   @Type(() => SortUserDto)
   sort?: SortUserDto[] | null;
+
+  @Transform(({ value }) => (value ? String(value) : ''))
+  @IsOptional()
+  @IsString()
+  search?: string;
 }

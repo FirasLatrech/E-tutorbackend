@@ -6,7 +6,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Transform, Type, plainToClass } from 'class-transformer';
-import { LevelEntity } from '../infrastructure/persistence/relational/entities/Level.entity';
+import { LevelEntity } from '../infrastructure/persistence/relational/entities/level.entity';
 
 export class FilterLevelryDto {
   @ApiProperty({ required: false })

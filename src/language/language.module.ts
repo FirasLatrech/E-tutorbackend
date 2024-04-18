@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 
-import { LanguageService } from './Language.service';
+import { LanguageService } from './language.service';
 import { RelationalLanguagePersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
-import { LanguageController } from './Language.controller';
+import { LanguageController } from './language.controller';
 import { SessionModule } from 'src/session/session.module';
 
 const infrastructurePersistenceModule = RelationalLanguagePersistenceModule;

@@ -10,10 +10,10 @@ import { CategoryModule } from 'src/category/category.module';
 import { LanguageModule } from 'src/language/language.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoleEntity } from 'src/roles/infrastructure/persistence/relational/entities/role.entity';
-import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
+import { LanguageEntity } from 'src/language/infrastructure/persistence/relational/entities/language.entity';
 import { UsersModule } from 'src/users/users.module';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
-import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/Level.entity';
+import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/level.entity';
 import { LevelModule } from 'src/level/level.module';
 
 const infrastructurePersistenceModule = RelationalcoursePersistenceModule;

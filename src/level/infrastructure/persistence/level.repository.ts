@@ -1,11 +1,11 @@
-import { Level } from 'src/Level/domain/Level';
+import { Level } from 'src/level/domain/level';
 import { NullableType } from '../../../utils/types/nullable.type';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import {
   FilterLevelryDto,
   SortLevelryDto,
-} from 'src/Level/dto/query-level.dto';
+} from 'src/level/dto/query-level.dto';
 
 export abstract class LevelRepository {
   abstract findOne(

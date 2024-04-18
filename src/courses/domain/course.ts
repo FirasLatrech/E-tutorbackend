@@ -1,4 +1,4 @@
-import { Category } from 'src/Category/domain/Category';
+import { Category } from 'src/category/domain/category';
 import { language } from 'src/language/domain/language';
 import { Level } from 'src/level/domain/level';
 

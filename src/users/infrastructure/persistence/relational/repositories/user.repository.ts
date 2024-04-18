@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Like, Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { FilterUserDto, SortUserDto } from '../../../../dto/query-user.dto';
@@ -27,15 +27,19 @@ export class UsersRelationalRepository implements UserRepository {
   }
 
   async findManyWithPagination({
+    searchValue,
     filterOptions,
     sortOptions,
     paginationOptions,
   }: {
+    searchValue?: string;
     filterOptions?: FilterUserDto | null;
     sortOptions?: SortUserDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
-    const where: FindOptionsWhere<UserEntity> = {};
+    const where: FindOptionsWhere<UserEntity> = {
+      username:  ILike(`%${searchValue}%`),
+    };
     if (filterOptions?.roles?.length) {
       where.role = filterOptions.roles.map((role) => ({
         id: role.id,

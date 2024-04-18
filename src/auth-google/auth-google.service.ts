@@ -25,7 +25,7 @@ export class AuthGoogleService {
         this.configService.getOrThrow('google.clientId', { infer: true }),
       ],
     });
-
+    console.log(ticket);
     const data = ticket.getPayload();
 
     if (!data) {

@@ -1,4 +1,4 @@
-import { Instructor } from '../../domain/Instructor';
+import { Instructor } from '../../domain/instructor';
 import { NullableType } from 'src/utils/types/nullable.type';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { InstructorEntity } from './entities/Instructor.entity';
+import { InstructorEntity } from './entities/instructor.entity';
 import { InstructorRepository } from '../instructors.repository';
 import { InstructorsRelationalRepository } from './repositories/instructors.repository';
 

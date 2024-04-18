@@ -6,7 +6,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Transform, Type, plainToClass } from 'class-transformer';
-import { LanguageEntity } from '../infrastructure/persistence/relational/entities/Language.entity';
+import { LanguageEntity } from '../infrastructure/persistence/relational/entities/language.entity';
 
 export class FilterLanguageryDto {
   @ApiProperty({ required: false })

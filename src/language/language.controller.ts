@@ -18,7 +18,7 @@ import { RolesGuard } from 'src/roles/roles.guard';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { InfinityPaginationResultType } from '../utils/types/infinity-pagination-result.type';
 
-import { LanguageService } from './Language.service';
+import { LanguageService } from './language.service';
 import { QueryLanguageDto } from './dto/query-language.dto';
 import { language } from './domain/language';
 import { CreateLanguageryDto } from './dto/crearte-language.dto';

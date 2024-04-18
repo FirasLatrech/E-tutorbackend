@@ -4,11 +4,11 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from 'src/utils/types/nullable.type';
 
-import { LevelRepository } from './infrastructure/persistence/Level.repository';
+import { LevelRepository } from './infrastructure/persistence/level.repository';
 import { SessionService } from 'src/session/session.service';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
-import { Level } from './domain/Level';
+import { Level } from './domain/level';
 import { FilterLevelryDto, SortLevelryDto } from './dto/query-level.dto';
 
 @Injectable()

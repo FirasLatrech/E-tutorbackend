@@ -1,8 +1,8 @@
-import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
+import { LanguageEntity } from 'src/language/infrastructure/persistence/relational/entities/language.entity';
 
 import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
 import { Course } from 'src/courses/domain/course';
-import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/Level.entity';
+import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/level.entity';
 
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { EntityRelationalHelper } from 'src/utils/relational-entity-helper';

@@ -9,12 +9,12 @@ import { FilesS3PresignedModule } from './infrastructure/uploader/s3-presigned/f
 
 const infrastructurePersistenceModule = RelationalFilePersistenceModule;
 
-const infrastructureUploaderModule =
-  (fileConfig() as FileConfig).driver === FileDriver.LOCAL
-    ? FilesLocalModule
-    : (fileConfig() as FileConfig).driver === FileDriver.S3
-      ? FilesS3Module
-      : FilesS3PresignedModule;
+const infrastructureUploaderModule = FilesLocalModule;
+(fileConfig() as FileConfig).driver === FileDriver.LOCAL
+  ? FilesLocalModule
+  : (fileConfig() as FileConfig).driver === FileDriver.S3
+    ? FilesS3Module
+    : FilesS3PresignedModule;
 
 @Module({
   imports: [infrastructurePersistenceModule, infrastructureUploaderModule],

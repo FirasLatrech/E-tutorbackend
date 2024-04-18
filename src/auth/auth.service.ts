@@ -40,10 +40,10 @@ export class AuthService {
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto): Promise<LoginResponseType> {
-    console.log(loginDto)
+    console.log(loginDto);
     const user = await this.usersService.findOne({
       email: loginDto.email,
-    }); 
+    });
     if (!user) {
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -151,7 +151,7 @@ export class AuthService {
         firstName: socialData.firstName ?? null,
         lastName: socialData.lastName ?? null,
         is_instructor: socialData.is_instructor ?? false,
-        username: socialData.username ?? null,
+        username: socialData.firstName + " " + socialData.lastName ?? null,
         socialId: socialData.id,
         provider: authProvider,
         role,
