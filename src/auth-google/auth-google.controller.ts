@@ -32,7 +32,7 @@ export class AuthGoogleController {
     @Body() loginDto: AuthGoogleLoginDto,
   ): Promise<LoginResponseType> {
     const socialData = await this.authGoogleService.getProfileByToken(loginDto);
-
+    console.log(socialData);
     return this.authService.validateSocialLogin('google', socialData);
   }
 }

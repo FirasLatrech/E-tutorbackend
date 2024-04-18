@@ -11,6 +11,7 @@ import {
   HttpStatus,
   HttpCode,
   SerializeOptions,
+  Search,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -33,7 +34,7 @@ import { UsersService } from './users.service';
 })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
+ 
   @SerializeOptions({
     groups: ['admin'],
   })
@@ -46,12 +47,12 @@ export class UsersController {
     return this.usersService.create(createProfileDto);
   }
 
-  @SerializeOptions({
+  /* @SerializeOptions({
     groups: ['admin'],
-  })
+  })*/
   @Get()
   @ApiBearerAuth()
-  @Roles(RoleEnum.admin)
+  @Roles(RoleEnum.admin, RoleEnum.user)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @HttpCode(HttpStatus.OK)
   async findAll(
@@ -62,9 +63,9 @@ export class UsersController {
     if (limit > 50) {
       limit = 50;
     }
-
     return infinityPagination(
       await this.usersService.findManyWithPagination({
+        searchValue: query?.search,
         filterOptions: query?.filters,
         sortOptions: query?.sort,
         paginationOptions: {

@@ -11,10 +11,12 @@ export abstract class UserRepository {
   ): Promise<User>;
   abstract findTopInstuctorForMonth(): Promise<User[]>;
   abstract findManyWithPagination({
+    searchValue,
     filterOptions,
     sortOptions,
     paginationOptions,
   }: {
+    searchValue?: string;
     filterOptions?: FilterUserDto | null;
     sortOptions?: SortUserDto[] | null;
     paginationOptions: IPaginationOptions;

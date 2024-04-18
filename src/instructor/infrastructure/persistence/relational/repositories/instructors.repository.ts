@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { InstructorEntity } from '../entities/Instructor.entity';
+import { InstructorEntity } from '../entities/instructor.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
-import { Instructor } from '../../../../domain/Instructor';
+import { Instructor } from '../../../../domain/instructor';
 import { InstructorRepository } from '../../instructors.repository';
-import { instructorMapper } from '../mappers/Instructor.mapper';
+import { instructorMapper } from '../mappers/instructor.mapper';
 import { SortinstructorDto } from 'src/instructor/dto/query-user.dto';
 
 @Injectable()

@@ -4,7 +4,7 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from 'src/utils/types/nullable.type';
 
-import { LanguageRepository } from './infrastructure/persistence/Language.repository';
+import { LanguageRepository } from './infrastructure/persistence/language.repository';
 import { SessionService } from 'src/session/session.service';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';

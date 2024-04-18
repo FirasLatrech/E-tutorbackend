@@ -8,17 +8,17 @@ import { CreateCourseDTO } from './dto/create-course.dto';
 
 import { CourseRepository } from './infrastructure/persistence/course.repository';
 import { CourseEntity } from './infrastructure/persistence/relational/entities/course.entity';
-import { LanguageService } from 'src/language/Language.service';
+import { LanguageService } from 'src/language/language.service';
 import { CategoryEntity } from 'src/category/infrastructure/persistence/relational/entities/category.entity';
 import { CategoryService } from 'src/category/category.service';
-import { LanguageEntity } from 'src/Language/infrastructure/persistence/relational/entities/Language.entity';
+import { LanguageEntity } from 'src/language/infrastructure/persistence/relational/entities/language.entity';
 import { UsersService } from 'src/users/users.service';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { FilterCourseDto, SortCourseDto } from './dto/query-course.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { Course } from './domain/course';
 import { levelService } from 'src/level/level.service';
-import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/Level.entity';
+import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/level.entity';
 
 @Injectable()
 export class CoursesService {

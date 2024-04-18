@@ -10,7 +10,7 @@ import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import {
   FilterLevelryDto,
   SortLevelryDto,
-} from 'src/level/dto/query-Level.dto';
+} from 'src/level/dto/query-level.dto';
 import { Level } from 'src/level/domain/level';
 import { LevelEntity } from '../entities/level.entity';
 import { LevelRepository } from '../../level.repository';

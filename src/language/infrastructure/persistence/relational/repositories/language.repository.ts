@@ -4,18 +4,18 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
-import { LanguageMapper } from '../mappers/Language.mapper';
+import { LanguageMapper } from '../mappers/language.mapper';
 
-import { LanguageEntity } from '../entities/Language.entity';
-import { LanguageRepository } from '../../Language.repository';
+import { LanguageEntity } from '../entities/language.entity';
+import { LanguageRepository } from '../../language.repository';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 import {
   FilterLanguageryDto,
   SortLanguageryDto,
-} from 'src/Language/dto/query-Language.dto';
-import { language } from 'src/Language/domain/Language';
+} from 'src/language/dto/query-language.dto';
+import { language } from 'src/language/domain/language';
 
 @Injectable()
 export class LanguageRelationalRepository implements LanguageRepository {

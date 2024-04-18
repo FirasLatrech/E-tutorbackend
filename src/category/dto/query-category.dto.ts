@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { Transform, Type, plainToClass } from 'class-transformer';
 
-import { Category } from '../domain/Category';
+import { Category } from '../domain/category';
 
 export class FilterCategoryDto {
   @ApiProperty({ required: false })

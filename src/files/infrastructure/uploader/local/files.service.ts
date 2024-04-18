@@ -12,6 +12,7 @@ export class FilesLocalService {
   ) {}
 
   async create(file: Express.Multer.File): Promise<{ file: FileType }> {
+    console.log(file);
     if (!file) {
       throw new HttpException(
         {
@@ -23,12 +24,12 @@ export class FilesLocalService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-
+    console.log(this.configService.get('app.apiPrefix', { infer: true }));
     return {
       file: await this.fileRepository.create({
         path: `/${this.configService.get('app.apiPrefix', {
           infer: true,
-        })}/v1/${file.path}`,
+        })}/v1/files/${file.filename}`,
       }),
     };
   }

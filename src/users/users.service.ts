@@ -123,15 +123,18 @@ export class UsersService {
   }
 
   findManyWithPagination({
+    searchValue,
     filterOptions,
     sortOptions,
     paginationOptions,
   }: {
+    searchValue?: string;
     filterOptions?: FilterUserDto | null;
     sortOptions?: SortUserDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
     return this.usersRepository.findManyWithPagination({
+      searchValue,
       filterOptions,
       sortOptions,
       paginationOptions,

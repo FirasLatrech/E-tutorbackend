@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from 'src/utils/types/nullable.type';
-import { Category } from 'src/Category/domain/Category';
+import { Category } from 'src/category/domain/category';
 import { CategoryRepository } from './infrastructure/persistence/category.repository';
 import { SessionService } from 'src/session/session.service';
 
