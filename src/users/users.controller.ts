@@ -11,7 +11,6 @@ import {
   HttpStatus,
   HttpCode,
   SerializeOptions,
-  Search,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -34,7 +33,7 @@ import { UsersService } from './users.service';
 })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
- 
+
   @SerializeOptions({
     groups: ['admin'],
   })
