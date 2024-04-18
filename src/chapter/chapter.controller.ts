@@ -11,7 +11,6 @@ import {
   Post,
   Body,
   UseGuards,
-  Patch,
 } from '@nestjs/common';
 
 import { ApiBearerAuth, ApiParam, ApiTags, ApiBody } from '@nestjs/swagger';

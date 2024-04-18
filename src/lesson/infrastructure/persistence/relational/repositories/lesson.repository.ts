@@ -8,7 +8,6 @@ import { Chapter } from 'src/chapter/domain/chapter';
 import { LessonMapper } from '../mappers/lesson.mapper';
 import { LessonEntity } from '../entities/lesson.entity';
 import { Lesson } from 'src/lesson/domain/lesson';
-import { SortLessonDto } from 'src/lesson/dto/query-lesson.dto';
 import { LessonRepository } from 'src/lesson/infrastructure/lesson.repository';
 
 @Injectable()
@@ -28,12 +27,10 @@ export class lessonRelationalRepository implements LessonRepository {
 
   async findManyLessonOfChapterWithPagination({
     chapter_id,
-    sortOptions,
     search,
     paginationOptions,
   }: {
     chapter_id?: string;
-    sortOptions?: SortLessonDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
   }): Promise<Lesson[]> {
@@ -59,11 +56,9 @@ export class lessonRelationalRepository implements LessonRepository {
   }
 
   async findManyWithPagination({
-    sortOptions,
     search,
     paginationOptions,
   }: {
-    sortOptions?: SortLessonDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
   }): Promise<Lesson[]> {

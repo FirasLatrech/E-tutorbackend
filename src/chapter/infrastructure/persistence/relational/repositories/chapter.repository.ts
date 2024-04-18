@@ -30,7 +30,6 @@ export class chapterRelationalRepository implements chapterRepository {
   }
 
   async findManyWithPagination({
-    sortOptions,
     search,
     paginationOptions,
   }: {

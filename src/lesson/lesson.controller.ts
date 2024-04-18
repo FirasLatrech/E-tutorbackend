@@ -16,12 +16,8 @@ import {
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { NullableType } from '../utils/types/nullable.type';
-// import { QuerycourseDto } from './dto/query-course.dto';
-
 import { InfinityPaginationResultType } from 'src/utils/types/infinity-pagination-result.type';
 import { infinityPagination } from 'src/utils/infinity-pagination';
-
-import { lessonService } from './lesson.service';
 
 import { Chapter } from 'src/chapter/domain/chapter';
 import { Lesson } from './domain/lesson';
@@ -30,6 +26,7 @@ import { RoleEnum } from 'src/roles/roles.enum';
 import { Roles } from 'src/roles/roles.decorator';
 import { QueryLessonDto } from './dto/query-lesson.dto';
 import { CreateLessonDto } from './dto/create-lesson.sto';
+import { lessonService } from './lesson.service';
 
 @ApiBearerAuth()
 @Roles(RoleEnum.admin, RoleEnum.user, RoleEnum.instructor)

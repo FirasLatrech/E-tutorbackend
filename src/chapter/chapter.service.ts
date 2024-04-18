@@ -3,7 +3,6 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from '../utils/types/nullable.type';
 
-import { UsersService } from 'src/users/users.service';
 
 import { FilterChapterDto, SortChapterDto } from './dto/query-chapter.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
@@ -11,8 +10,9 @@ import { ChapterEntity } from './infrastructure/persistence/relational/entities/
 import { Chapter } from './domain/chapter';
 import { chapterRepository as ChapterRepository } from './infrastructure/chapter.repository';
 import { CreateChapterDto } from './dto/create-chapter.sto';
-import { lessonService } from 'src/lesson/lesson.service';
 import { LessonMapper } from 'src/lesson/infrastructure/persistence/relational/mappers/lesson.mapper';
+import { UsersService } from 'src/users/users.service';
+import { lessonService } from 'src/lesson/lesson.service';
 
 @Injectable()
 export class ChapterService {

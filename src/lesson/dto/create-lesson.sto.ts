@@ -6,7 +6,6 @@ import {
   IsBoolean,
   IsObject,
 } from 'class-validator';
-import { Chapter } from 'src/chapter/domain/chapter';
 import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
 
 export class CreateLessonDto {
