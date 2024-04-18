@@ -22,6 +22,7 @@ export class CreateUserDto {
 
   socialId?: string | null;
 
+  readonly photo_url?: string | null;
   @ApiProperty({ example: 'Firas Latrach' })
   @IsNotEmpty()
   username: string | null;

@@ -14,6 +14,7 @@ export class UserMapper {
     user.previousPassword = raw.previousPassword;
     user.provider = raw.provider;
     user.socialId = raw.socialId;
+    user.photo_url = raw.photo_url;
     user.firstName = raw.firstName;
     user.my_courses = raw?.my_courses?.map((course) => course);
     user.username = raw.username;
@@ -64,6 +65,7 @@ export class UserMapper {
     userEntity.password = user.password;
     userEntity.previousPassword = user.previousPassword;
     userEntity.provider = user.provider;
+    userEntity.photo_url = user?.photo_url || '';
     userEntity.is_instructor = user.is_instructor;
 
     userEntity.socialId = user.socialId;

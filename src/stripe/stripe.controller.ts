@@ -12,7 +12,10 @@ export class StripeController {
   async getProducts() {
     return await this.stripeService.createPaymentInterne();
   }
-
+  @Post('verfier')
+  async verfier(@Body() body) {
+    return await this.stripeService.verifierPayment(body.id);
+  }
   @Get('customers')
   async getCustomers() {
     return await this.stripeService.getProducts();
@@ -25,7 +28,7 @@ export class StripeController {
   @Post('webhook')
   async webhook(@Headers() headers, @Body() body) {
     const signature = headers['Stripe-Signature'] as string;
-    console.log(signature, 'signature');
+
     return await this.stripeService.webhook(body, signature);
     // return await this.stripeService.getCustomers();
   }

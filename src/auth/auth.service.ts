@@ -40,7 +40,6 @@ export class AuthService {
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto): Promise<LoginResponseType> {
-    console.log(loginDto);
     const user = await this.usersService.findOne({
       email: loginDto.email,
     });
@@ -154,6 +153,7 @@ export class AuthService {
         username: socialData.firstName + ' ' + socialData.lastName ?? null,
         socialId: socialData.id,
         provider: authProvider,
+        photo_url: socialData.photo_url ?? null,
         role,
         status,
       });

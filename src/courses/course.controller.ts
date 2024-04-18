@@ -117,7 +117,6 @@ export class coursesController {
   findOne(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<NullableType<Course>> {
-    console.log(id);
     return this.coursesService.findOne({ id });
   }
 

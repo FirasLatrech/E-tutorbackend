@@ -43,8 +43,6 @@ export class CategoryController {
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() req,
   ): Promise<Category> {
-    console.log('Category', createCategoryDto);
-    console.log(req.user);
     return this.categoryService.create(createCategoryDto, req.user.id);
   }
   @Get(':id/courses')
@@ -143,8 +141,6 @@ export class CategoryController {
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: Category['id']): Promise<void> {
-    console.log(id);
-
     return this.categoryService.softDelete(id);
   }
 }

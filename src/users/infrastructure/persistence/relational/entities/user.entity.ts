@@ -87,6 +87,8 @@ export class UserEntity extends EntityRelationalHelper implements User {
   })
   status?: StatusEntity;
 
+  @Column({ type: String, nullable: true })
+  photo_url?: string;
   @OneToMany(() => InstructorEntity, (instructor) => instructor.user)
   instructors: InstructorEntity[];
   @Column({ type: Boolean, default: false })

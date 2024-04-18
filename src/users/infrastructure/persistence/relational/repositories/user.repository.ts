@@ -23,6 +23,7 @@ export class UsersRelationalRepository implements UserRepository {
     const newEntity = await this.usersRepository.save(
       this.usersRepository.create(persistenceModel),
     );
+
     return UserMapper.toDomain(newEntity);
   }
 

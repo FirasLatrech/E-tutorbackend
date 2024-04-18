@@ -90,9 +90,9 @@ export class coursesRelationalRepository implements CourseRepository {
     const entity = await this.coursesRepository.findOne({
       where: fields as FindOptionsWhere<CourseEntity>,
       relations: [
-        'course_category',
-        'course_sub_category',
-        'course_language',
+        // 'course_category',
+        // 'course_sub_category',
+        // 'course_language',
         'instructor',
         'course_level',
       ],
@@ -103,6 +103,11 @@ export class coursesRelationalRepository implements CourseRepository {
         },
         course_language: {
           courses_sub_languages: false,
+        },
+        instructor: {
+          username: true,
+          firstName: true,
+          lastName: true,
         },
 
         course_sub_category: {

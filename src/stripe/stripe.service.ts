@@ -11,12 +11,10 @@ export class StripeService {
     @Inject('STRIPE_API_KEY') private readonly apiKey: string,
     private courseService: CoursesService,
   ) {
-    this.stripe = new Stripe(
-      'sk_test_51P2gF0I1E43qi5XiTIjeymtLdxpK2ae6yx89ZiMx9oEZLG36GdBKuuB6tptngioRgDBRxtebejTEDyNCw2ibFshd00ZMuYxK6F',
-      {
-        apiVersion: '2023-10-16', // Use whatever API latest version
-      },
-    );
+    const seckret_key = process.env.STRIPE_SECRET_KEY as string;
+    this.stripe = new Stripe(seckret_key, {
+      apiVersion: '2023-10-16', // Use whatever API latest version
+    });
   }
 
   async getProducts(): Promise<Stripe.Product[]> {
@@ -26,21 +24,21 @@ export class StripeService {
   }
   async webhook(body, signature) {
     let event: Stripe.Event;
+    const webhook_key = process.env.WEBHOOK_SECRET as string;
 
     try {
       event = await this.stripe.webhooks.constructEvent(
         body,
         signature,
-        'whsec_7e2e109ecf9e95ca4a19501c268330dceb6e30304f0d1d9d11fe1dd4ef72b66c',
+        webhook_key,
       );
-      console.log('event : ', event);
     } catch (error: any) {
       console.error(error);
       return 'Error';
     }
 
-    const session = event.data.object as Stripe.Checkout.Session;
-    console.log(session, 'session✨✨✨✨✨✨✨✨✨✨');
+    // const session = event.data.object as Stripe.Checkout.Session;
+
     if (event.type === 'checkout.session.completed') {
       // Your success logic here
 
@@ -54,10 +52,12 @@ export class StripeService {
   async checkout(ids: string[]) {
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
     const products = await this.courseService.findCoursesByIds(ids);
+    const base_url = process.env.FRONTEND_DOMAIN as string;
 
     products.forEach((product) => {
       line_items.push({
         quantity: 1,
+
         price_data: {
           currency: 'USD',
           product_data: {
@@ -69,13 +69,15 @@ export class StripeService {
     });
     const session = await this.stripe.checkout.sessions.create({
       line_items,
+
       mode: 'payment',
       // billing_address_collection: 'required',
       phone_number_collection: {
         enabled: true,
       },
-      success_url: `http://localhost:5173/cart?success=1`,
-      cancel_url: `http://localhost:5173/cart?canceled=1`,
+
+      success_url: `${base_url}/cart?success=1`,
+      cancel_url: `${base_url}/cart?canceled=1`,
     });
 
     return {
@@ -92,5 +94,12 @@ export class StripeService {
       },
     });
     return result;
+  }
+  async verifierPayment(id: string) {
+    try {
+      const result = await this.stripe.charges.retrieve(id);
+
+      return result;
+    } catch (error) {}
   }
 }
