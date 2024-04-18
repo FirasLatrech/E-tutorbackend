@@ -8,11 +8,11 @@ export class Lesson {
   chapter: Chapter;
   progress: number;
   isCompleted: boolean;
-  captions: string | null;
+  Captions: string | null;
   durationInSeconds: number;
-  lectureNotes: string | null;
+  LectureNotes: string | null;
   attachmentFile: FileType;
-  videoUrl: FileType;
+  VideoUrl: FileType;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;

@@ -6,14 +6,14 @@ import { RoleEntity } from 'src/roles/infrastructure/persistence/relational/enti
 import { UsersModule } from 'src/users/users.module';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { LevelModule } from 'src/level/level.module';
-import { ChapterController } from './lesson.controller';
-import { ChapterService } from './lesson.service';
-import { RelationalchapterPersistenceModule } from './infrastructure/persistence/relational-persistence.module';
+import { RelationallessonPersistenceModule } from './infrastructure/persistence/relational-persistence.module';
 
 import { CategoryModule } from 'src/category/category.module';
 import { LanguageModule } from 'src/language/language.module';
+import { LessonController } from './lesson.controller';
+import { lessonService } from './lesson.service';
 
-const infrastructurePersistenceModule = RelationalchapterPersistenceModule;
+const infrastructurePersistenceModule = RelationallessonPersistenceModule;
 
 @Module({
   imports: [
@@ -25,8 +25,8 @@ const infrastructurePersistenceModule = RelationalchapterPersistenceModule;
     CategoryModule,
     LanguageModule,
   ],
-  controllers: [ChapterController],
-  providers: [ChapterService],
-  exports: [ChapterService, infrastructurePersistenceModule],
+  controllers: [LessonController],
+  providers: [lessonService],
+  exports: [lessonService, infrastructurePersistenceModule],
 })
 export class lessonModule {}

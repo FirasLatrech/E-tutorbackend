@@ -12,6 +12,7 @@ import {
 } from 'src/chapter/dto/query-chapter.dto';
 import { Chapter } from 'src/chapter/domain/chapter';
 import { ChapterMapper } from '../mappers/chapter.mapper';
+import { NullableType } from 'src/utils/types/nullable.type';
 
 @Injectable()
 export class chapterRelationalRepository implements chapterRepository {
@@ -20,7 +21,7 @@ export class chapterRelationalRepository implements chapterRepository {
     private readonly chapterRepository: Repository<ChapterEntity>,
   ) {}
 
-  async create(data: ChapterEntity) {
+  async create(data: Chapter) {
     const persistenceModel = ChapterMapper.toPersistence(data);
     const newEntity = await this.chapterRepository.save(
       this.chapterRepository.create(persistenceModel),
@@ -29,7 +30,6 @@ export class chapterRelationalRepository implements chapterRepository {
   }
 
   async findManyWithPagination({
-    sortOptions,
     search,
     paginationOptions,
   }: {
@@ -44,32 +44,26 @@ export class chapterRelationalRepository implements chapterRepository {
       where: {
         title: Like(`%${search}%`),
       },
-      order: sortOptions?.reduce(
+      /* order: sortOptions?.reduce(
         (accumulator, sort) => ({
           ...accumulator,
           [sort.orderBy]: sort.order,
         }),
         {},
-      ),
+      ),*/
 
-      relations: ['course_category', 'course_level', 'instructor'],
+      relations: [],
     });
 
     return entities.map((chapter) => ChapterMapper.toDomain(chapter));
   }
 
   async findOne(
-    fields: EntityCondition<Chapter>,
-  ): Promise<ChapterEntity | null> {
+    fields: EntityCondition<ChapterEntity>,
+  ): Promise<NullableType<Chapter | null>> {
     const entity = await this.chapterRepository.findOne({
       where: fields as FindOptionsWhere<ChapterEntity>,
-      relations: [
-        'course_category',
-        'course_sub_category',
-        // 'course_language',
-        'instructor',
-        'course_level',
-      ],
+      relations: ['lessons'],
     });
     return entity ? ChapterMapper.toDomain(entity) : null;
   }

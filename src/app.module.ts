@@ -30,6 +30,7 @@ import { RatingModule } from './rating/rating.module';
 import { EntityAuditLog } from './audit/infrastructure/persistence/relational/entities/entity-audit-log.entity';
 import { chapterModule } from './chapter/chapter.module';
 import { StripeModule } from './stripe/stripe.module';
+import { lessonModule } from './lesson/lesson.module';
 
 @Module({
   imports: [
@@ -93,6 +94,7 @@ import { StripeModule } from './stripe/stripe.module';
     MailerModule,
     HomeModule,
     chapterModule,
+    lessonModule,
   ],
 })
 export class AppModule {}

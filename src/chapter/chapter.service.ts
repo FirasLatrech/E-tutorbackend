@@ -3,25 +3,48 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 import { NullableType } from '../utils/types/nullable.type';
 
-import { UsersService } from 'src/users/users.service';
 
 import { FilterChapterDto, SortChapterDto } from './dto/query-chapter.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { ChapterEntity } from './infrastructure/persistence/relational/entities/chapter.entity';
 import { Chapter } from './domain/chapter';
 import { chapterRepository as ChapterRepository } from './infrastructure/chapter.repository';
+import { CreateChapterDto } from './dto/create-chapter.sto';
+import { LessonMapper } from 'src/lesson/infrastructure/persistence/relational/mappers/lesson.mapper';
+import { UsersService } from 'src/users/users.service';
+import { lessonService } from 'src/lesson/lesson.service';
 
 @Injectable()
 export class ChapterService {
   constructor(
     private readonly chapterRepository: ChapterRepository,
     private readonly userService: UsersService,
+    private readonly lessonService: lessonService,
   ) {}
 
-  // async create(CreateChapterDto: CreateChapterDto) {
-  //   //add creation lesson
-  //   return await this.chapterRepository.create({...chapter,...CreateChapterDto});
-  // }
+  async create(CreateChapterDto: CreateChapterDto) {
+    const lessonsEntities =
+      CreateChapterDto.lessons &&
+      (await Promise.all(
+        CreateChapterDto.lessons.map(async (lesson) => {
+          const CreatedLesson = await this.lessonService.create(lesson);
+
+          if (!CreatedLesson) {
+            throw new Error(`Lesson with ID ${CreatedLesson} does not exist`);
+          }
+
+          return LessonMapper.toPersistence(CreatedLesson);
+        }),
+      ));
+
+    // Create a new ChapterEntity instance
+
+    // Save the new ChapterEntity instance
+    return await this.chapterRepository.create({
+      ...CreateChapterDto,
+      lessons: lessonsEntities,
+    });
+  }
 
   findManyWithPagination({
     filterOptions,
@@ -45,7 +68,7 @@ export class ChapterService {
 
   async findOne(
     fields: EntityCondition<ChapterEntity>,
-  ): Promise<NullableType<ChapterEntity>> {
+  ): Promise<NullableType<Chapter>> {
     const result = this.chapterRepository.findOne(fields);
 
     if (!result) {

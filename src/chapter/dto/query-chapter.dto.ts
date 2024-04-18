@@ -8,7 +8,6 @@ import {
 import { Transform, Type, plainToInstance } from 'class-transformer';
 
 import { RoleDto } from 'src/roles/dto/role.dto';
-import { Chapter } from '../domain/chapter';
 
 export class FilterChapterDto {
   @ApiPropertyOptional({ type: RoleDto })
@@ -18,11 +17,6 @@ export class FilterChapterDto {
   roles?: RoleDto[] | null;
 }
 export class SortChapterDto {
-  @ApiProperty()
-  @Type(() => String)
-  @IsString()
-  orderBy: keyof Chapter;
-
   @ApiProperty()
   @IsString()
   order: string;

@@ -10,6 +10,7 @@ import { ChapterService } from './chapter.service';
 import { RelationalchapterPersistenceModule } from './infrastructure/persistence/relational-persistence.module';
 import { CategoryModule } from 'src/category/category.module';
 import { LanguageModule } from 'src/language/language.module';
+import { lessonModule } from 'src/lesson/lesson.module';
 
 const infrastructurePersistenceModule = RelationalchapterPersistenceModule;
 
@@ -22,6 +23,7 @@ const infrastructurePersistenceModule = RelationalchapterPersistenceModule;
     UsersModule,
     CategoryModule,
     LanguageModule,
+    lessonModule,
   ],
   controllers: [ChapterController],
   providers: [ChapterService],

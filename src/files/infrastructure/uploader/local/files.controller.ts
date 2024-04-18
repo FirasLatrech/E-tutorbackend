@@ -82,7 +82,6 @@ export class FilesLocalController {
     }),
   )
   async UploadVideoForStreaming(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
     const video: { file: FileType } = await this.filesService.create(file);
     /*    const mux = new Mux({
       tokenId: process.env.MUX_TOKEN_ID,
