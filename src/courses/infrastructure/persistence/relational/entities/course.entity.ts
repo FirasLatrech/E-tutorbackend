@@ -17,8 +17,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Import UUIDv4 generator function
+import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
 
 @Entity({ name: 'course' })
 export class CourseEntity extends EntityRelationalHelper implements Course {
@@ -30,6 +32,8 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
 
   @Column({ nullable: true })
   subtitle: string;
+
+
 
   @Column({ type: 'boolean', default: false })
   isPublished: boolean;
@@ -82,7 +86,7 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   })
   instructor: UserEntity[];
 
-  @Column({ nullable: true })
+  @Column({nullable:true})
   course_topic: string;
 
   @ManyToMany(() => UserEntity, (user) => user?.user_courses, {
@@ -116,6 +120,9 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
     },
   })
   purchase: UserEntity[];
+
+  @OneToMany(() => ChapterEntity, (chapter) => chapter.course)
+  chapters: ChapterEntity[];
 
   @Column({ default: 0 })
   enrollmentCount?: number;
@@ -170,6 +177,8 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   @Column({ nullable: true, default: 0 })
   progress?: string;
 
+  @Column({ default: true })
+  isDraft: boolean;
   @CreateDateColumn()
   createdAt: Date;
 

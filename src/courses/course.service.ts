@@ -19,6 +19,9 @@ import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { Course } from './domain/course';
 import { levelService } from 'src/level/level.service';
 import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/level.entity';
+import { ChapterService } from 'src/chapter/chapter.service';
+import { ChapterMapper } from 'src/chapter/infrastructure/persistence/relational/mappers/chapter.mapper';
+import { UpdateCourseDTO } from './dto/update-course-dto';
 
 @Injectable()
 export class CoursesService {
@@ -33,12 +36,13 @@ export class CoursesService {
     private readonly categoryService: CategoryService,
     private readonly userService: UsersService,
     private readonly _levelService: levelService,
-
+    private readonly chapterService: ChapterService,
     private readonly _languageService: LanguageService,
   ) {}
 
   async create(createCourseDto: CreateCourseDTO) {
     const course = new CourseEntity();
+
     const clonedPayload = {
       ...course,
       ...createCourseDto,
@@ -123,13 +127,7 @@ export class CoursesService {
         id: createCourseDto.subtitle_language_id,
       })) as LanguageEntity;
     }
-    if (createCourseDto.course_instructor) {
-      const users = await Promise.all(
-        createCourseDto.course_instructor.map((id) => this.prelodUserById(id)),
-      );
 
-      clonedPayload.instructor = users as UserEntity[];
-    }
     if (createCourseDto.course_level_id) {
       const isValidLevel = await this.levelService.findOne({
         id: createCourseDto.course_level_id,
@@ -148,18 +146,6 @@ export class CoursesService {
       }
       clonedPayload.course_level = isValidLevel as LevelEntity;
     }
-
-    if (createCourseDto.users) {
-      const users = await Promise.all(
-        createCourseDto.users.map((id) => this.prelodUserById(id)),
-      );
-
-      clonedPayload.user_courses = users as UserEntity[];
-    }
-    // console.log(createCourseDto.instructor);
-
-    // const course = new courseEntity();
-
     return await this.coursesRepository.create(clonedPayload);
   }
   async findCoursesByIds(ids: string[]) {
@@ -205,18 +191,18 @@ export class CoursesService {
     return this.coursesRepository.findOne(fields);
   }
 
-  // async update(
-  //   id: course['id'],
-  //   payload: DeepPartial<course>,
-  // ): Promise<course | null> {
-  //   const clonedPayload = { ...payload };
+   async update(
+     id: Course['id'],
+     payload: UpdateCourseDTO,
+   ): Promise<Course | null> {
+     const clonedPayload = { ...payload };
 
-  //   return this.coursesRepository.update(id, clonedPayload);
-  // }
+     return this.coursesRepository.update(id, clonedPayload);
+   }
 
-  // async softDelete(id: course['id']): Promise<void> {
-  //   await this.coursesRepository.softDelete(id);
-  // }
+   //async softDelete(id: course['id']): Promise<void> {
+    // await this.coursesRepository.softDelete(id);
+   //}
 
   private async prelodUserById(id: string) {
     const user = await this.userService.findOne({ id });

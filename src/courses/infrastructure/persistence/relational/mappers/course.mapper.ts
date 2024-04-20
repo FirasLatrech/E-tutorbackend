@@ -1,18 +1,16 @@
 import { Course } from 'src/courses/domain/course';
 import { CourseEntity } from '../entities/course.entity';
+import { ChapterMapper } from 'src/chapter/infrastructure/persistence/relational/mappers/chapter.mapper';
 
 export class CourseMapper {
   static toDomain(raw: CourseEntity): Course {
     const course = new Course();
     course.id = raw.id;
     course.title = raw.title;
-
     course.subtitle = raw.subtitle;
-
-    course.course_categories = raw.course_category;
-
+    course.course_topic = raw.course_topic;
+    course.course_category = raw.course_category;
     course.course_sub_category = raw.course_sub_category;
-    // course.course_to = raw.course_topic;
     course.course_language = raw.course_language;
     course.subtitle_language = raw.subtitle_language;
     course.course_level = raw.course_level;
@@ -30,6 +28,7 @@ export class CourseMapper {
     course.course_price = raw.course_price;
     course.enrollmentCount = raw.enrollmentCount;
     course.discount = raw.discount;
+    course.chapters = raw.chapters?.map((chapter) => ChapterMapper.toDomain(chapter));
     course.createdAt = raw.createdAt;
     course.updatedAt = raw.updatedAt;
     course.deletedAt = raw.deletedAt;
@@ -39,18 +38,16 @@ export class CourseMapper {
 
   static toPersistence(course: Course): CourseEntity {
     const courseEntity = new CourseEntity();
-
     courseEntity.id = course.id as string;
     courseEntity.title = course.title!;
     courseEntity.subtitle = course.subtitle!;
-
-    // courseEntity.course_category = course.course_categories;
-    // courseEntity.course_sub_category = course.course_sub_category;
-    // courseEntity.course_topic = course.course_topic!;
-    // courseEntity.course_language = course.course_language;
-    // courseEntity.subtitle_language = course.subtitle_language;
-    // courseEntity.course_level = course.course_level;
+    courseEntity.course_category = course.course_category as any; 
+    courseEntity.course_sub_category = course.course_sub_category as any; 
+    courseEntity.course_language = course.course_language as any; 
+    courseEntity.subtitle_language = course.subtitle_language as any; 
+    courseEntity.course_level = course.course_level as any;
     courseEntity.durations = course.durations!;
+    courseEntity.course_topic = course.course_topic;
     courseEntity.course_thumbnail = course.course_thumbnail;
     courseEntity.course_trailer = course.course_trailer;
     courseEntity.course_descriptions = course.course_descriptions;
@@ -58,11 +55,13 @@ export class CourseMapper {
     courseEntity.target_audience = course.target_audience;
     courseEntity.course_requirements = course.course_requirements;
     courseEntity.course_curriculum = course.course_curriculum;
-    // courseEntity.instructor = course.instructor!;
+    courseEntity.instructor = course.instructor as any[]; // Assuming UserEntity
     courseEntity.welcome_message = course.welcome_message!;
     courseEntity.congratulation_message = course.congratulation_message!;
     courseEntity.course_price = course.course_price!;
     courseEntity.discount = course.discount!;
+    courseEntity.chapters = course.chapters?.map((chapter) => ChapterMapper.toPersistence(chapter));
+    
     courseEntity.createdAt = course.createdAt;
     courseEntity.updatedAt = course.updatedAt;
     courseEntity.deletedAt = course.deletedAt;

@@ -15,23 +15,18 @@ import { UsersModule } from 'src/users/users.module';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { LevelEntity } from 'src/level/infrastructure/persistence/relational/entities/level.entity';
 import { LevelModule } from 'src/level/level.module';
+import { chapterModule } from 'src/chapter/chapter.module';
 
 const infrastructurePersistenceModule = RelationalcoursePersistenceModule;
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      RoleEntity,
-      LanguageEntity,
-      UserEntity,
-      LevelEntity,
-    ]),
     infrastructurePersistenceModule,
     LevelModule,
-    FilesModule,
     UsersModule,
     CategoryModule,
     LanguageModule,
+    chapterModule
   ],
   controllers: [coursesController],
   providers: [CoursesService],

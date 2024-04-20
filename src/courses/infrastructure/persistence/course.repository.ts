@@ -9,6 +9,7 @@ import {
   SortCourseDto,
 } from 'src/courses/dto/query-course.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
+import { UpdateCourseDTO } from 'src/courses/dto/update-course-dto';
 
 export abstract class CourseRepository {
   abstract create(data: Omit<Course, 'id'>): Promise<Course>;
@@ -29,10 +30,10 @@ export abstract class CourseRepository {
     fields: EntityCondition<CourseEntity>,
   ): Promise<NullableType<CourseEntity>>;
 
-  // abstract update(
-  //   id: Course['id'],
-  //   payload: DeepPartial<Course>,
-  // ): Promise<Course | null>;
+   abstract update(
+     id: Course['id'],
+     payload:UpdateCourseDTO,
+   ): Promise<Course | null>;
 
   // abstract softDelete(id: Course['id']): Promise<void>;
 }

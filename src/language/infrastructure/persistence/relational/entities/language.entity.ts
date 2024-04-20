@@ -22,11 +22,11 @@ export class LanguageEntity extends EntityRelationalHelper implements language {
   name: string;
 
   @OneToMany(() => CourseEntity, (course) => course.course_language, {
-    eager: true,
+
   })
   language_courses: CourseEntity[];
   @OneToMany(() => CourseEntity, (course) => course.subtitle_language, {
-    eager: true,
+
   })
   courses_sub_languages: CourseEntity[];
 

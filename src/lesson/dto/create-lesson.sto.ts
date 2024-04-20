@@ -11,7 +11,7 @@ import { FileEntity } from 'src/files/infrastructure/persistence/relational/enti
 export class CreateLessonDto {
   @IsString()
   @ApiProperty()
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsString()

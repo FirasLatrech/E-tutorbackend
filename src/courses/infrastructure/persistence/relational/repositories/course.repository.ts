@@ -15,6 +15,7 @@ import {
   SortCourseDto,
 } from 'src/courses/dto/query-course.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
+import { UpdateCourseDTO } from 'src/courses/dto/update-course-dto';
 
 @Injectable()
 export class coursesRelationalRepository implements CourseRepository {
@@ -29,7 +30,13 @@ export class coursesRelationalRepository implements CourseRepository {
       ids.map((id) =>
         this.coursesRepository.findOne({
           where: { id },
-          relations: ['instructor'],
+          relations: [
+            'instructor',
+            'course_category',
+            'course_level',
+            'instructor',
+            'chapters',
+          ],
         }),
       ),
     )) as CourseEntity[];
@@ -37,13 +44,13 @@ export class coursesRelationalRepository implements CourseRepository {
     return courses;
   }
   async create(data: CourseEntity) {
-    // const persistenceModel = CourseMapper.toPersistence(data);
-
+    const persistenceModel = CourseMapper.toPersistence(data);
+    console.log(persistenceModel.course_topic)
     const newEntity = await this.coursesRepository.save(
-      this.coursesRepository.create(data),
+      this.coursesRepository.create(persistenceModel),
     );
 
-    return CourseMapper.toDomain(newEntity);
+    return newEntity;
   }
 
   async findManyWithPagination({
@@ -78,7 +85,7 @@ export class coursesRelationalRepository implements CourseRepository {
         {},
       ),
 
-      relations: ['course_category', 'course_level', 'instructor'],
+      relations: ['course_category', 'course_level', 'instructor', 'chapters'],
     });
 
     return entities.map((course) => CourseMapper.toDomain(course));
@@ -88,20 +95,16 @@ export class coursesRelationalRepository implements CourseRepository {
     fields: EntityCondition<Course>,
   ): Promise<NullableType<CourseEntity>> {
     const entity = await this.coursesRepository.findOne({
-      where: fields as FindOptionsWhere<CourseEntity>,
-      relations: [
-        // 'course_category',
-        // 'course_sub_category',
-        // 'course_language',
-        'instructor',
-        'course_level',
-      ],
       select: {
+        
         course_category: {
           courses: false,
           id: true,
         },
+
         course_language: {
+          id: true,
+          language_courses: false,
           courses_sub_languages: false,
         },
         instructor: {
@@ -109,37 +112,53 @@ export class coursesRelationalRepository implements CourseRepository {
           firstName: true,
           lastName: true,
         },
-
         course_sub_category: {
           courses: false,
+          name: true,
+          id: true,
+        },
+        course_level: {
+          id: true,
+          name: true,
         },
       },
+      relations: [
+        'course_category',
+        'course_sub_category',
+        'subtitle_language',
+        'course_language',
+        'instructor',
+        'course_level',
+        'chapters',
+      ],
+
+      where: fields as FindOptionsWhere<CourseEntity>,
     });
 
     return entity;
     // return entity ? CourseMapper.toDomain(entity) : null;
   }
 
-  // async update(id: course['id'], payload: Partial<course>): Promise<course> {
-  //   const entity = await this.coursesRepository.findOne({
-  //     where: { id: Number(id) },
-  //   });
+  async update(id: Course['id'], payload: UpdateCourseDTO): Promise<Course> {
+    const entity = await this.coursesRepository.findOne({
+      where: { id },
+    });
 
-  //   if (!entity) {
-  //     throw new Error('course not found');
-  //   }
+    if (!entity) {
+      throw new Error('course not found');
+    }
 
-  //   const updatedEntity = await this.coursesRepository.save(
-  //     this.coursesRepository.create(
-  //       CourseMapper.toPersistence({
-  //         ...CourseMapper.toDomain(entity),
-  //         ...payload,
-  //       }),
-  //     ),
-  //   );
+    const updatedEntity = await this.coursesRepository.save(
+      this.coursesRepository.create(
+        CourseMapper.toPersistence({
+          ...CourseMapper.toDomain(entity),
+          ...payload,
+        }),
+      ),
+    );
 
-  //   return CourseMapper.toDomain(updatedEntity);
-  // }
+    return CourseMapper.toDomain(updatedEntity);
+  }
 
   // async softDelete(id: course['id']): Promise<void> {
   //   await this.coursesRepository.softDelete(id);

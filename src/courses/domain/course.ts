@@ -1,20 +1,22 @@
 import { Category } from 'src/category/domain/category';
+import { Chapter } from 'src/chapter/domain/chapter';
 import { language } from 'src/language/domain/language';
 import { Level } from 'src/level/domain/level';
 
 import { User } from 'src/users/domain/user';
 
 export class Course {
-  id: number | string;
+  id: string;
   // title of course
   title: string | null;
   // Subtitle of course
 
   subtitle: string | null;
+  course_topic: string ;
   // categories :
   // course_category relation many to many with the category table
 
-  course_categories?: Category | null;
+  course_category?: Category | null;
   // course_sub_category relation many to many with the category table
 
   course_sub_category?: Category | null;
@@ -70,6 +72,8 @@ export class Course {
   // // discount : string | null; like 20%
   discount?: string | null;
   // // createdAt : Data
+
+  chapters: Chapter[];
 
   // createdAt: Date;
   createdAt: Date;

@@ -31,14 +31,11 @@ export class CategoryEntity extends EntityRelationalHelper implements Category {
   @Column({ default: 0 })
   courses_count: number;
 
-  @OneToMany(() => CourseEntity, (course) => course.course_category, {
-    eager: true,
-  })
+  @OneToMany(() => CourseEntity, (course) => course.course_category)
   courses: CourseEntity[];
-  @OneToMany(() => CourseEntity, (course) => course.course_sub_category, {
-    eager: true,
-  })
+  @OneToMany(() => CourseEntity, (course) => course.course_sub_category)
   sub_courses_category: CourseEntity[];
+
 
   @CreateDateColumn()
   createdAt: Date;

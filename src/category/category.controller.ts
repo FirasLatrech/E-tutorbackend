@@ -37,7 +37,7 @@ export class CategoryController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @Roles(RoleEnum.instructor)
+  @Roles(RoleEnum.instructor, RoleEnum.user)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   create(
     @Body() createCategoryDto: CreateCategoryDto,

@@ -9,6 +9,7 @@ import {
   SerializeOptions,
   Query,
   ParseUUIDPipe,
+  Patch,
 } from '@nestjs/common';
 
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
@@ -22,6 +23,7 @@ import { CreateCourseDTO } from './dto/create-course.dto';
 import { InfinityPaginationResultType } from 'src/utils/types/infinity-pagination-result.type';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { QueryCourseDto } from './dto/query-course.dto';
+import { UpdateCourseDTO } from './dto/update-course-dto';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -36,8 +38,8 @@ export class coursesController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createProfileDto: CreateCourseDTO) {
-    return this.coursesService.create(createProfileDto);
+  create(@Body() CreateCourseDTO: CreateCourseDTO) {
+    return this.coursesService.create(CreateCourseDTO);
   }
 
   @SerializeOptions({
@@ -117,25 +119,26 @@ export class coursesController {
   findOne(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<NullableType<Course>> {
+    
     return this.coursesService.findOne({ id });
   }
 
-  // @SerializeOptions({
-  //   groups: ['admin'],
-  // })
-  // @Patch(':id')
-  // @HttpCode(HttpStatus.OK)
-  // @ApiParam({
-  //   name: 'id',
-  //   type: String,
-  //   required: true,
-  // })
-  // // update(
-  // //   @Param('id') id: course['id'],
-  // //   @Body() updateProfileDto: Updatecourse,
-  // // ): Promise<course | null> {
-  // //   return this.coursesService.update(id, updateProfileDto);
-  // // }
+   @SerializeOptions({
+     groups: ['admin'],
+   })
+   @Patch(':id')
+   @HttpCode(HttpStatus.OK)
+   @ApiParam({
+     name: 'id',
+     type: String,
+     required: true,
+   })
+   update(
+     @Param('id') id: Course['id'],
+     @Body() updateProfileDto: UpdateCourseDTO,
+   ): Promise<Course | null> {
+    return this.coursesService.update(id, updateProfileDto);
+    }
   // @Delete(':id')
   // @ApiParam({
   //   name: 'id',
