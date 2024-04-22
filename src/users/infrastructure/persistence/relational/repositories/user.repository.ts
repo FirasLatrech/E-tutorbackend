@@ -123,9 +123,9 @@ export class UsersRelationalRepository implements UserRepository {
         UserMapper.toPersistence({
           ...UserMapper.toDomain(entity),
           ...payload,
-        }),
+        }), 
       ),
-    );
+    ); 
 
     return UserMapper.toDomain(updatedEntity);
   }

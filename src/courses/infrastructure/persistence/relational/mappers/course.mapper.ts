@@ -1,6 +1,8 @@
 import { Course } from 'src/courses/domain/course';
 import { CourseEntity } from '../entities/course.entity';
 import { ChapterMapper } from 'src/chapter/infrastructure/persistence/relational/mappers/chapter.mapper';
+import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
+import { FileMapper } from 'src/files/infrastructure/persistence/relational/mappers/file.mapper';
 
 export class CourseMapper {
   static toDomain(raw: CourseEntity): Course {
@@ -23,6 +25,9 @@ export class CourseMapper {
     course.course_requirements = raw.course_requirements;
     course.course_curriculum = raw.course_curriculum;
     course.instructor = raw.instructor;
+    if (raw.course_thumbnail) {
+      course.course_thumbnail = FileMapper.toDomain(raw.course_thumbnail);
+    } 
     course.welcome_message = raw.welcome_message;
     course.congratulation_message = raw.congratulation_message;
     course.course_price = raw.course_price;
@@ -48,7 +53,14 @@ export class CourseMapper {
     courseEntity.course_level = course.course_level as any;
     courseEntity.durations = course.durations!;
     courseEntity.course_topic = course.course_topic;
-    courseEntity.course_thumbnail = course.course_thumbnail;
+    console.log(course.course_thumbnail,"course.course_thumbnail")
+    if (course.course_thumbnail) {
+      courseEntity.course_thumbnail = new FileEntity();
+      courseEntity.course_thumbnail.id = course.course_thumbnail.id;
+      courseEntity.course_thumbnail.path = course.course_thumbnail.path;
+    } else if (courseEntity.course_thumbnail === null) {
+      courseEntity.course_thumbnail = undefined;
+    } 
     courseEntity.course_trailer = course.course_trailer;
     courseEntity.course_descriptions = course.course_descriptions;
     courseEntity.course_content = course.course_content;
@@ -65,6 +77,7 @@ export class CourseMapper {
     courseEntity.createdAt = course.createdAt;
     courseEntity.updatedAt = course.updatedAt;
     courseEntity.deletedAt = course.deletedAt;
+
     return courseEntity;
   }
 }

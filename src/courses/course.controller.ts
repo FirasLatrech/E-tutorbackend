@@ -137,6 +137,7 @@ export class coursesController {
      @Param('id') id: Course['id'],
      @Body() updateProfileDto: UpdateCourseDTO,
    ): Promise<Course | null> {
+    console.log(updateProfileDto)
     return this.coursesService.update(id, updateProfileDto);
     }
   // @Delete(':id')

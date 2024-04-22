@@ -26,7 +26,8 @@ const infrastructurePersistenceModule = RelationalcoursePersistenceModule;
     UsersModule,
     CategoryModule,
     LanguageModule,
-    chapterModule
+    chapterModule,
+    FilesModule
   ],
   controllers: [coursesController],
   providers: [CoursesService],

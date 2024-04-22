@@ -21,6 +21,8 @@ import {
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Import UUIDv4 generator function
 import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
+import { IsString } from 'class-validator';
+import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
 
 @Entity({ name: 'course' })
 export class CourseEntity extends EntityRelationalHelper implements Course {
@@ -32,8 +34,6 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
 
   @Column({ nullable: true })
   subtitle: string;
-
-
 
   @Column({ type: 'boolean', default: false })
   isPublished: boolean;
@@ -86,7 +86,7 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   })
   instructor: UserEntity[];
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   course_topic: string;
 
   @ManyToMany(() => UserEntity, (user) => user?.user_courses, {
@@ -141,25 +141,27 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   @Column({ nullable: true })
   durations: string;
 
-  @Column({ nullable: true })
-  course_thumbnail?: string;
+  @ManyToOne(() => FileEntity, {
+    eager: true,
+  })
+  course_thumbnail?: FileEntity;
 
   @Column({ nullable: true })
-  course_trailer?: string;
+  course_trailer?: string; 
+ 
+  @Column({nullable:true})
+  course_descriptions?: string;
 
-  @Column('json', { nullable: true })
-  course_descriptions?: any;
+  @Column('jsonb', { nullable: true }) 
+  course_content?: string[];  
 
-  @Column('json', { nullable: true })
-  course_content?: any;
+  @Column('jsonb', { nullable: true })
+  target_audience?: string[];
 
-  @Column('json', { nullable: true })
-  target_audience?: any;
+  @Column('jsonb', { nullable: true })
+  course_requirements?: string[];
 
-  @Column('json', { nullable: true })
-  course_requirements?: any;
-
-  @Column('json', { nullable: true })
+  @Column('jsonb', { nullable: true })
   course_curriculum?: any;
 
   @Column({ nullable: true })
@@ -179,6 +181,7 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
 
   @Column({ default: true })
   isDraft: boolean;
+  
   @CreateDateColumn()
   createdAt: Date;
 

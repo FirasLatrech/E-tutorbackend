@@ -45,7 +45,7 @@ export class coursesRelationalRepository implements CourseRepository {
   }
   async create(data: CourseEntity) {
     const persistenceModel = CourseMapper.toPersistence(data);
-    console.log(persistenceModel.course_topic)
+    console.log(persistenceModel.course_topic);
     const newEntity = await this.coursesRepository.save(
       this.coursesRepository.create(persistenceModel),
     );
@@ -96,7 +96,6 @@ export class coursesRelationalRepository implements CourseRepository {
   ): Promise<NullableType<CourseEntity>> {
     const entity = await this.coursesRepository.findOne({
       select: {
-        
         course_category: {
           courses: false,
           id: true,
@@ -130,34 +129,36 @@ export class coursesRelationalRepository implements CourseRepository {
         'instructor',
         'course_level',
         'chapters',
+        'course_thumbnail'
       ],
 
       where: fields as FindOptionsWhere<CourseEntity>,
     });
-
     return entity;
     // return entity ? CourseMapper.toDomain(entity) : null;
   }
 
-  async update(id: Course['id'], payload: UpdateCourseDTO): Promise<Course> {
+  async update(
+    id: Course['id'],
+    payload: Course,
+  ): Promise<Course | null> {
     const entity = await this.coursesRepository.findOne({
-      where: { id },
+      where: { id: String(id) },
     });
 
     if (!entity) {
       throw new Error('course not found');
     }
-
     const updatedEntity = await this.coursesRepository.save(
       this.coursesRepository.create(
         CourseMapper.toPersistence({
           ...CourseMapper.toDomain(entity),
-          ...payload,
+          ...{...payload, id:entity.id},
         }),
-      ),
+     ),
     );
 
-    return CourseMapper.toDomain(updatedEntity);
+    return updatedEntity ? CourseMapper.toDomain(updatedEntity) : null;
   }
 
   // async softDelete(id: course['id']): Promise<void> {

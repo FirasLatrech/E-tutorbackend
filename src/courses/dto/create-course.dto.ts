@@ -57,4 +57,6 @@ export class CreateCourseDTO {
   @ApiProperty()
   @IsBoolean()
   isDraft:boolean;
+
+ 
 }

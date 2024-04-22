@@ -1,5 +1,6 @@
 import { Category } from 'src/category/domain/category';
 import { Chapter } from 'src/chapter/domain/chapter';
+import { FileType } from 'src/files/domain/file';
 import { language } from 'src/language/domain/language';
 import { Level } from 'src/level/domain/level';
 
@@ -36,23 +37,23 @@ export class Course {
   durations: string | null;
   // // course_thumbnail  image url
 
-  course_thumbnail?: string;
+  course_thumbnail?: FileType;
   // // course_trailer  video url
   rating?: number;
 
   course_trailer?: string;
   // // course_descriptions  Json
 
-  course_descriptions?: JSON | null;
+  course_descriptions?: string ;
   // // course_content  Json
 
-  course_content?: JSON | null;
+  course_content?: string[] ;
   // // target_audience  Json
 
-  target_audience?: JSON | null;
+  target_audience?: string[] ;
   // // course_requirements  Json
 
-  course_requirements?: JSON | null;
+  course_requirements?: string[] ;
 
   // // course_curriculum  Json
 

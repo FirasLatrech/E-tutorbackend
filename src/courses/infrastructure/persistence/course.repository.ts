@@ -32,7 +32,7 @@ export abstract class CourseRepository {
 
    abstract update(
      id: Course['id'],
-     payload:UpdateCourseDTO,
+     payload:Course,
    ): Promise<Course | null>;
 
   // abstract softDelete(id: Course['id']): Promise<void>;
