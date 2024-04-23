@@ -77,8 +77,8 @@ export class FilesLocalController {
         callback(null, true);
       },
       limits: {
-        fileSize: 4 * 1024 * 1024 * 1024, //4 gb
-      },
+        fileSize: Number(process.env.MAX_UPLOAD_VIDEO_FOR_STREAMING)
+            },
     }),
   )
   async UploadVideoForStreaming(@UploadedFile() file: Express.Multer.File) {

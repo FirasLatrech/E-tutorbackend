@@ -19,7 +19,7 @@ export class LessonEntity {
   title: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string | null;
+  Description: string | null;
 
   @ManyToOne(() => ChapterEntity, (chapter) => chapter.lessons)
   chapter: ChapterEntity;
@@ -37,7 +37,7 @@ export class LessonEntity {
   durationInSeconds: number;
 
   @Column({ type: 'text', nullable: true })
-  LectureNotes: string | null;
+  Notes: string | null;
 
   @ManyToOne(() => FileEntity, {
     eager: true,
@@ -47,7 +47,7 @@ export class LessonEntity {
   @ManyToOne(() => FileEntity, {
     eager: true,
   })
-  VideoUrl: FileEntity;
+  Video: FileEntity;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

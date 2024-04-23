@@ -120,6 +120,11 @@ export class coursesRelationalRepository implements CourseRepository {
           id: true,
           name: true,
         },
+        chapters: {
+          title: true,
+          id:true,
+          lessons:true
+        },
       },
       relations: [
         'course_category',
@@ -129,7 +134,8 @@ export class coursesRelationalRepository implements CourseRepository {
         'instructor',
         'course_level',
         'chapters',
-        'course_thumbnail'
+        'chapters.lessons',
+        'course_thumbnail',
       ],
 
       where: fields as FindOptionsWhere<CourseEntity>,
@@ -138,10 +144,7 @@ export class coursesRelationalRepository implements CourseRepository {
     // return entity ? CourseMapper.toDomain(entity) : null;
   }
 
-  async update(
-    id: Course['id'],
-    payload: Course,
-  ): Promise<Course | null> {
+  async update(id: Course['id'], payload: Course): Promise<Course | null> {
     const entity = await this.coursesRepository.findOne({
       where: { id: String(id) },
     });
@@ -153,9 +156,9 @@ export class coursesRelationalRepository implements CourseRepository {
       this.coursesRepository.create(
         CourseMapper.toPersistence({
           ...CourseMapper.toDomain(entity),
-          ...{...payload, id:entity.id},
+          ...{ ...payload, id: entity.id },
         }),
-     ),
+      ),
     );
 
     return updatedEntity ? CourseMapper.toDomain(updatedEntity) : null;

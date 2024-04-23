@@ -4,15 +4,15 @@ import { FileType } from 'src/files/domain/file';
 export class Lesson {
   id: string;
   title: string;
-  description: string | null;
+  Description: string | null;
   chapter: Chapter;
   progress: number;
   isCompleted: boolean;
   Captions: string | null;
   durationInSeconds: number;
-  LectureNotes: string | null;
+  Notes: string | null;
   attachmentFile: FileType;
-  VideoUrl: FileType;
+  Video: FileType;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;

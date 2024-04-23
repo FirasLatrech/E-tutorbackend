@@ -328,7 +328,6 @@ export class CoursesService {
         return  ChapterMapper.toPersistence(CreatedChapter);
       }),
     ));
-    console.log(chaptersEntities)
     return this.coursesRepository.update(id,{...clonedPayload, chapters:chaptersEntities});
   }
 

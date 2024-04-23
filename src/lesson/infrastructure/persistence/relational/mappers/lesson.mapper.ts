@@ -8,7 +8,7 @@ export class LessonMapper {
     const lesson = new Lesson();
     lesson.id = raw.id;
     lesson.title = raw.title;
-    lesson.description = raw.description;
+    lesson.Description = raw.Description;
     if (raw.chapter) {
       lesson.chapter = ChapterMapper.toDomain(raw.chapter);
     }
@@ -16,9 +16,9 @@ export class LessonMapper {
     lesson.isCompleted = raw.isCompleted;
     lesson.Captions = raw.Captions;
     lesson.durationInSeconds = raw.durationInSeconds;
-    lesson.LectureNotes = raw.LectureNotes;
+    lesson.Notes = raw.Notes;
     lesson.attachmentFile = raw.attachmentFile; // Assuming FileMapper is used for FileEntity
-    lesson.VideoUrl = raw.VideoUrl; // Assuming FileMapper is used for FileEntity
+    lesson.Video = raw.Video; // Assuming FileMapper is used for FileEntity
     lesson.createdAt = raw.createdAt;
     lesson.updatedAt = raw.updatedAt;
     lesson.deletedAt = raw.deletedAt;
@@ -29,7 +29,7 @@ export class LessonMapper {
     const lessonEntity = new LessonEntity();
     lessonEntity.id = lesson.id;
     lessonEntity.title = lesson.title;
-    lessonEntity.description = lesson.description;
+    lessonEntity.Description = lesson.Description;
     if (lesson.chapter) {
       lessonEntity.chapter = ChapterMapper.toPersistence(lesson.chapter);
     }
@@ -37,14 +37,14 @@ export class LessonMapper {
     lessonEntity.isCompleted = lesson.isCompleted;
     lessonEntity.Captions = lesson.Captions;
     lessonEntity.durationInSeconds = lesson.durationInSeconds;
-    lessonEntity.LectureNotes = lesson.LectureNotes;
+    lessonEntity.Notes = lesson.Notes;
     if (lesson.attachmentFile) {
       lessonEntity.attachmentFile = FileMapper.toPersistence(
         lesson.attachmentFile,
       );
     }
-    if (lesson.VideoUrl) {
-      lessonEntity.VideoUrl = FileMapper.toPersistence(lesson.VideoUrl);
+    if (lesson.Video) {
+      lessonEntity.Video = FileMapper.toPersistence(lesson.Video);
     }
     lessonEntity.createdAt = lesson.createdAt;
     lessonEntity.updatedAt = lesson.updatedAt;
