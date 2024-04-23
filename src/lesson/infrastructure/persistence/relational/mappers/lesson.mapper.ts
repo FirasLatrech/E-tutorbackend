@@ -34,6 +34,7 @@ export class LessonMapper {
       lessonEntity.chapter = ChapterMapper.toPersistence(lesson.chapter);
     }
     lessonEntity.progress = lesson.progress;
+    lessonEntity.rang = lesson.rang;
     lessonEntity.isCompleted = lesson.isCompleted;
     lessonEntity.Captions = lesson.Captions;
     lessonEntity.durationInSeconds = lesson.durationInSeconds;

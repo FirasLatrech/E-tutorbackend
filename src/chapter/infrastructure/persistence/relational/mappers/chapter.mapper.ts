@@ -14,6 +14,7 @@ export class ChapterMapper {
     }
     chapter.createdAt = raw.createdAt;
     chapter.updatedAt = raw.updatedAt;
+    chapter.rang = raw.rang;
     chapter.deletedAt = raw.deletedAt;
     return chapter;
   }
@@ -26,6 +27,7 @@ export class ChapterMapper {
       LessonMapper.toPersistence(lesson),
     );
     chapterEntity.createdAt = chapter.createdAt;
+    chapterEntity.rang = chapter.rang;
     chapterEntity.updatedAt = chapter.updatedAt;
     chapterEntity.deletedAt = chapter.deletedAt;
     return chapterEntity;

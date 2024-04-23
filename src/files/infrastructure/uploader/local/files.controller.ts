@@ -58,6 +58,17 @@ export class FilesLocalController {
     return response.sendFile(path, { root: './files' });
   }
 
+  @Get('/getbyid/:id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
+  async downloadById(@Param('id') id, @Response() response) {
+    console.log(id);
+    const path = await this.filesService.findOne({ id });
+    console.log(path);
+    return response.sendFile(path?.path, { root: './files' });
+  }
   @Post('video/upload')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -77,8 +88,8 @@ export class FilesLocalController {
         callback(null, true);
       },
       limits: {
-        fileSize: Number(process.env.MAX_UPLOAD_VIDEO_FOR_STREAMING)
-            },
+        fileSize: Number(process.env.MAX_UPLOAD_VIDEO_FOR_STREAMING),
+      },
     }),
   )
   async UploadVideoForStreaming(@UploadedFile() file: Express.Multer.File) {

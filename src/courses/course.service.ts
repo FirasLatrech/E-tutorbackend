@@ -180,7 +180,7 @@ export class CoursesService {
 
     if (!result) {
       throw new HttpException(
-        { 
+        {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
             status: 'statusNotExists',
@@ -198,7 +198,7 @@ export class CoursesService {
     UpdateCourseDTO: UpdateCourseDTO,
   ): Promise<Course | null> {
     const course = new CourseEntity();
-    const clonedPayload = { ...course,...UpdateCourseDTO };
+    const clonedPayload = { ...course, ...UpdateCourseDTO };
     if (UpdateCourseDTO.course_category_id) {
       const isValidCategory = await this.categoryService.findOne({
         id: UpdateCourseDTO.course_category_id,
@@ -298,6 +298,15 @@ export class CoursesService {
       }
       clonedPayload.course_level = isValidLevel as LevelEntity;
     }
+      if (UpdateCourseDTO.course_instructor) {
+        const users = await Promise.all(
+          UpdateCourseDTO.course_instructor.map((id) =>
+            this.prelodUserById(id),
+          ),
+        );
+
+        clonedPayload.instructor = users as UserEntity[];
+      }
     if (clonedPayload.course_thumbnail?.id) {
       const fileObject = await this.filesService.findOne({
         id: clonedPayload.course_thumbnail.id,
@@ -307,7 +316,8 @@ export class CoursesService {
           {
             status: HttpStatus.UNPROCESSABLE_ENTITY,
             errors: {
-              message: 'Image course_thumbnail does not exist. Check and retry.',
+              message:
+                'Image course_thumbnail does not exist. Check and retry.',
             },
           },
           HttpStatus.UNPROCESSABLE_ENTITY,
@@ -315,20 +325,23 @@ export class CoursesService {
       }
       clonedPayload.course_thumbnail = fileObject;
     }
-    console.log( UpdateCourseDTO.chapters)
+    console.log(UpdateCourseDTO.chapters);
     const chaptersEntities =
-    UpdateCourseDTO.chapters &&
-    (await Promise.all(
-      UpdateCourseDTO?.chapters?.map(async (chapter) => {
-        const CreatedChapter = await this.chapterService.create(chapter);
+      UpdateCourseDTO.chapters &&
+      (await Promise.all(
+        UpdateCourseDTO?.chapters?.map(async (chapter) => {
+          const CreatedChapter = await this.chapterService.create(chapter);
 
-        if (!CreatedChapter) {
-          throw new Error(`Lesson with ID ${CreatedChapter} does not exist`);
-        }
-        return  ChapterMapper.toPersistence(CreatedChapter);
-      }),
-    ));
-    return this.coursesRepository.update(id,{...clonedPayload, chapters:chaptersEntities});
+          if (!CreatedChapter) {
+            throw new Error(`Lesson with ID ${CreatedChapter} does not exist`);
+          }
+          return ChapterMapper.toPersistence(CreatedChapter);
+        }),
+      ));
+    return this.coursesRepository.update(id, {
+      ...clonedPayload,
+      chapters: chaptersEntities,
+    });
   }
 
   //async softDelete(id: course['id']): Promise<void> {

@@ -24,13 +24,16 @@ export class FilesLocalService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    console.log(this.configService.get('app.apiPrefix', { infer: true }));
     return {
       file: await this.fileRepository.create({
         path: `/${this.configService.get('app.apiPrefix', {
           infer: true,
         })}/v1/files/${file.filename}`,
+        name: file.originalname,
       }),
     };
+  }
+  async findOne(id) {
+    return this.fileRepository.findOne(id);
   }
 }

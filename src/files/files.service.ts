@@ -11,4 +11,7 @@ export class FilesService {
   findOne(fields: EntityCondition<FileType>): Promise<NullableType<FileType>> {
     return this.fileRepository.findOne(fields);
   }
+  // findOneById(id) {
+  //   return this.fileRepository.findOne(id);
+  // }
 }

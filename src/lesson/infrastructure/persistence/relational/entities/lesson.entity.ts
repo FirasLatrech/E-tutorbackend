@@ -49,8 +49,10 @@ export class LessonEntity {
   })
   Video: FileEntity;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createdAt: Date;
+  @Column({ nullable: true })
+  rang: Number;
 
   @UpdateDateColumn({
     type: 'timestamp',

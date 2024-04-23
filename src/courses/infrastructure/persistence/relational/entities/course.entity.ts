@@ -147,13 +147,13 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
   course_thumbnail?: FileEntity;
 
   @Column({ nullable: true })
-  course_trailer?: string; 
- 
-  @Column({nullable:true})
+  course_trailer?: string;
+
+  @Column({ nullable: true })
   course_descriptions?: string;
 
-  @Column('jsonb', { nullable: true }) 
-  course_content?: string[];  
+  @Column('jsonb', { nullable: true })
+  course_content?: string[];
 
   @Column('jsonb', { nullable: true })
   target_audience?: string[];
@@ -181,7 +181,7 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
 
   @Column({ default: true })
   isDraft: boolean;
-  
+
   @CreateDateColumn()
   createdAt: Date;
 

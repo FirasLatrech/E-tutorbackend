@@ -6,6 +6,7 @@ export class Lesson {
   title: string;
   Description: string | null;
   chapter: Chapter;
+  rang: Number;
   progress: number;
   isCompleted: boolean;
   Captions: string | null;

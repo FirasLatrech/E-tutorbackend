@@ -120,11 +120,7 @@ export class coursesRelationalRepository implements CourseRepository {
           id: true,
           name: true,
         },
-        chapters: {
-          title: true,
-          id:true,
-          lessons:true
-        },
+        chapters: true,
       },
       relations: [
         'course_category',
@@ -137,6 +133,14 @@ export class coursesRelationalRepository implements CourseRepository {
         'chapters.lessons',
         'course_thumbnail',
       ],
+      order: {
+        chapters: {
+          rang: 'ASC',
+          lessons: {
+            rang: 'ASC',
+          },
+        },
+      },
 
       where: fields as FindOptionsWhere<CourseEntity>,
     });

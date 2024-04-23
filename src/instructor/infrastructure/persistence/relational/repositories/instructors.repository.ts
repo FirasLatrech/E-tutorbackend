@@ -9,12 +9,16 @@ import { Instructor } from '../../../../domain/instructor';
 import { InstructorRepository } from '../../instructors.repository';
 import { instructorMapper } from '../mappers/instructor.mapper';
 import { SortinstructorDto } from 'src/instructor/dto/query-user.dto';
+import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
+import { UserMapper } from 'src/users/infrastructure/persistence/relational/mappers/user.mapper';
 
 @Injectable()
 export class InstructorsRelationalRepository implements InstructorRepository {
   constructor(
     @InjectRepository(InstructorEntity)
     private readonly InstructorsRepository: Repository<InstructorEntity>,
+    @InjectRepository(UserEntity)
+    private readonly UserRepository: Repository<UserEntity>,
   ) {}
 
   async create(data: Instructor): Promise<Instructor> {
@@ -34,13 +38,17 @@ export class InstructorsRelationalRepository implements InstructorRepository {
     // filterOptions?: FilterinstructorDto | null;
     sortOptions?: SortinstructorDto[] | null;
     paginationOptions: IPaginationOptions;
-  }): Promise<Instructor[]> {
+  }) {
     const where: FindOptionsWhere<InstructorEntity> = {};
 
-    const entities = await this.InstructorsRepository.find({
+    const entities = await this.UserRepository.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
-      where: where,
+      where: {
+        role: {
+          id: 3,
+        },
+      },
       order: sortOptions?.reduce(
         (accumulator, sort) => ({
           ...accumulator,
@@ -50,7 +58,7 @@ export class InstructorsRelationalRepository implements InstructorRepository {
       ),
     });
 
-    return entities.map((Instructor) => instructorMapper.toDomain(Instructor));
+    return entities.map((Instructor) => UserMapper.toDomain(Instructor));
   }
 
   async findOne(

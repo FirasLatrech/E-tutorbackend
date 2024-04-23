@@ -24,6 +24,7 @@ export class lessonService {
     return await this.lessonRepository.create({
       ...chapter,
       ...CreateChapterDto,
+      createdAt: new Date(),
     });
   }
 

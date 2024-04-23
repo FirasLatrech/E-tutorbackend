@@ -141,6 +141,6 @@ export class CategoryController {
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: Category['id']): Promise<void> {
-    return this.categoryService.softDelete(id);
+    return this.categoryService.softDelete(id); 
   }
 }

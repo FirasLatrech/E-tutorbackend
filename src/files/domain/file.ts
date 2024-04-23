@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow } from 'class-validator';
+import { Allow, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import fileConfig from '../config/file.config';
 import { FileConfig, FileDriver } from '../config/file-config.type';
@@ -45,4 +45,7 @@ export class FileType {
     },
   )
   path: string;
+  @ApiProperty()
+  @IsOptional()
+  name?: string;
 }

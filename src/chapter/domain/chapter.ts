@@ -6,6 +6,7 @@ export class Chapter {
   title: string;
 
   lessons: Lesson[];
+  rang: number;
   createdAt: Date;
 
   updatedAt: Date;

@@ -8,6 +8,7 @@ import {
   FilterinstructorDto,
   SortinstructorDto,
 } from 'src/instructor/dto/query-user.dto';
+import { User } from 'src/users/domain/user';
 
 export abstract class InstructorRepository {
   abstract create(
@@ -22,7 +23,7 @@ export abstract class InstructorRepository {
     filterOptions?: FilterinstructorDto | null;
     sortOptions?: SortinstructorDto[] | null;
     paginationOptions: IPaginationOptions;
-  }): Promise<Instructor[]>;
+  }): Promise<User[]>;
 
   abstract findOne(
     fields: EntityCondition<Instructor>,

@@ -25,10 +25,11 @@ import { instructorsService } from './instructor.service';
 import { Instructor } from './domain/instructor';
 import { QueryinstructorDto } from './dto/query-user.dto';
 import { CreateinstructorDto } from './dto/create-instructor.dto';
+import { User } from 'src/users/domain/user';
 
 @ApiBearerAuth()
 @Roles(RoleEnum.admin)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+// @UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Instructors')
 @Controller({
   path: 'Instructors',
@@ -51,9 +52,7 @@ export class InstructorsController {
   })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(
-    @Query() query: QueryinstructorDto,
-  ): Promise<InfinityPaginationResultType<Instructor>> {
+  async findAll(@Query() query: QueryinstructorDto) {
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     if (limit > 50) {
@@ -64,11 +63,13 @@ export class InstructorsController {
       await this.InstructorsService.findManyWithPagination({
         filterOptions: query?.filters,
         sortOptions: query?.sort,
+        // searchValue: query?.search,
         paginationOptions: {
           page,
           limit,
         },
       }),
+
       { page, limit },
     );
   }

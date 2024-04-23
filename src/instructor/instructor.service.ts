@@ -33,7 +33,7 @@ export class instructorsService {
     filterOptions?: FilterinstructorDto | null;
     sortOptions?: SortinstructorDto[] | null;
     paginationOptions: IPaginationOptions;
-  }): Promise<Instructor[]> {
+  }) {
     return this.instructorsRepository.findManyWithPagination({
       filterOptions,
       sortOptions,

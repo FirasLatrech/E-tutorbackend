@@ -49,4 +49,6 @@ export class FileEntity extends EntityRelationalHelper {
     },
   )
   path: string;
+  @Column({ nullable: true })
+  name: string;
 }

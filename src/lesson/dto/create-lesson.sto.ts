@@ -5,6 +5,7 @@ import {
   IsInt,
   IsBoolean,
   IsObject,
+  IsNumber,
 } from 'class-validator';
 import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
 
@@ -27,6 +28,9 @@ export class CreateLessonDto {
   @IsOptional()
   @ApiProperty()
   isCompleted?: boolean = false;
+  @IsNumber()
+  @ApiProperty()
+  rang: Number;
 
   @IsString()
   @IsOptional()
@@ -51,5 +55,5 @@ export class CreateLessonDto {
   @IsObject()
   @IsOptional()
   @ApiProperty()
-  VideoUrl?: FileEntity;
+  Video?: FileEntity;
 }

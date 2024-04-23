@@ -22,8 +22,11 @@ export class UpdateCourseDTO {
 
   @ApiProperty()
   @IsOptional()
-  @IsString() 
+  @IsString()
   course_topic?: string;
+  @IsOptional()
+  @IsString({ each: true })
+  readonly course_instructor: string[];
 
   @ApiProperty()
   @IsOptional()
@@ -115,5 +118,5 @@ export class UpdateCourseDTO {
 
   @ApiProperty()
   @IsOptional()
-  chapters:CreateChapterDto[];
+  chapters: CreateChapterDto[];
 }

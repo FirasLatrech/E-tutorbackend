@@ -5,7 +5,6 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { NullableType } from 'src/utils/types/nullable.type';
 import { Category } from 'src/category/domain/category';
 import { CategoryRepository } from './infrastructure/persistence/category.repository';
-import { SessionService } from 'src/session/session.service';
 
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { FilterCategoryDto, SortCategoryDto } from './dto/query-category.dto';
@@ -17,10 +16,7 @@ import {
 
 @Injectable()
 export class CategoryService {
-  constructor(
-    private readonly categoryRepository: CategoryRepository,
-    private sessionService: SessionService,
-  ) {}
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
   findOne(options: EntityCondition<Category>): Promise<NullableType<Category>> {
     return this.categoryRepository.findOne(options);

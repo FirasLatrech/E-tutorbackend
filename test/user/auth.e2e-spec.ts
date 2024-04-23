@@ -5,6 +5,8 @@ import {
   TESTER_PASSWORD,
   MAIL_HOST,
   MAIL_PORT,
+  ADMIN_PASSWORD,
+  ADMIN_EMAIL,
 } from '../utils/constants';
 
 describe('Auth Module', () => {
@@ -24,6 +26,7 @@ describe('Auth Module', () => {
           password: TESTER_PASSWORD,
           firstName: 'Tester',
           lastName: 'E2E',
+          username: 'fiiraiira',
         })
         .expect(422)
         .expect(({ body }) => {
@@ -39,6 +42,7 @@ describe('Auth Module', () => {
           password: newUserPassword,
           firstName: newUserFirstName,
           lastName: newUserLastName,
+          username: newUserLastName + newUserFirstName,
         })
         .expect(200);
     });
@@ -47,7 +51,7 @@ describe('Auth Module', () => {
       it('should successfully with unconfirmed email: /api/v1/auth/email/login (POST)', () => {
         return request(app)
           .post('/api/v1/auth/email/login')
-          .send({ email: newUserEmail, password: newUserPassword })
+          .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
           .expect(200)
           .expect(({ body }) => {
             expect(body.token).toBeDefined();
@@ -151,7 +155,7 @@ describe('Auth Module', () => {
     it('should get new refresh token: /api/v1/auth/refresh (POST)', async () => {
       const newUserRefreshToken = await request(app)
         .post('/api/v1/auth/email/login')
-        .send({ email: newUserEmail, password: newUserPassword })
+        .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
         .then(({ body }) => body.refreshToken);
 
       await request(app)
