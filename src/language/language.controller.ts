@@ -24,7 +24,7 @@ import { language } from './domain/language';
 import { CreateLanguageryDto } from './dto/crearte-language.dto';
 
 @ApiBearerAuth()
-@Roles(RoleEnum.user)
+@Roles(RoleEnum.user,RoleEnum.admin,RoleEnum.instructor)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Language')
 @Controller({

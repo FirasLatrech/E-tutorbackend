@@ -24,9 +24,10 @@ export class UpdateCourseDTO {
   @IsOptional()
   @IsString()
   course_topic?: string;
+
   @IsOptional()
   @IsString({ each: true })
-  readonly course_instructor: string[];
+  course_instructor: string[];
 
   @ApiProperty()
   @IsOptional()

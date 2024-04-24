@@ -23,7 +23,7 @@ import { QueryLevelDto } from './dto/query-level.dto';
 import { levelService } from './level.service';
 
 @ApiBearerAuth()
-@Roles(RoleEnum.user)
+@Roles(RoleEnum.user,RoleEnum.admin,RoleEnum.instructor)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Level')
 @Controller({

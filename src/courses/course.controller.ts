@@ -10,6 +10,8 @@ import {
   Query,
   ParseUUIDPipe,
   Patch,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
@@ -24,6 +26,7 @@ import { InfinityPaginationResultType } from 'src/utils/types/infinity-paginatio
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { QueryCourseDto } from './dto/query-course.dto';
 import { UpdateCourseDTO } from './dto/update-course-dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -36,10 +39,14 @@ import { UpdateCourseDTO } from './dto/update-course-dto';
 export class coursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
+  @SerializeOptions({
+    groups: ['me'],
+  })
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() CreateCourseDTO: CreateCourseDTO) {
-    return this.coursesService.create(CreateCourseDTO);
+  create(@Body() CreateCourseDTO: CreateCourseDTO, @Request() request) {
+    return this.coursesService.create(CreateCourseDTO, request.user);
   }
 
   @SerializeOptions({
@@ -108,6 +115,38 @@ export class coursesController {
     );
   }
 
+  @SerializeOptions({
+    groups: ['me'],
+  })  
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  async findMyCourse(
+    @Query() query: QueryCourseDto,
+    @Request() request
+  ): Promise<InfinityPaginationResultType<Course>> {
+    const page = query?.page ?? 1;
+    let limit = query?.limit ?? 10;
+    const search = query?.search ?? '';
+
+    if (limit > 50) {
+      limit = 50;
+    }
+    console.log(request.user)
+    return infinityPagination(
+      await this.coursesService.findMyCourseWithPagination({
+        filterOptions: query?.filters,
+        sortOptions: query?.sort,
+        search,
+        paginationOptions: {
+          page,
+          limit,
+        },
+      },request.user),
+      { page, limit },
+    );
+  }
+
   @SerializeOptions({})
   @Get(':id')
   @HttpCode(HttpStatus.OK)
@@ -119,27 +158,27 @@ export class coursesController {
   findOne(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<NullableType<Course>> {
-    
     return this.coursesService.findOne({ id });
   }
 
-   @SerializeOptions({
-     groups: ['admin'],
-   })
-   @Patch(':id')
-   @HttpCode(HttpStatus.OK)
-   @ApiParam({
-     name: 'id',
-     type: String,
-     required: true,
-   })
-   update(
-     @Param('id') id: Course['id'],
-     @Body() updateProfileDto: UpdateCourseDTO,
-   ): Promise<Course | null> {
-    console.log(updateProfileDto)
-    return this.coursesService.update(id, updateProfileDto);
-    }
+  @SerializeOptions({
+    groups: ['admin'],
+  })
+  @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({
+    name: 'id',
+    type: String,
+    required: true,
+  })
+  update(
+    @Param('id') id: Course['id'],
+    @Body() updateProfileDto: UpdateCourseDTO,
+    @Request() request,
+  ): Promise<Course | null> {
+    return this.coursesService.update(id, updateProfileDto,request.user);
+  }
   // @Delete(':id')
   // @ApiParam({
   //   name: 'id',

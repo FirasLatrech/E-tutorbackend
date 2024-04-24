@@ -42,7 +42,7 @@ export class CoursesService {
     private readonly filesService: FilesService,
   ) {}
 
-  async create(createCourseDto: CreateCourseDTO) {
+  async create(createCourseDto: CreateCourseDTO, user: UserEntity) {
     const course = new CourseEntity();
 
     const clonedPayload = {
@@ -148,6 +148,10 @@ export class CoursesService {
       }
       clonedPayload.course_level = isValidLevel as LevelEntity;
     }
+    const users = await this.prelodUserById(user.id);
+
+    clonedPayload.instructor = [users] as UserEntity[];
+
     return await this.coursesRepository.create(clonedPayload);
   }
   async findCoursesByIds(ids: string[]) {
@@ -195,8 +199,7 @@ export class CoursesService {
 
   async update(
     id: Course['id'],
-    UpdateCourseDTO: UpdateCourseDTO,
-  ): Promise<Course | null> {
+    UpdateCourseDTO: UpdateCourseDTO, user: UserEntity  ): Promise<Course | null> {
     const course = new CourseEntity();
     const clonedPayload = { ...course, ...UpdateCourseDTO };
     if (UpdateCourseDTO.course_category_id) {
@@ -298,15 +301,13 @@ export class CoursesService {
       }
       clonedPayload.course_level = isValidLevel as LevelEntity;
     }
-      if (UpdateCourseDTO.course_instructor) {
-        const users = await Promise.all(
-          UpdateCourseDTO.course_instructor.map((id) =>
-            this.prelodUserById(id),
-          ),
-        );
-
-        clonedPayload.instructor = users as UserEntity[];
-      }
+    if (UpdateCourseDTO.course_instructor) {
+      const users = await Promise.all(
+        UpdateCourseDTO.course_instructor.map((id) => this.prelodUserById(id)),
+      );
+      const me =  await this.prelodUserById(user.id);
+      clonedPayload.instructor = [...users, me] as UserEntity[];
+    }
     if (clonedPayload.course_thumbnail?.id) {
       const fileObject = await this.filesService.findOne({
         id: clonedPayload.course_thumbnail.id,
@@ -325,7 +326,6 @@ export class CoursesService {
       }
       clonedPayload.course_thumbnail = fileObject;
     }
-    console.log(UpdateCourseDTO.chapters);
     const chaptersEntities =
       UpdateCourseDTO.chapters &&
       (await Promise.all(
@@ -364,4 +364,26 @@ export class CoursesService {
 
     return user;
   }
+
+  async findMyCourseWithPagination({
+    filterOptions,
+    sortOptions,
+    search,
+    paginationOptions,
+  }: {
+    filterOptions?: FilterCourseDto | null;
+    sortOptions?: SortCourseDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+  }, user:UserEntity): Promise<Course[]> {
+    return this.coursesRepository.findMyCourseWithPagination({
+      filterOptions,
+      search,
+      sortOptions,
+      paginationOptions,
+      userId: user?.id
+    });
+  }
 }
+
+

@@ -91,6 +91,47 @@ export class coursesRelationalRepository implements CourseRepository {
     return entities.map((course) => CourseMapper.toDomain(course));
   }
 
+  async findMyCourseWithPagination({
+    // filterOptions,
+    sortOptions,
+    search,
+    paginationOptions,
+    userId
+  }: {
+    // filterOptions;
+    sortOptions?: SortCourseDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+    userId:string;
+  }): Promise<Course[]> {
+    // const where: FindOptionsWhere<CourseEntity> = {};
+    // if (filterOptions?.roles?.length) {
+    //   where.role = filterOptions.roles.map((role) => ({
+    //     id: role.id,
+    //   }));
+    // }
+
+    const entities = await this.coursesRepository.find({
+      skip: (paginationOptions.page - 1) * paginationOptions.limit,
+      take: paginationOptions.limit,
+      where: {
+        title: Like(`%${search}%`),
+        instructor:{id:userId}
+      },
+      order: sortOptions?.reduce(
+        (accumulator, sort) => ({
+          ...accumulator,
+          [sort.orderBy]: sort.order,
+        }),
+        {},
+      ),
+
+      relations: ['course_category', 'course_level', 'instructor', 'chapters'],
+    });
+
+    return entities.map((course) => CourseMapper.toDomain(course));
+  }
+
   async findOne(
     fields: EntityCondition<Course>,
   ): Promise<NullableType<CourseEntity>> {
@@ -105,11 +146,6 @@ export class coursesRelationalRepository implements CourseRepository {
           id: true,
           language_courses: false,
           courses_sub_languages: false,
-        },
-        instructor: {
-          username: true,
-          firstName: true,
-          lastName: true,
         },
         course_sub_category: {
           courses: false,
@@ -156,6 +192,7 @@ export class coursesRelationalRepository implements CourseRepository {
     if (!entity) {
       throw new Error('course not found');
     }
+    console.log(payload.instructor)
     const updatedEntity = await this.coursesRepository.save(
       this.coursesRepository.create(
         CourseMapper.toPersistence({

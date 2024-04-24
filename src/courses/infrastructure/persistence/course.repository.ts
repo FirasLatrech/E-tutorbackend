@@ -14,6 +14,19 @@ import { UpdateCourseDTO } from 'src/courses/dto/update-course-dto';
 export abstract class CourseRepository {
   abstract create(data: Omit<Course, 'id'>): Promise<Course>;
   abstract findCoursesByIds(ids: string[]);
+  abstract findMyCourseWithPagination({
+    filterOptions,
+    sortOptions,
+    search,
+    paginationOptions,
+    userId
+  }: {
+    filterOptions?: FilterCourseDto | null;
+    sortOptions?: SortCourseDto[] | null;
+    search: string;
+    paginationOptions: IPaginationOptions;
+    userId:string;
+  }): Promise<Course[]>;
   abstract findManyWithPagination({
     filterOptions,
     sortOptions,
