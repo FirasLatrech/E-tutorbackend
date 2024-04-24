@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:16.2-alpine
     expose:
-      - 5433
+      - ${DATABASE_PORT}:${DATABASE_PORT}
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
