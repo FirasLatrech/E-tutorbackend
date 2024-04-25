@@ -25,6 +25,7 @@ export class CourseMapper {
     course.course_requirements = raw.course_requirements;
     course.course_curriculum = raw.course_curriculum;
     course.instructor = raw.instructor;
+    course.isDraft = raw.isDraft;
     if (raw.course_thumbnail) {
       course.course_thumbnail = FileMapper.toDomain(raw.course_thumbnail);
     } 
@@ -53,7 +54,6 @@ export class CourseMapper {
     courseEntity.course_level = course.course_level as any;
     courseEntity.durations = course.durations!;
     courseEntity.course_topic = course.course_topic;
-    console.log(course.course_thumbnail,"course.course_thumbnail")
     if (course.course_thumbnail) {
       courseEntity.course_thumbnail = new FileEntity();
       courseEntity.course_thumbnail.id = course.course_thumbnail.id;
@@ -66,6 +66,8 @@ export class CourseMapper {
     courseEntity.course_content = course.course_content;
     courseEntity.target_audience = course.target_audience;
     courseEntity.course_requirements = course.course_requirements;
+    courseEntity.isDraft = course.isDraft;
+
     courseEntity.course_curriculum = course.course_curriculum;
     courseEntity.instructor = course.instructor as any[]; // Assuming UserEntity
     courseEntity.welcome_message = course.welcome_message!;

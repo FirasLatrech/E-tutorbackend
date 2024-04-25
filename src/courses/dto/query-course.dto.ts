@@ -9,13 +9,13 @@ import { Transform, Type, plainToInstance } from 'class-transformer';
 
 import { RoleDto } from 'src/roles/dto/role.dto';
 import { Course } from '../domain/course';
+import { CategoryDto } from 'src/category/dto/category.dto';
 
 export class FilterCourseDto {
-  @ApiPropertyOptional({ type: RoleDto })
+  @ApiPropertyOptional({ type: CategoryDto })
   @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => RoleDto)
-  roles?: RoleDto[] | null;
+  @Type(() => CategoryDto)
+  category?: CategoryDto | null;
 }
 export class SortCourseDto {
   @ApiProperty()

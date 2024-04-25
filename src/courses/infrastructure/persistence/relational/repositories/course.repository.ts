@@ -11,6 +11,7 @@ import { CourseRepository } from '../../course.repository';
 import { CourseEntity } from '../entities/course.entity';
 import { Course } from 'src/courses/domain/course';
 import {
+  FilterCourseDto,
   // FilterCourseDto,
   SortCourseDto,
 } from 'src/courses/dto/query-course.dto';
@@ -92,31 +93,32 @@ export class coursesRelationalRepository implements CourseRepository {
   }
 
   async findMyCourseWithPagination({
-    // filterOptions,
+    filterOptions,
     sortOptions,
     search,
     paginationOptions,
-    userId
+    userId,
   }: {
-    // filterOptions;
+    filterOptions?: FilterCourseDto | null;
     sortOptions?: SortCourseDto[] | null;
     search: string;
     paginationOptions: IPaginationOptions;
-    userId:string;
+    userId: string;
   }): Promise<Course[]> {
-    // const where: FindOptionsWhere<CourseEntity> = {};
-    // if (filterOptions?.roles?.length) {
-    //   where.role = filterOptions.roles.map((role) => ({
-    //     id: role.id,
-    //   }));
-    // }
-
+    const where: FindOptionsWhere<CourseEntity> = {};
+    if (filterOptions?.category) {
+      where.course_category = {
+        id: filterOptions?.category.id,
+      }
+    }
+    console.log(sortOptions,'sortOptions')
     const entities = await this.coursesRepository.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
       where: {
         title: Like(`%${search}%`),
-        instructor:{id:userId}
+        instructor: { id: userId },
+        ...where
       },
       order: sortOptions?.reduce(
         (accumulator, sort) => ({
@@ -125,7 +127,7 @@ export class coursesRelationalRepository implements CourseRepository {
         }),
         {},
       ),
-
+      
       relations: ['course_category', 'course_level', 'instructor', 'chapters'],
     });
 
@@ -192,7 +194,7 @@ export class coursesRelationalRepository implements CourseRepository {
     if (!entity) {
       throw new Error('course not found');
     }
-    console.log(payload.instructor)
+    console.log(payload.instructor);
     const updatedEntity = await this.coursesRepository.save(
       this.coursesRepository.create(
         CourseMapper.toPersistence({

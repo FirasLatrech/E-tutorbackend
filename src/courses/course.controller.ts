@@ -117,7 +117,7 @@ export class coursesController {
 
   @SerializeOptions({
     groups: ['me'],
-  })  
+  })
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)

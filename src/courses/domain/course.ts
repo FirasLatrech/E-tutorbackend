@@ -29,6 +29,7 @@ export class Course {
   // // subtitle_language  relation with the language table
 
   subtitle_language?: language;
+  isDraft:boolean;
   // // course_level  relation with the course_level table
 
   course_level: Level;
