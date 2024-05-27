@@ -23,6 +23,7 @@ import { v4 as uuidv4 } from 'uuid'; // Import UUIDv4 generator function
 import { ChapterEntity } from 'src/chapter/infrastructure/persistence/relational/entities/chapter.entity';
 import { IsString } from 'class-validator';
 import { FileEntity } from 'src/files/infrastructure/persistence/relational/entities/file.entity';
+import { NotificationEntity } from 'src/notifications/infrastructure/persistence/relational/entities/notification.entity';
 
 @Entity({ name: 'course' })
 export class CourseEntity extends EntityRelationalHelper implements Course {
@@ -178,6 +179,9 @@ export class CourseEntity extends EntityRelationalHelper implements Course {
 
   @Column({ nullable: true, default: 0 })
   progress?: string;
+
+  @OneToMany(() => NotificationEntity, notification => notification.course)
+  notifications: NotificationEntity[]
 
   @Column({ default: true })
   isDraft: boolean;

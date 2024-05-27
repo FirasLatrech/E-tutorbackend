@@ -31,6 +31,9 @@ import { EntityAuditLog } from './audit/infrastructure/persistence/relational/en
 import { chapterModule } from './chapter/chapter.module';
 import { StripeModule } from './stripe/stripe.module';
 import { lessonModule } from './lesson/lesson.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { GlobalEventsGateWay } from './gateway/events.gateways';
+import { EventsRealTimeModule } from './gateway/events.module';
 
 @Module({
   imports: [
@@ -89,12 +92,14 @@ import { lessonModule } from './lesson/lesson.module';
     RatingModule,
     CategoryModule,
     SessionModule,
+    EventsRealTimeModule  ,
     coursesModule,
     MailModule,
     MailerModule,
     HomeModule,
     chapterModule,
     lessonModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

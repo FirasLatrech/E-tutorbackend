@@ -112,7 +112,7 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
-  @Post('logout')
+  @Post('logout') 
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
   public async logout(@Request() request): Promise<void> {

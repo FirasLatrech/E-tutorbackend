@@ -24,7 +24,7 @@ const infrastructurePersistenceModule = RelationallessonPersistenceModule;
     UsersModule,
     CategoryModule,
     LanguageModule,
-  ],
+  ], 
   controllers: [LessonController],
   providers: [lessonService],
   exports: [lessonService, infrastructurePersistenceModule],

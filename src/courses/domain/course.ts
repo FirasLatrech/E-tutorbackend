@@ -3,6 +3,7 @@ import { Chapter } from 'src/chapter/domain/chapter';
 import { FileType } from 'src/files/domain/file';
 import { language } from 'src/language/domain/language';
 import { Level } from 'src/level/domain/level';
+import { Notification } from 'src/notifications/domain/notification';
 
 import { User } from 'src/users/domain/user';
 
@@ -76,6 +77,7 @@ export class Course {
   // // createdAt : Data
 
   chapters: Chapter[];
+  notifications:Notification[]
 
   // createdAt: Date;
   createdAt: Date;
